@@ -1,0 +1,14 @@
+{
+  "type": "module",
+  "name": "bit-components-quippy",
+  "version": "1.0.0",
+  "main": "index.cjs",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "hafemi <pascal.hafemi@gmail.com>",
+  "license": "MIT",
+  "description": ""
+}

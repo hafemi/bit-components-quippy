@@ -1,0 +1,85 @@
+/**
+ * this is the main configuration file of your bit workspace.
+ * for full documentation, please see: https://bit.dev/reference/workspace/workspace-json
+ **/{
+  "$schema": "https://static.bit.dev/teambit/schemas/schema.json",
+  /**
+   * main configuration of the Bit workspace.
+   **/
+  "teambit.workspace/workspace": {
+    /**
+     * the name of the component workspace. used for development purposes.
+     **/
+    "name": "bit-components-quippy",
+    /**
+     * set the icon to be shown on the Bit server.
+     **/
+    "icon": "https://static.bit.dev/brands/bit-logo-min.png",
+    /**
+     * default directory to place a component during `bit import` and `bit create`.
+     * the following placeholders are available:
+     * name - component name includes namespace, e.g. 'ui/button'.
+     * scopeId - full scope-id includes the owner, e.g. 'teambit.compilation'.
+     * scope - scope name only, e.g. 'compilation'.
+     * owner - owner name in bit.dev, e.g. 'teambit'.
+     **/
+    "defaultDirectory": "{scope}/{name}",
+    /**
+     * default scope for all components in workspace.
+     **/
+    "defaultScope": "hafemi.quippy",
+    "resolveAspectsFromNodeModules": true,
+    "resolveEnvsFromRoots": true
+  },
+  /**
+  * Enable generator templates by uncommenting the desired environments below.
+  * These generators scaffold components for Node, React, Vue, and Angular.
+  * After uncommenting, run `bit install` to make them available in your workspace.
+  * Explore more dev environments at: https://bit.dev/docs/getting-started/composing/dev-environments
+  **/
+  "teambit.generator/generator": {
+    "envs": [
+      //  "bitdev.node/node-env",
+      //  "bitdev.react/react-env",
+      //  "bitdev.vue/vue-env",
+      //  "bitdev.angular/angular-env"
+    ]
+  },
+  /**
+   * main configuration for component dependency resolution.
+   **/
+  "teambit.dependencies/dependency-resolver": {
+    /**
+     * choose the package manager for Bit to use. you can choose between 'yarn', 'pnpm'
+     */
+    "packageManager": "teambit.dependencies/pnpm",
+    "policy": {
+      "dependencies": {
+        "@cd/core.database.sequelize.default-connection": "^2.1.2",
+        "@cd/core.djs.client": "^2.1.14",
+        "@cd/core.djs.components": "^2.1.14",
+        "@cd/core.djs.event.interaction-create": "^2.1.14",
+        "@cd/core.djs.interaction-helper": "^2.1.14",
+        "@cd/core.djs.webhook": "^2.1.3",
+        "@cd/core.logger": "^2.1.14",
+        "@cd/core.utils.string-transformer": "^2.1.14",
+        "@cd/types.core": "^2.1.14",
+        "@types/jest": "29.5.14",
+        "@types/node": "16.18.44",
+        "@types/react": "^19.0.8",
+        "discord.js": "^14.18.0",
+        "dotenv": "^16.4.7",
+        "dotenv-safe": "^9.1.0",
+        "mysql": "^2.18.1"
+      },
+      "peerDependencies": {
+        "react": "^19.0.0"
+      }
+    },
+    "linkCoreAspects": true,
+    "rootComponents": true
+  },
+  "teambit.workspace/workspace-config-files": {
+    "enableWorkspaceConfigWrite": true
+  }
+}
