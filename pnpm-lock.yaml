@@ -10,31 +10,31 @@ importers:
     dependencies:
       '@cd/core.database.sequelize.default-connection':
         specifier: ^2.1.2
-        version: 2.1.2(react@19.0.0)
+        version: 2.1.2(react@18.3.1)
       '@cd/core.djs.client':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.components':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.event.interaction-create':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        specifier: ^2.1.13
+        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.webhook':
         specifier: ^2.1.3
-        version: 2.1.3(react@19.0.0)
+        version: 2.1.3(react@18.3.1)
       '@cd/core.logger':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.string-transformer':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/types.core':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@types/jest':
         specifier: 29.5.14
         version: 29.5.14
@@ -42,10 +42,10 @@ importers:
         specifier: 16.18.44
         version: 16.18.44
       '@types/react':
-        specifier: ^19.0.8
-        version: 19.0.8
+        specifier: ^18.3.3
+        version: 18.3.18
       discord.js:
-        specifier: ^14.18.0
+        specifier: ^14.17.3
         version: 14.18.0
       dotenv:
         specifier: ^16.4.7
@@ -57,8 +57,8 @@ importers:
         specifier: ^2.18.1
         version: 2.18.1
       react:
-        specifier: ^19.0.0
-        version: 19.0.0
+        specifier: ^18.3.1
+        version: 18.3.1
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.7
@@ -66,29 +66,44 @@ importers:
 
   node_modules/.bit_roots/teambit.harmony_node:
     dependencies:
-      '@hafemi/quippy.bot.command.ping':
+      '@hafemi/quippy.bot.command.bot':
         specifier: workspace:*
-        version: file:quippy/bot/command/ping(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.event.ready':
         specifier: workspace:*
-        version: file:quippy/bot/event/ready(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: file:quippy/bot/event/ready(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.constants':
+        specifier: workspace:*
+        version: file:quippy/constants
+      '@hafemi/quippy.system.bot':
+        specifier: workspace:*
+        version: file:quippy/system/bot
+      '@hafemi/quippy.types':
+        specifier: workspace:*
+        version: file:quippy/types
     dependenciesMeta:
-      '@hafemi/quippy.bot.command.ping':
+      '@hafemi/quippy.bot.command.bot':
         injected: true
       '@hafemi/quippy.bot.event.ready':
+        injected: true
+      '@hafemi/quippy.constants':
+        injected: true
+      '@hafemi/quippy.system.bot':
+        injected: true
+      '@hafemi/quippy.types':
         injected: true
 
-  quippy/bot/command/ping:
+  quippy/bot/command/bot:
     dependencies:
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        specifier: ^2.1.13
+        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
-        specifier: ^14.18.0
+        specifier: ^14.17.3
         version: 14.18.0
       react:
-        specifier: ^19.0.0
-        version: 19.0.0
+        specifier: ^18.3.1
+        version: 18.3.1
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.7
@@ -100,32 +115,32 @@ importers:
         specifier: 22.7.6
         version: 22.7.6
       '@types/react':
-        specifier: ^19.0.8
-        version: 19.0.8
+        specifier: ^18.3.3
+        version: 18.3.18
 
   quippy/bot/event/ready:
     dependencies:
       '@cd/core.database.sequelize.default-connection':
         specifier: ^2.1.2
-        version: 2.1.2(react@19.0.0)
+        version: 2.1.2(react@18.3.1)
       '@cd/core.djs.client':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.webhook':
         specifier: ^2.1.3
-        version: 2.1.3(react@19.0.0)
+        version: 2.1.3(react@18.3.1)
       '@cd/core.logger':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.string-transformer':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
-        specifier: ^14.18.0
+        specifier: ^14.17.3
         version: 14.18.0
       react:
-        specifier: ^19.0.0
-        version: 19.0.0
+        specifier: ^18.3.1
+        version: 18.3.1
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.7
@@ -137,8 +152,48 @@ importers:
         specifier: 22.7.6
         version: 22.7.6
       '@types/react':
-        specifier: ^19.0.8
-        version: 19.0.8
+        specifier: ^18.3.3
+        version: 18.3.18
+
+  quippy/constants:
+    devDependencies:
+      '@babel/runtime':
+        specifier: 7.26.7
+        version: 7.26.7
+      '@types/jest':
+        specifier: 29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: 12.20.4
+        version: 12.20.4
+
+  quippy/system/bot:
+    dependencies:
+      discord.js:
+        specifier: ^14.17.3
+        version: 14.18.0
+    devDependencies:
+      '@babel/runtime':
+        specifier: 7.26.7
+        version: 7.26.7
+      '@types/jest':
+        specifier: 29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: 12.20.4
+        version: 12.20.4
+
+  quippy/types:
+    devDependencies:
+      '@babel/runtime':
+        specifier: 7.26.7
+        version: 7.26.7
+      '@types/jest':
+        specifier: 29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: 12.20.4
+        version: 12.20.4
 
 packages:
 
@@ -288,15 +343,24 @@ packages:
     resolution: {integrity: sha512-PBvenhZG56a6tMWF/f4P6f4GxZKJTBG95n7aiGSPTnodmz4N5g60t79rSIAq7ywMbv8A4jFtexMruH+oe51aQQ==}
     engines: {node: '>=16.11.0'}
 
-  '@hafemi/quippy.bot.command.ping@file:quippy/bot/command/ping':
-    resolution: {directory: quippy/bot/command/ping, type: directory}
+  '@hafemi/quippy.bot.command.bot@file:quippy/bot/command/bot':
+    resolution: {directory: quippy/bot/command/bot, type: directory}
     peerDependencies:
-      react: ^19.0.0
+      react: ^18.3.1
 
   '@hafemi/quippy.bot.event.ready@file:quippy/bot/event/ready':
     resolution: {directory: quippy/bot/event/ready, type: directory}
     peerDependencies:
-      react: ^19.0.0
+      react: ^18.3.1
+
+  '@hafemi/quippy.constants@file:quippy/constants':
+    resolution: {directory: quippy/constants, type: directory}
+
+  '@hafemi/quippy.system.bot@file:quippy/system/bot':
+    resolution: {directory: quippy/system/bot, type: directory}
+
+  '@hafemi/quippy.types@file:quippy/types':
+    resolution: {directory: quippy/types, type: directory}
 
   '@hapi/hoek@9.3.0':
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
@@ -496,6 +560,9 @@ packages:
   '@types/node-fetch@2.6.12':
     resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
 
+  '@types/node@12.20.4':
+    resolution: {integrity: sha512-xRCgeE0Q4pT5UZ189TJ3SpYuX/QGl6QIAOAIeDSbAVAd2gX1NxSZup4jNVK7cxIeP8KDSbJgcckun495isP1jQ==}
+
   '@types/node@16.18.44':
     resolution: {integrity: sha512-PZXtT+wqSMHnLPVExTh+tMt1VK+GvjRLsGZMbcQ4Mb/cG63xJig/TUmgrDa9aborl2i22UnpIzHYNu7s97NbBQ==}
 
@@ -505,8 +572,11 @@ packages:
   '@types/node@22.7.6':
     resolution: {integrity: sha512-/d7Rnj0/ExXDMcioS78/kf1lMzYk4BZV8MZGTBKzTGZ6/406ukkbYlIsZmMPhcR5KlkunDHQLrtAVmSq7r+mSw==}
 
-  '@types/react@19.0.8':
-    resolution: {integrity: sha512-9P/o1IGdfmQxrujGbIMDyYaaCykhLKc0NGCtYcECNUr9UAaDe4gwvV9bR6tvd5Br1SG0j+PBpbKr2UYY8CwqSw==}
+  '@types/prop-types@15.7.14':
+    resolution: {integrity: sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ==}
+
+  '@types/react@18.3.18':
+    resolution: {integrity: sha512-t4yC+vtgnkYjNSKlFx1jkAhH8LgTo2N/7Qvi83kdEaUtMDiwpbLAktKDaAMlRcJ5eSxZkH74eEGt1ky31d7kfQ==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -992,6 +1062,10 @@ packages:
   long@5.3.0:
     resolution: {integrity: sha512-5vvY5yF1zF/kXk+L94FRiTDa1Znom46UjPCH6/XbSvS8zBKMFBHTJk8KDMqJ+2J6QezQFi7k1k8v21ClJYHPaw==}
 
+  loose-envify@1.4.0:
+    resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
+
   lru-cache@7.18.3:
     resolution: {integrity: sha512-jumlc0BIUrS3qJGgIkWZsyfAM7NCWiBcCDhnd+3NNM5KbBmLTgHVfWBcg6W+rLUsIpzpERPsvwUP7CckAQSOoA==}
     engines: {node: '>=12'}
@@ -1219,8 +1293,8 @@ packages:
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  react@19.0.0:
-    resolution: {integrity: sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==}
+  react@18.3.1:
+    resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
     engines: {node: '>=0.10.0'}
 
   reactflow@11.11.4:
@@ -1526,10 +1600,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  '@cd/core.database.sequelize.connection@2.1.2(react@19.0.0)':
+  '@cd/core.database.sequelize.connection@2.1.2(react@18.3.1)':
     dependencies:
       mysql2: 3.12.0
-      react: 19.0.0
+      react: 18.3.1
       sequelize: 6.37.5(mysql2@3.12.0)
     transitivePeerDependencies:
       - ibm_db
@@ -1542,10 +1616,10 @@ snapshots:
       - supports-color
       - tedious
 
-  '@cd/core.database.sequelize.default-connection@2.1.2(react@19.0.0)':
+  '@cd/core.database.sequelize.default-connection@2.1.2(react@18.3.1)':
     dependencies:
-      '@cd/core.database.sequelize.connection': 2.1.2(react@19.0.0)
-      react: 19.0.0
+      '@cd/core.database.sequelize.connection': 2.1.2(react@18.3.1)
+      react: 18.3.1
     transitivePeerDependencies:
       - ibm_db
       - mariadb
@@ -1557,13 +1631,13 @@ snapshots:
       - supports-color
       - tedious
 
-  '@cd/core.djs.client@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.djs.client@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.event.interaction-create': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.djs.event.ready': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.logger': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.djs.event.interaction-create': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.ready': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -1596,13 +1670,37 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.components@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.djs.client@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.logger': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.djs.event.interaction-create': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.ready': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - ibm_db
+      - mariadb
+      - mysql2
+      - oracledb
+      - pg
+      - pg-hstore
+      - snowflake-sdk
+      - sqlite3
+      - supports-color
+      - tedious
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@cd/core.djs.components@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      discord.js: 14.18.0
+      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -1635,13 +1733,13 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.components@2.1.14(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.djs.components@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.logger': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -1649,55 +1747,15 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.event.interaction-create@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.djs.event.interaction-create@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.components': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.djs.interaction-helper': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.utils.cache': 2.1.2(react@19.0.0)
-      '@cd/core.utils.error-handler': 3.1.2(react@19.0.0)
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.djs.components': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)
+      '@cd/core.utils.cache': 2.1.2(react@18.3.1)
+      '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 19.0.0
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
-      - bufferutil
-      - debug
-      - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - ibm_db
-      - immer
-      - kerberos
-      - mariadb
-      - mongodb-client-encryption
-      - mysql2
-      - node-opus
-      - opusscript
-      - oracledb
-      - pg
-      - pg-hstore
-      - react-dom
-      - snappy
-      - snowflake-sdk
-      - socks
-      - sqlite3
-      - supports-color
-      - tedious
-      - utf-8-validate
-      - ws
-      - zod
-
-  '@cd/core.djs.event.ready@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
-    dependencies:
-      '@cd/core.djs.components': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.djs.event.interaction-create': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.djs.interaction-helper': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -1730,14 +1788,105 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.interaction-helper@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.djs.event.interaction-create@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.components': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.logger': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.utils.error-handler': 3.1.2(react@19.0.0)
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.djs.components': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.cache': 2.1.2(react@18.3.1)
+      '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - ibm_db
+      - mariadb
+      - mysql2
+      - oracledb
+      - pg
+      - pg-hstore
+      - snowflake-sdk
+      - sqlite3
+      - supports-color
+      - tedious
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@cd/core.djs.event.ready@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/core.djs.components': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.interaction-create': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      discord.js: 14.18.0
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
+      - bufferutil
+      - debug
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - ibm_db
+      - immer
+      - kerberos
+      - mariadb
+      - mongodb-client-encryption
+      - mysql2
+      - node-opus
+      - opusscript
+      - oracledb
+      - pg
+      - pg-hstore
+      - react-dom
+      - snappy
+      - snowflake-sdk
+      - socks
+      - sqlite3
+      - supports-color
+      - tedious
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@cd/core.djs.event.ready@2.1.14(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/core.djs.components': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.interaction-create': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      discord.js: 14.18.0
+      react: 18.3.1
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - ibm_db
+      - mariadb
+      - mysql2
+      - oracledb
+      - pg
+      - pg-hstore
+      - snowflake-sdk
+      - sqlite3
+      - supports-color
+      - tedious
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@cd/core.djs.interaction-helper@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/core.djs.components': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
+      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      discord.js: 14.18.0
+      react: 18.3.1
       sequelize: 6.37.5(mysql2@3.12.0)
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -1771,14 +1920,37 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.interaction-helper@2.1.14(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.djs.interaction-helper@2.1.14(react@18.3.1)':
     dependencies:
-      '@cd/core.djs.components': 2.1.14(react@19.0.0)(ws@8.18.0)
-      '@cd/core.logger': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.utils.error-handler': 3.1.2(react@19.0.0)
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.djs.components': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
+      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
+      sequelize: 6.37.5(mysql2@3.12.0)
+    transitivePeerDependencies:
+      - bufferutil
+      - ibm_db
+      - mariadb
+      - mysql2
+      - oracledb
+      - pg
+      - pg-hstore
+      - snowflake-sdk
+      - sqlite3
+      - supports-color
+      - tedious
+      - utf-8-validate
+
+  '@cd/core.djs.interaction-helper@2.1.14(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/core.djs.components': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
+      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      discord.js: 14.18.0
+      react: 18.3.1
       sequelize: 6.37.5(mysql2@3.12.0)
     transitivePeerDependencies:
       - bufferutil
@@ -1797,29 +1969,29 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.webhook@2.1.3(react@19.0.0)':
+  '@cd/core.djs.webhook@2.1.3(react@18.3.1)':
     dependencies:
       discord.js: 14.18.0
       node-fetch: 2.7.0
-      react: 19.0.0
+      react: 18.3.1
     transitivePeerDependencies:
       - bufferutil
       - encoding
       - utf-8-validate
 
-  '@cd/core.indranet.service.axios@1.1.3(react@19.0.0)':
+  '@cd/core.indranet.service.axios@1.1.3(react@18.3.1)':
     dependencies:
-      '@cd/core.utils.cache': 2.1.2(react@19.0.0)
+      '@cd/core.utils.cache': 2.1.2(react@18.3.1)
       axios: 1.7.9
       axios-retry: 4.5.0(axios@1.7.9)
-      react: 19.0.0
+      react: 18.3.1
     transitivePeerDependencies:
       - debug
 
-  '@cd/core.logger@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.logger@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.winston-transports.discord': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      react: 19.0.0
+      '@cd/core.winston-transports.discord': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      react: 18.3.1
       winston: 3.17.0
       winston-daily-rotate-file: 5.0.0(winston@3.17.0)
     transitivePeerDependencies:
@@ -1854,28 +2026,28 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.utils.cache@2.1.2(react@19.0.0)':
+  '@cd/core.utils.cache@2.1.2(react@18.3.1)':
     dependencies:
       async-mutex: 0.5.0
       lodash: 4.17.21
-      react: 19.0.0
+      react: 18.3.1
 
-  '@cd/core.utils.error-handler@3.1.2(react@19.0.0)':
+  '@cd/core.utils.error-handler@3.1.2(react@18.3.1)':
     dependencies:
-      react: 19.0.0
+      react: 18.3.1
 
-  '@cd/core.utils.response-handler-factory@2.1.14(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.utils.response-handler-factory@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.14(react@19.0.0)(ws@8.18.0)
-      '@cd/core.indranet.service.axios': 1.1.3(react@19.0.0)
-      '@cd/core.logger': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.utils.error-handler': 3.1.2(react@19.0.0)
-      '@cd/types.api': 1.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.indranet.service.axios': 1.1.3(react@18.3.1)
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
+      '@cd/types.api': 1.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       async-mutex: 0.5.0
       axios: 1.7.9
       discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
       uuid: 11.0.5
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -1902,11 +2074,11 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.utils.string-transformer@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.utils.string-transformer@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       json-bigint: 1.0.0
-      react: 19.0.0
+      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -1939,13 +2111,13 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.winston-transports.discord@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/core.winston-transports.discord@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       axios: 1.7.9
       axios-retry: 4.5.0(axios@1.7.9)
-      react: 19.0.0
+      react: 18.3.1
       winston-transport: 4.9.0
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -1979,13 +2151,13 @@ snapshots:
       - ws
       - zod
 
-  '@cd/types.api@1.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/types.api@1.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/types.workflow-common': 3.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.workflow-common': 3.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       express: 4.21.2
       mongoose: 8.10.0
-      react: 19.0.0
+      react: 18.3.1
       stripe: 17.6.0
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -2019,12 +2191,12 @@ snapshots:
       - ws
       - zod
 
-  '@cd/types.core@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/types.core@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/types.api': 1.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/types.api': 1.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       openai: 4.84.0(ws@8.18.0)
-      react: 19.0.0
+      react: 18.3.1
       winston-transport: 4.9.0
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -2058,17 +2230,17 @@ snapshots:
       - ws
       - zod
 
-  '@cd/types.workflow-common@3.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/types.workflow-common@3.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.utils.response-handler-factory': 2.1.14(react@19.0.0)(ws@8.18.0)
-      '@cd/types.api': 1.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/types.core': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/types.workflow-ui': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.utils.response-handler-factory': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/types.api': 1.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.workflow-ui': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@discordjs/voice': 0.18.0
       discord.js: 14.18.0
       joi: 17.13.3
-      react: 19.0.0
-      reactflow: 11.11.4(@types/react@19.0.8)(react@19.0.0)
+      react: 18.3.1
+      reactflow: 11.11.4(@types/react@18.3.18)(react@18.3.1)
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -2101,10 +2273,10 @@ snapshots:
       - ws
       - zod
 
-  '@cd/types.workflow-ui@2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@cd/types.workflow-ui@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/types.workflow-common': 3.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      react: 19.0.0
+      '@cd/types.workflow-common': 3.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -2207,11 +2379,12 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hafemi/quippy.bot.command.ping@file:quippy/bot/command/ping(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@hafemi/quippy.bot.command.bot@file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.system.bot': file:quippy/system/bot
       discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -2244,16 +2417,16 @@ snapshots:
       - ws
       - zod
 
-  '@hafemi/quippy.bot.event.ready@file:quippy/bot/event/ready(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)':
+  '@hafemi/quippy.bot.event.ready@file:quippy/bot/event/ready(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.database.sequelize.default-connection': 2.1.2(react@19.0.0)
-      '@cd/core.djs.client': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.djs.webhook': 2.1.3(react@19.0.0)
-      '@cd/core.logger': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
-      '@hafemi/quippy.bot.command.ping': file:quippy/bot/command/ping(@types/react@19.0.8)(react@19.0.0)(ws@8.18.0)
+      '@cd/core.database.sequelize.default-connection': 2.1.2(react@18.3.1)
+      '@cd/core.djs.client': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.webhook': 2.1.3(react@18.3.1)
+      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.bot.command.bot': file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 19.0.0
+      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -2285,6 +2458,17 @@ snapshots:
       - utf-8-validate
       - ws
       - zod
+
+  '@hafemi/quippy.constants@file:quippy/constants': {}
+
+  '@hafemi/quippy.system.bot@file:quippy/system/bot':
+    dependencies:
+      discord.js: 14.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  '@hafemi/quippy.types@file:quippy/types': {}
 
   '@hapi/hoek@9.3.0': {}
 
@@ -2313,27 +2497,27 @@ snapshots:
     dependencies:
       sparse-bitfield: 3.0.3
 
-  '@reactflow/background@11.3.14(@types/react@19.0.8)(react@19.0.0)':
+  '@reactflow/background@11.3.14(@types/react@18.3.18)(react@18.3.1)':
     dependencies:
-      '@reactflow/core': 11.11.4(@types/react@19.0.8)(react@19.0.0)
+      '@reactflow/core': 11.11.4(@types/react@18.3.18)(react@18.3.1)
       classcat: 5.0.5
-      react: 19.0.0
-      zustand: 4.5.6(@types/react@19.0.8)(react@19.0.0)
+      react: 18.3.1
+      zustand: 4.5.6(@types/react@18.3.18)(react@18.3.1)
     transitivePeerDependencies:
       - '@types/react'
       - immer
 
-  '@reactflow/controls@11.2.14(@types/react@19.0.8)(react@19.0.0)':
+  '@reactflow/controls@11.2.14(@types/react@18.3.18)(react@18.3.1)':
     dependencies:
-      '@reactflow/core': 11.11.4(@types/react@19.0.8)(react@19.0.0)
+      '@reactflow/core': 11.11.4(@types/react@18.3.18)(react@18.3.1)
       classcat: 5.0.5
-      react: 19.0.0
-      zustand: 4.5.6(@types/react@19.0.8)(react@19.0.0)
+      react: 18.3.1
+      zustand: 4.5.6(@types/react@18.3.18)(react@18.3.1)
     transitivePeerDependencies:
       - '@types/react'
       - immer
 
-  '@reactflow/core@11.11.4(@types/react@19.0.8)(react@19.0.0)':
+  '@reactflow/core@11.11.4(@types/react@18.3.18)(react@18.3.1)':
     dependencies:
       '@types/d3': 7.4.3
       '@types/d3-drag': 3.0.7
@@ -2343,44 +2527,44 @@ snapshots:
       d3-drag: 3.0.0
       d3-selection: 3.0.0
       d3-zoom: 3.0.0
-      react: 19.0.0
-      zustand: 4.5.6(@types/react@19.0.8)(react@19.0.0)
+      react: 18.3.1
+      zustand: 4.5.6(@types/react@18.3.18)(react@18.3.1)
     transitivePeerDependencies:
       - '@types/react'
       - immer
 
-  '@reactflow/minimap@11.7.14(@types/react@19.0.8)(react@19.0.0)':
+  '@reactflow/minimap@11.7.14(@types/react@18.3.18)(react@18.3.1)':
     dependencies:
-      '@reactflow/core': 11.11.4(@types/react@19.0.8)(react@19.0.0)
+      '@reactflow/core': 11.11.4(@types/react@18.3.18)(react@18.3.1)
       '@types/d3-selection': 3.0.11
       '@types/d3-zoom': 3.0.8
       classcat: 5.0.5
       d3-selection: 3.0.0
       d3-zoom: 3.0.0
-      react: 19.0.0
-      zustand: 4.5.6(@types/react@19.0.8)(react@19.0.0)
+      react: 18.3.1
+      zustand: 4.5.6(@types/react@18.3.18)(react@18.3.1)
     transitivePeerDependencies:
       - '@types/react'
       - immer
 
-  '@reactflow/node-resizer@2.2.14(@types/react@19.0.8)(react@19.0.0)':
+  '@reactflow/node-resizer@2.2.14(@types/react@18.3.18)(react@18.3.1)':
     dependencies:
-      '@reactflow/core': 11.11.4(@types/react@19.0.8)(react@19.0.0)
+      '@reactflow/core': 11.11.4(@types/react@18.3.18)(react@18.3.1)
       classcat: 5.0.5
       d3-drag: 3.0.0
       d3-selection: 3.0.0
-      react: 19.0.0
-      zustand: 4.5.6(@types/react@19.0.8)(react@19.0.0)
+      react: 18.3.1
+      zustand: 4.5.6(@types/react@18.3.18)(react@18.3.1)
     transitivePeerDependencies:
       - '@types/react'
       - immer
 
-  '@reactflow/node-toolbar@1.3.14(@types/react@19.0.8)(react@19.0.0)':
+  '@reactflow/node-toolbar@1.3.14(@types/react@18.3.18)(react@18.3.1)':
     dependencies:
-      '@reactflow/core': 11.11.4(@types/react@19.0.8)(react@19.0.0)
+      '@reactflow/core': 11.11.4(@types/react@18.3.18)(react@18.3.1)
       classcat: 5.0.5
-      react: 19.0.0
-      zustand: 4.5.6(@types/react@19.0.8)(react@19.0.0)
+      react: 18.3.1
+      zustand: 4.5.6(@types/react@18.3.18)(react@18.3.1)
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -2549,6 +2733,8 @@ snapshots:
       '@types/node': 22.7.6
       form-data: 4.0.1
 
+  '@types/node@12.20.4': {}
+
   '@types/node@16.18.44': {}
 
   '@types/node@18.19.75':
@@ -2559,8 +2745,11 @@ snapshots:
     dependencies:
       undici-types: 6.19.8
 
-  '@types/react@19.0.8':
+  '@types/prop-types@15.7.14': {}
+
+  '@types/react@18.3.18':
     dependencies:
+      '@types/prop-types': 15.7.14
       csstype: 3.1.3
 
   '@types/stack-utils@2.0.3': {}
@@ -3069,6 +3258,10 @@ snapshots:
 
   long@5.3.0: {}
 
+  loose-envify@1.4.0:
+    dependencies:
+      js-tokens: 4.0.0
+
   lru-cache@7.18.3: {}
 
   lru.min@1.1.1: {}
@@ -3251,17 +3444,19 @@ snapshots:
 
   react-is@18.3.1: {}
 
-  react@19.0.0: {}
-
-  reactflow@11.11.4(@types/react@19.0.8)(react@19.0.0):
+  react@18.3.1:
     dependencies:
-      '@reactflow/background': 11.3.14(@types/react@19.0.8)(react@19.0.0)
-      '@reactflow/controls': 11.2.14(@types/react@19.0.8)(react@19.0.0)
-      '@reactflow/core': 11.11.4(@types/react@19.0.8)(react@19.0.0)
-      '@reactflow/minimap': 11.7.14(@types/react@19.0.8)(react@19.0.0)
-      '@reactflow/node-resizer': 2.2.14(@types/react@19.0.8)(react@19.0.0)
-      '@reactflow/node-toolbar': 1.3.14(@types/react@19.0.8)(react@19.0.0)
-      react: 19.0.0
+      loose-envify: 1.4.0
+
+  reactflow@11.11.4(@types/react@18.3.18)(react@18.3.1):
+    dependencies:
+      '@reactflow/background': 11.3.14(@types/react@18.3.18)(react@18.3.1)
+      '@reactflow/controls': 11.2.14(@types/react@18.3.18)(react@18.3.1)
+      '@reactflow/core': 11.11.4(@types/react@18.3.18)(react@18.3.1)
+      '@reactflow/minimap': 11.7.14(@types/react@18.3.18)(react@18.3.1)
+      '@reactflow/node-resizer': 2.2.14(@types/react@18.3.18)(react@18.3.1)
+      '@reactflow/node-toolbar': 1.3.14(@types/react@18.3.18)(react@18.3.1)
+      react: 18.3.1
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -3456,9 +3651,9 @@ snapshots:
 
   unpipe@1.0.0: {}
 
-  use-sync-external-store@1.4.0(react@19.0.0):
+  use-sync-external-store@1.4.0(react@18.3.1):
     dependencies:
-      react: 19.0.0
+      react: 18.3.1
 
   util-deprecate@1.0.2: {}
 
@@ -3522,9 +3717,9 @@ snapshots:
 
   ws@8.18.0: {}
 
-  zustand@4.5.6(@types/react@19.0.8)(react@19.0.0):
+  zustand@4.5.6(@types/react@18.3.18)(react@18.3.1):
     dependencies:
-      use-sync-external-store: 1.4.0(react@19.0.0)
+      use-sync-external-store: 1.4.0(react@18.3.1)
     optionalDependencies:
-      '@types/react': 19.0.8
-      react: 19.0.0
+      '@types/react': 18.3.18
+      react: 18.3.1

@@ -26,10 +26,10 @@ process
   .on('SIGINT', async function () {
     log.info('Shutting down forcefully..');
     
-    const webHookUrl = process.env.WEBHOOK_URL_BOT_STATUS;
+    const webHookUrl = process.env.LOGGER_DISCORD_WEBHOOK_URL;
     if (!webHookUrl) {
       log.warn('No webhook URL provided. Exiting..');
-      return
+      process.exit(0);
     }
 
     await sendJSONToWebhook(

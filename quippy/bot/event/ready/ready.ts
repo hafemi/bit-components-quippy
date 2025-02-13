@@ -6,7 +6,7 @@ import { replacePlaceholders } from '@cd/core.utils.string-transformer';
 import { Client, Events } from 'discord.js';
 
 //Command modules
-import '@hafemi/quippy.bot.command.ping';
+import '@hafemi/quippy.bot.command.bot';
 
 export const name = Events.ClientReady;
 export const once = true;
@@ -23,7 +23,7 @@ export async function execute(client: Client): Promise<any> {
       });
 
     const commands = [
-      '@hafemi/quippy.bot.command.ping',
+      '@hafemi/quippy.bot.command.bot',
     ];
 
     await ClientHelper.deployCommands(client, process.env.DISCORD_BOT_TOKEN!, commands)
