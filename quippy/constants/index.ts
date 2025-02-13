@@ -1,3 +1,4 @@
 export {
-  defaultEmbedColor
+  defaultEmbedColor,
+  githubRepoLink
 } from './constants.js';

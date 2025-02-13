@@ -1,3 +1,4 @@
 export {
-  getClientLatencyWithinEmbed
+  getClientLatencyWithinEmbed,
+  getBotInfoEmbed
 } from './bot.js';
