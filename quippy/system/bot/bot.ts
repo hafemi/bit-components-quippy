@@ -8,7 +8,6 @@ import {
   githubRepoLink
 } from '@hafemi/quippy.constants';
 
-
 export function getClientLatencyWithinEmbed(interaction: ChatInputCommandInteraction): EmbedBuilder {
   const clientLatency = getClientLatency(interaction);
 
@@ -38,12 +37,12 @@ export async function getBotInfoEmbed(interaction: ChatInputCommandInteraction):
   const uptime = getBotUptime(interaction);
   const commandCount = await getCommandCount(interaction);
 
-  const infoEmbed = new EmbedBuilder()
+  return new EmbedBuilder()
     .setColor(defaultEmbedColor)
-    .setTitle('Bot Information')
+    .setTitle('🤖 Bot Information')
     .setDescription(`
       » Multi-functional bot with a variety of features
-      » [Github Repository](${githubRepoLink})
+      » [GitHub Repository](${githubRepoLink})
     `)
     .addFields(
       { name: 'Guild Amount', value: `${guildsCount}`, inline: true },
@@ -52,9 +51,6 @@ export async function getBotInfoEmbed(interaction: ChatInputCommandInteraction):
       { name: 'Command Amount', value: `${commandCount.normalAmount}`, inline: true },
       { name: 'Subcommand Amount', value: `${commandCount.subcommandsAmount}`, inline: true }
     )
-  
-  return infoEmbed
-  
 }
 
 function getBotUptime(interaction: ChatInputCommandInteraction): string {
