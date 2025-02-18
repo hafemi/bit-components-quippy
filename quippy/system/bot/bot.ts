@@ -6,7 +6,7 @@ import {
 import {
   defaultEmbedColor,
   githubRepoLink
-} from '@hafemi/quippy.constants';
+} from '@hafemi/quippy.lib.constants';
 
 export function getClientLatencyWithinEmbed(interaction: ChatInputCommandInteraction): EmbedBuilder {
   const clientLatency = getClientLatency(interaction);

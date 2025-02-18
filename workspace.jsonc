@@ -59,7 +59,7 @@
         "@cd/core.djs.client": "^2.1.14",
         "@cd/core.djs.components": "^2.1.14",
         "@cd/core.djs.event.interaction-create": "^2.1.14",
-        "@cd/core.djs.interaction-helper": "^2.1.13",
+        "@cd/core.djs.interaction-helper": "^2.1.20",
         "@cd/core.djs.webhook": "^2.1.3",
         "@cd/core.logger": "^2.1.14",
         "@cd/core.utils.string-transformer": "^2.1.14",

@@ -7,6 +7,7 @@ import { Client, Events } from 'discord.js';
 
 //Command modules
 import '@hafemi/quippy.bot.command.bot';
+import '@hafemi/quippy.bot.command.embed';
 
 export const name = Events.ClientReady;
 export const once = true;
@@ -24,6 +25,7 @@ export async function execute(client: Client): Promise<any> {
 
     const commands = [
       '@hafemi/quippy.bot.command.bot',
+      '@hafemi/quippy.bot.command.embed'
     ];
 
     await ClientHelper.deployCommands(client, process.env.DISCORD_BOT_TOKEN!, commands)
