@@ -30,5 +30,5 @@ export async function fetchMessages(channel: TextBasedChannel, amount: number): 
     }
   }
   
-  return fetchedMessages.reverse()
+  return fetchedMessages
 }
