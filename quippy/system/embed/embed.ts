@@ -24,7 +24,7 @@ import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 export function getEmptyEmbed(): EmbedBuilder {
   return new EmbedBuilder()
     .setColor(defaultEmbedColor)
-    .setDescription('This is an empty embed');
+    .setDescription('Edit me by using /embed edit');
 }
 
 export async function getLatestMessageWithEmbed(channel: GuildTextBasedChannel): Promise<Message<boolean> | undefined> {
@@ -33,11 +33,9 @@ export async function getLatestMessageWithEmbed(channel: GuildTextBasedChannel):
     .filter(message => message.embeds.length > 0)
     .map(message => message);
 
-  if (messagesWithEmbed.length == 0) {
-    return;
-  } else {
-    return messagesWithEmbed[0];
-  }
+  if (messagesWithEmbed.length == 0) return;
+
+  return messagesWithEmbed[0];
 }
 
 export function validateEmbedColor(color: ColorResolvable): boolean {
@@ -47,7 +45,7 @@ export function validateEmbedColor(color: ColorResolvable): boolean {
       .setDescription(null);
 
     return true;
-  } catch (err) {
+  } catch {
     return false;
   }
 }

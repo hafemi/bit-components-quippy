@@ -50,22 +50,22 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const subcommand = interaction.options.getSubcommand();
   const subcommandGroup = interaction.options.getSubcommandGroup();
-  
+
   if (subcommandGroup == 'edit') {
     const message = await getLatestMessageWithEmbed(interaction.channel);
     if (!message) {
-      await InteractionHelper.followUp(interaction, `\`Error\`: No embed found in the latest ${embedEditMaxMessagesToFetch} messages`, true);
+      await InteractionHelper.followUp(interaction, `> \`Error\`: No embed found in the latest ${embedEditMaxMessagesToFetch} messages`, true);
       return;
     }
     const payload: EmbedEditPayload = { interaction, message };
-    
+
 
     if (subcommand == 'color') return await executeEditColor(payload);
   }
 
   if (subcommand == 'send') return await executeSend(interaction);
 
-  await InteractionHelper.followUp(interaction, '`Error:` Unknown subcommand \'' + subcommand + '\'', true);
+  await InteractionHelper.followUp(interaction, '> `Error:` Unknown subcommand \'' + subcommand + '\'', true);
 }
 
 async function executeSend(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -78,13 +78,13 @@ async function executeSend(interaction: ChatInputCommandInteraction): Promise<vo
 }
 
 async function executeEditColor(payload: EmbedEditPayload): Promise<void> {
-  const color = payload.interaction.options.getString('value')! as ColorResolvable
+  const color = payload.interaction.options.getString('value') as ColorResolvable;
   const isValidColor = validateEmbedColor(color);
-  
+
   if (!isValidColor) {
-    await InteractionHelper.followUp(payload.interaction, '> `Error:` Invalid color value', true);
+    await InteractionHelper.followUp(payload.interaction, `> \`Error:\` ${color} is an invalid color`, true);
     return;
   }
-  
+
   await editColorOfEmbed(payload, color);
 }
