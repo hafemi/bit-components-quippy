@@ -54,7 +54,7 @@ async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<vo
 
   const modalSetTitle = wrapperCreateAndRegisterModal({
     customId: modalIdSetTitle,
-    title: 'Title',
+    title: 'Set Title',
     executeFunc: executeModalSetTitle,
     textInputFields: [
       {
@@ -67,7 +67,7 @@ async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<vo
       },
       {
         id: 'url',
-        label: 'URL',
+        label: 'Title URL',
         placeholder: 'https://example.com',
         style: TextInputStyle.Short,
         maxLength: EmbedBuilderLimitations.URL,
