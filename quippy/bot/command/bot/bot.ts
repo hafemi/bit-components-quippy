@@ -29,19 +29,19 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (subcommand == 'latency') return await executeLatency(interaction);
   if (subcommand == 'info') return await executeInfo(interaction);
 
-  await InteractionHelper.followUp(interaction, '`Error:` Unknown subcommand \'' + subcommand + '\'', true);
+  await InteractionHelper.followUp(interaction, '`Error:` Unknown subcommand \'' + subcommand + '\'');
 }
 
 async function executeLatency(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ ephemeral: true });
 
   const latencyEmbed = getClientLatencyWithinEmbed(interaction);
-  await InteractionHelper.followUp(interaction, { embeds: [latencyEmbed] }, true);
+  await InteractionHelper.followUp(interaction, { embeds: [latencyEmbed] });
 }
 
 async function executeInfo(interaction: ChatInputCommandInteraction): Promise<void> { 
   await interaction.deferReply({ ephemeral: true });
 
   const infoEmbed = await getBotInfoEmbed(interaction);
-  await InteractionHelper.followUp(interaction, { embeds: [infoEmbed] }, true);
+  await InteractionHelper.followUp(interaction, { embeds: [infoEmbed] });
 }
