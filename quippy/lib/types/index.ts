@@ -1,5 +1,5 @@
 export {
   EmbedBuilderButtonID,
   EmbedBuilderModalID,
-  EmbedBuilderLimitations
+  EmbedBuilderLimitations,
 } from './types.js';

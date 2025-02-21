@@ -4,6 +4,7 @@ import {
   ButtonBuilder,
   ButtonInteraction,
   ButtonStyle,
+  ColorResolvable,
   EmbedBuilder,
   Message,
   ModalSubmitInteraction,
@@ -32,6 +33,11 @@ const actionRows = create5x5ButtonActionRows([
     id: EmbedBuilderButtonID.SetTitle,
     label: 'Set Title',
     style: ButtonStyle.Primary,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.SetColor,
+    label: 'Set Color',
+    style: ButtonStyle.Primary,
   })
 ]);
 
@@ -47,6 +53,7 @@ export function getMessagePayload(): {
 
 export function registerEmbedBuilderComponents(): void {
   addInteraction(EmbedBuilderButtonID.SetTitle, async (interaction: ButtonInteraction) => await executeButtonSetTitle(interaction));
+  addInteraction(EmbedBuilderButtonID.SetColor, async (interaction: ButtonInteraction) => await executeButtonSetColor(interaction));
 }
 
 async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<void> {
@@ -79,6 +86,27 @@ async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<vo
   await interaction.showModal(modalSetTitle);
 };
 
+async function executeButtonSetColor(interaction: ButtonInteraction): Promise<void> {
+  const modalIdSetColor = EmbedBuilderModalID.SetColor;
+
+  const modalSetColor = wrapperCreateAndRegisterModal({
+    customId: modalIdSetColor,
+    title: 'Set Color',
+    executeFunc: executeModalSetColor,
+    textInputFields: [
+      {
+        id: 'color',
+        label: 'New Embed Color',
+        placeholder: '#FFFFFF', 
+        style: TextInputStyle.Short,
+        required: false
+      }
+    ],
+  });
+
+  await interaction.showModal(modalSetColor);
+}
+
 export async function executeModalSetTitle(
   interaction: ModalSubmitInteraction,
   {
@@ -92,9 +120,9 @@ export async function executeModalSetTitle(
   const oldEmbed = message.embeds[0];
   const newEmbed = new EmbedBuilder(oldEmbed)
   let hasOneError: string | undefined = undefined;
-  let hasOneSuccess: boolean = false
+  let hasNoValues: boolean = true
   
-  if (title || url) hasOneSuccess = true;
+  if (title || url) hasNoValues = false;
   
   if (title) newEmbed.setTitle(title);
   if (url) {
@@ -105,7 +133,48 @@ export async function executeModalSetTitle(
     }
   }
 
-  await updateEmbedAndSendReply({ interaction, message, newEmbed, hasOneError, hasOneSuccess });
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+}
+
+export async function executeModalSetColor(
+  interaction: ModalSubmitInteraction,
+  { color }: { color?: string; }
+): Promise<void> { 
+  const oldEmbed = interaction.message.embeds[0];
+  const newEmbed = new EmbedBuilder(oldEmbed);
+  let hasOneError: string | undefined = undefined;
+  let hasNoValues: boolean = true;
+  
+  if (color) hasNoValues = false;
+  
+  if (color) {
+    const isValidColor = validateEmbedColor(color as ColorResolvable);
+    if (isValidColor) newEmbed.setColor(color as ColorResolvable);
+    else if (!hasOneError) hasOneError = `Invalid Color (${color})`;
+  }
+  
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+}
+
+async function updateEmbedAndSendReply({
+  interaction,
+  newEmbed,
+  hasOneError,
+  hasNoValues
+}: {
+  interaction: ModalSubmitInteraction,
+  newEmbed: EmbedBuilder,
+  hasOneError: string | undefined,
+  hasNoValues: boolean
+  }): Promise<void> {
+  if (hasOneError) {
+    await InteractionHelper.followUp(interaction, `\`Error:\` ${hasOneError}`);
+  } else if (hasNoValues) {
+    await InteractionHelper.followUp(interaction, '`Info:` No changes made');
+  } else {
+    await interaction.message.edit({ embeds: [newEmbed] });
+    await InteractionHelper.followUp(interaction, '`Success:` Embed updated');
+  }
 }
 
 function validateEmbedURL(url: string): boolean {
@@ -113,32 +182,21 @@ function validateEmbedURL(url: string): boolean {
     new EmbedBuilder()
       .setDescription(null)
       .setURL(url);
-    
+
     return true;
   } catch {
-    return false
+    return false;
   }
 }
 
-async function updateEmbedAndSendReply({
-  interaction,
-  message,
-  newEmbed,
-  hasOneError,
-  hasOneSuccess
-}: {
-  interaction: ModalSubmitInteraction,
-  message: Message<boolean>,
-  newEmbed: EmbedBuilder,
-  hasOneError: string | undefined,
-  hasOneSuccess: boolean
-  }): Promise<void> {
-  if (hasOneError) {
-    await InteractionHelper.followUp(interaction, `\`Error:\` ${hasOneError}`);
-  } else if (!hasOneSuccess) {
-    await InteractionHelper.followUp(interaction, '`Info:` No changes made');
-  } else {
-    await message.edit({ embeds: [newEmbed] });
-    await InteractionHelper.followUp(interaction, '`Success:` Embed updated');
+function validateEmbedColor(color: ColorResolvable): boolean {
+  try {
+    new EmbedBuilder()
+      .setDescription(null)
+      .setColor(color);
+
+    return true;
+  } catch {
+    return false;
   }
 }

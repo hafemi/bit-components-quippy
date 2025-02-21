@@ -8,10 +8,12 @@
 
 export enum EmbedBuilderButtonID {
   SetTitle = 'embed_builder_button;set_title',
+  SetColor = 'embed_builder_button;set_color',
 }
 
 export enum EmbedBuilderModalID {
   SetTitle = 'embed_builder_modal;set_title',
+  SetColor = 'embed_builder_modal;set_color',
 }
 
 export enum EmbedBuilderLimitations {
