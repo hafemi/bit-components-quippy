@@ -48,21 +48,29 @@ export function registerEmbedBuilderComponents(): void {
   addInteraction(EmbedBuilderButtonID.SetTitle, async (interaction: ButtonInteraction) => await executeButtonSetTitle(interaction));
 }
 
-async function executeButtonSetTitle (interaction: ButtonInteraction): Promise<void> {
+async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<void> {
   const modalIdSetTitle = EmbedBuilderModalID.SetTitle;
 
   const modalSetTitle = wrapperCreateAndRegisterModal({
     customId: modalIdSetTitle,
-    title: 'Set Title',
+    title: 'Title',
     executeFunc: executeModalSetTitle,
     textInputFields: [
       {
         id: 'title',
         label: 'New Embed Title',
+        placeholder: 'I\'m a fancy title',
         style: TextInputStyle.Short,
-        required: true,
         maxLength: EmbedBuilderLimitations.Title,
-        placeholder: 'I\'m a fancy title'
+        required: false
+      },
+      {
+        id: 'url',
+        label: 'URL',
+        placeholder: 'https://example.com',
+        style: TextInputStyle.Short,
+        maxLength: EmbedBuilderLimitations.URL,
+        required: false
       }
     ],
   });
@@ -73,13 +81,32 @@ async function executeButtonSetTitle (interaction: ButtonInteraction): Promise<v
 export async function executeModalSetTitle(
   interaction: ModalSubmitInteraction,
   {
-    title
-  }: { title: string; }): Promise<void> {
+    title,
+    url
+  }: {
+    title?: string;
+    url?: string;
+  }): Promise<void> {
   const message = interaction.message;
   const oldEmbed = message.embeds[0];
   const newEmbed = new EmbedBuilder(oldEmbed)
-    .setTitle(title);
+  const isValidURL = validateEmbedURL(url);
   
+  if (title) newEmbed.setTitle(title);
+  if (isValidURL) newEmbed.setURL(url);
+
   await message.edit({ embeds: [newEmbed] });
   await InteractionHelper.followUp(interaction, '`Success:` Title updated');
+}
+
+function validateEmbedURL(url: string): boolean {
+  try {
+    new EmbedBuilder()
+      .setDescription(null)
+      .setURL(url);
+    
+    return true;
+  } catch {
+    return false
+  }
 }

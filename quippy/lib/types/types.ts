@@ -23,4 +23,5 @@ export enum EmbedBuilderLimitations {
   FooterText = 2048,
   AuthorName = 256,
   EmbedCharacters = 6000,
+  URL = 2048
 }
