@@ -1,3 +1,4 @@
 export {
-  EmbedEditPayload
+  EmbedBuilderButtonID,
+  EmbedBuilderModalID
 } from './types.js';

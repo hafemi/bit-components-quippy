@@ -4,6 +4,7 @@ import { sendJSONToWebhook } from '@cd/core.djs.webhook';
 import { log } from '@cd/core.logger';
 import { replacePlaceholders } from '@cd/core.utils.string-transformer';
 import { Client, Events } from 'discord.js';
+import { registerEmbedBuilderComponents } from '@hafemi/quippy.system.embed';
 
 //Command modules
 import '@hafemi/quippy.bot.command.bot';
@@ -37,6 +38,8 @@ export async function execute(client: Client): Promise<any> {
           unixseconds: Math.floor(Date.now() / 1000)
         })), process.env.WEBHOOK_URL_BOT_STATUS)
         .catch(err => log.error(err));
+    
+    registerEmbedBuilderComponents();
 
     log.warn('Ready!');
   } catch (err) {

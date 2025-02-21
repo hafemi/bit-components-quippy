@@ -1,64 +1,78 @@
 
 import {
-  ColorResolvable,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonInteraction,
+  ButtonStyle,
   EmbedBuilder,
-  GuildTextBasedChannel,
-  Message,
+  ModalSubmitInteraction,
+  TextInputStyle
 } from "discord.js";
 
 import {
-  defaultEmbedColor,
-  embedEditMaxMessagesToFetch
-} from '@hafemi/quippy.lib.constants';
+  create5x5ButtonActionRows,
+  createButton
+} from '@cd/core.djs.components';
+import {
+  addInteraction,
+  wrapperCreateAndRegisterModal
+} from '@cd/core.djs.event.interaction-create';
 
 import {
-  fetchMessages
-} from '@hafemi/quippy.lib.utils';
-
-import {
-  EmbedEditPayload
+  EmbedBuilderButtonID,
+  EmbedBuilderModalID
 } from '@hafemi/quippy.lib.types';
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
-export function getEmptyEmbed(): EmbedBuilder {
-  return new EmbedBuilder()
-    .setColor(defaultEmbedColor)
-    .setDescription('Edit me by using /embed edit');
+const actionRows = create5x5ButtonActionRows([
+  createButton({
+    id: EmbedBuilderButtonID.SetTitle,
+    label: 'Title',
+    style: ButtonStyle.Primary,
+  })
+]);
+
+export function getMessagePayload(): {
+  emptyEmbed: EmbedBuilder,
+  actionRows: ActionRowBuilder<ButtonBuilder>[];
+} {
+  const emptyEmbed = new EmbedBuilder()
+    .setDescription('Edit me by clicking the buttons below');
+
+  return { emptyEmbed, actionRows };
 }
 
-export async function getLatestMessageWithEmbed(channel: GuildTextBasedChannel): Promise<Message<boolean> | undefined> {
-  const fetchedMessages = await fetchMessages(channel, embedEditMaxMessagesToFetch);
-  const messagesWithEmbed = fetchedMessages
-    .filter(message => message.embeds.length > 0)
-    .map(message => message);
-
-  if (messagesWithEmbed.length == 0) return;
-
-  return messagesWithEmbed[0];
+export function registerEmbedBuilderComponents(): void {
+  addInteraction(EmbedBuilderButtonID.SetTitle, async (interaction: ButtonInteraction) => await executeButtonSetTitle(interaction));
 }
 
-export function validateEmbedColor(color: ColorResolvable): boolean {
-  try {
-    new EmbedBuilder()
-      .setColor(color)
-      .setDescription(null);
+async function executeButtonSetTitle (interaction: ButtonInteraction): Promise<void> {
+  const modalIdSetTitle = EmbedBuilderModalID.SetTitle;
 
-    return true;
-  } catch {
-    return false;
-  }
-}
+  const modalSetTitle = wrapperCreateAndRegisterModal({
+    customId: modalIdSetTitle,
+    title: 'Set Title',
+    executeFunc: executeModalSetTitle,
+    textInputFields: [
+      {
+        id: 'title',
+        label: 'New Embed Title',
+        style: TextInputStyle.Short,
+        required: true,
+      }
+    ],
+  });
 
-export async function editColorOfEmbed({
-  interaction,
-  message
-}: EmbedEditPayload, color: ColorResolvable): Promise<void> {
+  await interaction.showModal(modalSetTitle);
+};
+
+export async function executeModalSetTitle(interaction: ModalSubmitInteraction, inputs: { title: string; }) {
+  const message = interaction.message;
   const oldEmbed = message.embeds[0];
-  const embed = new EmbedBuilder(oldEmbed)
-    .setColor(color);
-
-  message.edit({ embeds: [embed] });
-
-  await InteractionHelper.followUp(interaction, '> `Success:` edited color of latest embed', true);
+  const newEmbed = new EmbedBuilder(oldEmbed)
+    .setTitle(inputs.title);
+  
+  await message.edit({ embeds: [newEmbed] });
+  await InteractionHelper.followUp(interaction, '`Success:` Title updated');
 }

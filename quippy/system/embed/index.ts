@@ -1,6 +1,4 @@
 export {
-  getEmptyEmbed,
-  getLatestMessageWithEmbed,
-  validateEmbedColor,
-  editColorOfEmbed
+  getMessagePayload,
+  registerEmbedBuilderComponents
 } from './embed.js';
