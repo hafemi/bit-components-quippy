@@ -5,6 +5,7 @@ import {
   ButtonInteraction,
   ButtonStyle,
   EmbedBuilder,
+  Message,
   ModalSubmitInteraction,
   TextInputStyle
 } from "discord.js";
@@ -90,13 +91,21 @@ export async function executeModalSetTitle(
   const message = interaction.message;
   const oldEmbed = message.embeds[0];
   const newEmbed = new EmbedBuilder(oldEmbed)
-  const isValidURL = validateEmbedURL(url);
+  let hasOneError: string | undefined = undefined;
+  let hasOneSuccess: boolean = false
+  
+  if (title || url) hasOneSuccess = true;
   
   if (title) newEmbed.setTitle(title);
-  if (isValidURL) newEmbed.setURL(url);
+  if (url) {
+    const isValidURL = validateEmbedURL(url);
+    if (isValidURL) newEmbed.setURL(url);
+    else if (!hasOneError) {
+      hasOneError = 'Invalid Title URL';
+    }
+  }
 
-  await message.edit({ embeds: [newEmbed] });
-  await InteractionHelper.followUp(interaction, '`Success:` Title updated');
+  await updateEmbedAndSendReply({ interaction, message, newEmbed, hasOneError, hasOneSuccess });
 }
 
 function validateEmbedURL(url: string): boolean {
@@ -108,5 +117,28 @@ function validateEmbedURL(url: string): boolean {
     return true;
   } catch {
     return false
+  }
+}
+
+async function updateEmbedAndSendReply({
+  interaction,
+  message,
+  newEmbed,
+  hasOneError,
+  hasOneSuccess
+}: {
+  interaction: ModalSubmitInteraction,
+  message: Message<boolean>,
+  newEmbed: EmbedBuilder,
+  hasOneError: string | undefined,
+  hasOneSuccess: boolean
+  }): Promise<void> {
+  if (hasOneError) {
+    await InteractionHelper.followUp(interaction, `\`Error:\` ${hasOneError}`);
+  } else if (!hasOneSuccess) {
+    await InteractionHelper.followUp(interaction, '`Info:` No changes made');
+  } else {
+    await message.edit({ embeds: [newEmbed] });
+    await InteractionHelper.followUp(interaction, '`Success:` Embed updated');
   }
 }
