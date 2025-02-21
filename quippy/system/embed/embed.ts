@@ -20,7 +20,8 @@ import {
 
 import {
   EmbedBuilderButtonID,
-  EmbedBuilderModalID
+  EmbedBuilderModalID,
+  EmbedBuilderLimitations
 } from '@hafemi/quippy.lib.types';
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
@@ -28,7 +29,7 @@ import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 const actionRows = create5x5ButtonActionRows([
   createButton({
     id: EmbedBuilderButtonID.SetTitle,
-    label: 'Title',
+    label: 'Set Title',
     style: ButtonStyle.Primary,
   })
 ]);
@@ -60,6 +61,8 @@ async function executeButtonSetTitle (interaction: ButtonInteraction): Promise<v
         label: 'New Embed Title',
         style: TextInputStyle.Short,
         required: true,
+        maxLength: EmbedBuilderLimitations.Title,
+        placeholder: 'I\'m a fancy title'
       }
     ],
   });
@@ -67,11 +70,15 @@ async function executeButtonSetTitle (interaction: ButtonInteraction): Promise<v
   await interaction.showModal(modalSetTitle);
 };
 
-export async function executeModalSetTitle(interaction: ModalSubmitInteraction, inputs: { title: string; }) {
+export async function executeModalSetTitle(
+  interaction: ModalSubmitInteraction,
+  {
+    title
+  }: { title: string; }): Promise<void> {
   const message = interaction.message;
   const oldEmbed = message.embeds[0];
   const newEmbed = new EmbedBuilder(oldEmbed)
-    .setTitle(inputs.title);
+    .setTitle(title);
   
   await message.edit({ embeds: [newEmbed] });
   await InteractionHelper.followUp(interaction, '`Success:` Title updated');
