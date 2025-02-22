@@ -46,6 +46,6 @@ async function executeCreate(interaction: ChatInputCommandInteraction): Promise<
 }
 
 async function executeLimitations(interaction: ChatInputCommandInteraction): Promise<void> {
-  const embed = getLimitationsEmbed(interaction);
+  const embed = getLimitationsEmbed();
   await InteractionHelper.followUp(interaction, { embeds: [embed] });
 } 
