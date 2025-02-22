@@ -14,17 +14,27 @@ export enum EmbedBuilderButtonID {
   SetTitle = 'embed_builder_button;set_title',
   SetColor = 'embed_builder_button;set_color',
   SetAuthor = 'embed_builder_button;set_author',
+  SetDescription = 'embed_builder_button;set_description',
+  SetThumbnail = 'embed_builder_button;set_thumbnail',
+  SetImage = 'embed_builder_button;set_image',
+  SetFooter = 'embed_builder_button;set_footer',
+  SetTimestamp = 'embed_builder_button;set_timestamp',
 }
 
 export enum EmbedBuilderModalID {
   SetTitle = 'embed_builder_modal;set_title',
   SetColor = 'embed_builder_modal;set_color',
   SetAuthor = 'embed_builder_modal;set_author',
+  SetDescription = 'embed_builder_modal;set_description',
+  SetThumbnail = 'embed_builder_modal;set_thumbnail',
+  SetImage = 'embed_builder_modal;set_image',
+  SetFooter = 'embed_builder_modal;set_footer',
+  SetTimestamp = 'embed_builder_modal;set_timestamp',
 }
 
 export enum EmbedBuilderLimitations {
   Title = 256,
-  Description = 4096,
+  Description = 4000,
   Fields = 25,
   FieldName = 256,
   FieldValue = 1024,

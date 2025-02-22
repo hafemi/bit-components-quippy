@@ -27,6 +27,7 @@ import {
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
+import { execute } from "@hafemi/quippy.bot.command.bot";
 
 const actionRows = create5x5ButtonActionRows([
   createButton({
@@ -44,6 +45,31 @@ const actionRows = create5x5ButtonActionRows([
     label: 'Set Author',
     style: ButtonStyle.Secondary,
   }),
+  createButton({
+    id: EmbedBuilderButtonID.SetDescription,
+    label: 'Set Description',
+    style: ButtonStyle.Secondary,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.SetThumbnail,
+    label: 'Set Thumbnail',
+    style: ButtonStyle.Secondary,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.SetImage,
+    label: 'Set Image',
+    style: ButtonStyle.Secondary,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.SetFooter,
+    label: 'Set Footer',
+    style: ButtonStyle.Secondary,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.SetTimestamp,
+    label: 'Set Timestamp',
+    style: ButtonStyle.Secondary,
+  })
 ]);
 
 export function getMessagePayload(): {
@@ -60,6 +86,11 @@ export function registerEmbedBuilderComponents(): void {
   addInteraction(EmbedBuilderButtonID.SetTitle, async (interaction: ButtonInteraction) => await executeButtonSetTitle(interaction));
   addInteraction(EmbedBuilderButtonID.SetColor, async (interaction: ButtonInteraction) => await executeButtonSetColor(interaction));
   addInteraction(EmbedBuilderButtonID.SetAuthor, async (interaction: ButtonInteraction) => await executeButtonSetAuthor(interaction));
+  addInteraction(EmbedBuilderButtonID.SetDescription, async (interaction: ButtonInteraction) => await executeButtonSetDescription(interaction));
+  addInteraction(EmbedBuilderButtonID.SetThumbnail, async (interaction: ButtonInteraction) => await executeButtonSetThumbnail(interaction));
+  addInteraction(EmbedBuilderButtonID.SetImage, async (interaction: ButtonInteraction) => await executeButtonSetImage(interaction));
+  addInteraction(EmbedBuilderButtonID.SetFooter, async (interaction: ButtonInteraction) => await executeButtonSetFooter(interaction));
+  addInteraction(EmbedBuilderButtonID.SetTimestamp, async (interaction: ButtonInteraction) => await executeButtonSetTimestamp(interaction));
 }
 
 async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<void> {
@@ -151,6 +182,122 @@ async function executeButtonSetAuthor(interaction: ButtonInteraction): Promise<v
   await interaction.showModal(modalSetAuthor);
 }
 
+async function executeButtonSetDescription(interaction: ButtonInteraction): Promise<void> {
+  const modalIdSetDescription = EmbedBuilderModalID.SetDescription;
+
+  const modalSetDescription = wrapperCreateAndRegisterModal({
+    customId: modalIdSetDescription,
+    title: 'Set Description',
+    executeFunc: executeModalSetDescription,
+    textInputFields: [
+      {
+        id: 'description',
+        label: 'New Embed Description',
+        placeholder: 'I\'m a fancy description',
+        style: TextInputStyle.Paragraph,
+        maxLength: EmbedBuilderLimitations.Description,
+        required: false
+      }
+    ],
+  });
+
+  await interaction.showModal(modalSetDescription);
+}
+
+async function executeButtonSetThumbnail(interaction: ButtonInteraction): Promise<void> {
+  const modalIdSetThumbnail = EmbedBuilderModalID.SetThumbnail;
+  
+  const modalSetThumbnail = wrapperCreateAndRegisterModal({
+    customId: modalIdSetThumbnail,
+    title: 'Set Thumbnail',
+    executeFunc: executeModalSetThumbnail,
+    textInputFields: [
+      {
+        id: 'thumbnail_url',
+        label: 'Thumbnail URL',
+        placeholder: 'https://example.com/thumbnail.png',
+        style: TextInputStyle.Short,
+        maxLength: EmbedBuilderLimitations.URL,
+        required: false
+      }
+    ],
+  });
+  
+  await interaction.showModal(modalSetThumbnail);
+}
+
+async function executeButtonSetImage(interaction: ButtonInteraction): Promise<void> {
+  const modalIdSetImage = EmbedBuilderModalID.SetImage;
+  
+  const modalSetImage = wrapperCreateAndRegisterModal({
+    customId: modalIdSetImage,
+    title: 'Set Image',
+    executeFunc: executeModalSetImage,
+    textInputFields: [
+      {
+        id: 'image_url',
+        label: 'Image URL',
+        placeholder: 'https://example.com/image.png',
+        style: TextInputStyle.Short,
+        maxLength: EmbedBuilderLimitations.URL,
+        required: false
+      }
+    ],
+  });
+  
+  await interaction.showModal(modalSetImage);
+}
+
+async function executeButtonSetFooter(interaction: ButtonInteraction): Promise<void> {
+  const modalIdSetFooter = EmbedBuilderModalID.SetFooter;
+  
+  const modalSetFooter = wrapperCreateAndRegisterModal({
+    customId: modalIdSetFooter,
+    title: 'Set Footer',
+    executeFunc: executeModalSetFooter,
+    textInputFields: [
+      {
+        id: 'footer_text',
+        label: 'Footer Text',
+        placeholder: 'I\'m a fancy footer',
+        style: TextInputStyle.Short,
+        maxLength: EmbedBuilderLimitations.FooterText,
+        required: false
+      },
+      {
+        id: 'footer_icon_url',
+        label: 'Footer Icon URL',
+        placeholder: 'https://example.com/icon.png',
+        style: TextInputStyle.Short,
+        maxLength: EmbedBuilderLimitations.URL,
+        required: false
+      }
+    ],
+  });
+  
+  await interaction.showModal(modalSetFooter);
+}
+
+async function executeButtonSetTimestamp(interaction: ButtonInteraction): Promise<void> {
+  const modalIdSetTimestamp = EmbedBuilderModalID.SetTimestamp;
+  
+  const modalSetTimestamp = wrapperCreateAndRegisterModal({
+    customId: modalIdSetTimestamp,
+    title: 'Set Timestamp',
+    executeFunc: executeModalSetTimestamp,
+    textInputFields: [
+      {
+        id: 'timestamp',
+        label: 'Timestamp',
+        placeholder: 'Type "null" to use default timestamp',
+        style: TextInputStyle.Short,
+        required: false
+      }
+    ],
+  });
+
+  await interaction.showModal(modalSetTimestamp);
+}
 async function executeModalSetTitle(
   interaction: ModalSubmitInteraction,
   {
@@ -242,6 +389,123 @@ async function executeModalSetAuthor(
   await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
 }
 
+async function executeModalSetDescription(
+  interaction: ModalSubmitInteraction,
+  { description }: { description?: string; }
+): Promise<void> {
+  
+  const oldEmbed = interaction.message.embeds[0];
+  const newEmbed = new EmbedBuilder(oldEmbed);
+  const hasNoValues = !description;
+  
+  let hasOneError: string | undefined;
+  
+  if (description) newEmbed.setDescription(description);
+  
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+}
+
+async function executeModalSetThumbnail(
+  interaction: ModalSubmitInteraction,
+  { thumbnail_url }: { thumbnail_url?: string; }
+): Promise<void> {
+  
+  const oldEmbed = interaction.message.embeds[0];
+  const newEmbed = new EmbedBuilder(oldEmbed);
+  const hasNoValues = !thumbnail_url;
+  
+  let hasOneError: string | undefined;
+
+  if (thumbnail_url) {
+    const isValidURL = validateEmbedURL(thumbnail_url);
+    if (isValidURL) newEmbed.setThumbnail(thumbnail_url);
+
+    if (!isValidURL) hasOneError = `Invalid Thumbnail URL - \`${thumbnail_url}\``
+    else undefined
+  }
+
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+}
+
+async function executeModalSetImage(
+  interaction: ModalSubmitInteraction,
+  { image_url }: { image_url?: string; }
+): Promise<void> {
+  
+  const oldEmbed = interaction.message.embeds[0];
+  const newEmbed = new EmbedBuilder(oldEmbed);
+  const hasNoValues = !image_url;
+  
+  let hasOneError: string | undefined;
+
+  if (image_url) {
+    const isValidURL = validateEmbedURL(image_url);
+    if (isValidURL) newEmbed.setImage(image_url);
+
+    if (!isValidURL) hasOneError = `Invalid Image URL - \`${image_url}\``
+    else undefined
+  }
+
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+}
+
+async function executeModalSetFooter(
+  interaction: ModalSubmitInteraction,
+  {
+    footer_text,
+    footer_icon_url
+  }: {
+    footer_text?: string;
+    footer_icon_url?: string;
+  }): Promise<void> {
+
+  const oldEmbed = interaction.message.embeds[0];
+  const newEmbed = new EmbedBuilder(oldEmbed);
+  const hasNoValues = !(footer_text || footer_icon_url);
+  const footerIconURL = footer_icon_url || oldEmbed.data.footer?.icon_url;
+  
+  let hasOneError: string | undefined;
+
+  if (footer_text || footer_icon_url) {
+    const isValidIconURL = validateEmbedURL(footerIconURL);
+
+    newEmbed.setFooter({
+      text: footer_text || oldEmbed.data.footer?.text,
+      iconURL: isValidIconURL ? footerIconURL : undefined
+    });
+
+    if (!isValidIconURL) hasOneError = `Invalid Footer Icon URL - \`${footer_icon_url}\``;
+    else undefined
+  }
+
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+}
+
+async function executeModalSetTimestamp(
+  interaction: ModalSubmitInteraction,
+  { timestamp }: { timestamp?: string; }
+): Promise<void> {
+  
+  const oldEmbed = interaction.message.embeds[0];
+  const newEmbed = new EmbedBuilder(oldEmbed);
+  const hasNoValues = !timestamp;
+  
+  let hasOneError: string | undefined;
+
+  if (timestamp) {
+    if (timestamp.toLowerCase() == 'null') {
+      newEmbed.setTimestamp();
+    } else {
+      const isValidTimestamp = new Date(timestamp).getTime() > 0;
+      if (isValidTimestamp) newEmbed.setTimestamp(new Date(timestamp));
+
+      if (!isValidTimestamp) hasOneError = `Invalid Timestamp - \`${timestamp}\``;
+      else undefined;
+    }
+  }
+
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+}
 
 async function updateEmbedAndSendReply({
   interaction,
