@@ -1,4 +1,5 @@
 export {
   getMessagePayload,
-  registerEmbedBuilderComponents
+  registerEmbedBuilderComponents,
+  getLimitationsEmbed,
 } from './embed.js';

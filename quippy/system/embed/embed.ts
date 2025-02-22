@@ -4,6 +4,7 @@ import {
   ButtonBuilder,
   ButtonInteraction,
   ButtonStyle,
+  ChatInputCommandInteraction,
   ColorResolvable,
   EmbedBuilder,
   Message,
@@ -27,6 +28,7 @@ import {
 } from '@hafemi/quippy.lib.types';
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
+import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
 
 const actionRows = create5x5ButtonActionRows([
   createButton({
@@ -199,4 +201,21 @@ function validateEmbedColor(color: ColorResolvable): boolean {
   } catch {
     return false;
   }
+}
+
+export function getLimitationsEmbed(interaction: ChatInputCommandInteraction): EmbedBuilder {
+  const limitationString = Object.keys(EmbedBuilderLimitations)
+    .filter(key => isNaN(Number(key[0]))) // Filter out numeric keys
+    .map(key => `${key}: ${EmbedBuilderLimitations[key as keyof typeof EmbedBuilderLimitations]}`)
+    .join('\n');
+  
+  return new EmbedBuilder()
+    .setColor(defaultEmbedColor)
+    .setTitle('EmbedBuilder Limitations')
+    .setDescription(`
+      » Numbers represent amount of characters or different fields allowed.
+      » Amount can not be exceeded due to Discord\'s API limitations.
+      
+      ${limitationString}
+    `);
 }
