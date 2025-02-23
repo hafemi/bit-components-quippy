@@ -4,6 +4,7 @@ import {
   ButtonBuilder,
   ButtonInteraction,
   ButtonStyle,
+  codeBlock,
   ColorResolvable,
   EmbedBuilder,
   ModalSubmitInteraction,
@@ -69,6 +70,11 @@ const actionRows = create5x5ButtonActionRows([
     id: EmbedBuilderButtonID.SetTimestamp,
     label: 'Set Timestamp',
     style: ButtonStyle.Secondary,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.AddField,
+    label: 'Add Field',
+    style: ButtonStyle.Secondary,
   })
 ]);
 
@@ -91,6 +97,7 @@ export function registerEmbedBuilderComponents(): void {
   addInteraction(EmbedBuilderButtonID.SetImage, async (interaction: ButtonInteraction) => await executeButtonSetImage(interaction));
   addInteraction(EmbedBuilderButtonID.SetFooter, async (interaction: ButtonInteraction) => await executeButtonSetFooter(interaction));
   addInteraction(EmbedBuilderButtonID.SetTimestamp, async (interaction: ButtonInteraction) => await executeButtonSetTimestamp(interaction));
+  addInteraction(EmbedBuilderButtonID.AddField, async (interaction: ButtonInteraction) => await executeButtonAddField(interaction));
 }
 
 async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<void> {
@@ -298,6 +305,44 @@ async function executeButtonSetTimestamp(interaction: ButtonInteraction): Promis
 
   await interaction.showModal(modalSetTimestamp);
 }
+
+async function executeButtonAddField(interaction: ButtonInteraction): Promise<void> {
+  const modalIdAddField = EmbedBuilderModalID.AddField;
+
+  const modalAddField = wrapperCreateAndRegisterModal({
+    customId: modalIdAddField,
+    title: 'Add Field',
+    executeFunc: executeModalAddField,
+    textInputFields: [
+      {
+        id: 'field_name',
+        label: 'Field Name',
+        placeholder: 'Field Name',
+        style: TextInputStyle.Short,
+        maxLength: EmbedBuilderLimitations.FieldName,
+        required: true
+      },
+      {
+        id: 'field_value',
+        label: 'Field Value',
+        placeholder: 'Field Value',
+        style: TextInputStyle.Paragraph,
+        maxLength: EmbedBuilderLimitations.FieldValue,
+        required: true
+      },
+      {
+        id: 'inline',
+        label: 'Inline',
+        placeholder: 'If you don\'t want it inline, leave this empty',
+        style: TextInputStyle.Short,
+        required: false
+      }
+    ],
+  });
+
+  await interaction.showModal(modalAddField);
+}
+
 async function executeModalSetTitle(
   interaction: ModalSubmitInteraction,
   {
@@ -502,6 +547,39 @@ async function executeModalSetTimestamp(
       if (!isValidTimestamp) hasOneError = `Invalid Timestamp - \`${timestamp}\``;
       else undefined;
     }
+  }
+
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+}
+
+async function executeModalAddField(
+  interaction: ModalSubmitInteraction,
+  {
+    field_name,
+    field_value,
+    inline
+  }: {
+    field_name: string;
+    field_value: string;
+    inline?: string;
+  }): Promise<void> {
+
+  const oldEmbed = interaction.message.embeds[0];
+  const newEmbed = new EmbedBuilder(oldEmbed);
+  const inlineBool = inline ? true : false
+  const hasNoValues = false // automatically false since some fields are required
+  
+  let hasOneError: string | undefined;
+  
+  if (newEmbed.data.fields.length >= EmbedBuilderLimitations.Fields) {
+    const valuesUsed = codeBlock(`Name: ${field_name} \nValue: ${field_value}`)
+    hasOneError = `exceeded the limit of ${EmbedBuilderLimitations.Fields} fields. \n${valuesUsed}`
+  } else if (field_name && field_value) {
+    newEmbed.addFields({
+      name: field_name,
+      value: field_value,
+      inline: inlineBool
+    });
   }
 
   await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });

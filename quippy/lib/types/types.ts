@@ -19,6 +19,7 @@ export enum EmbedBuilderButtonID {
   SetImage = 'embed_builder_button;set_image',
   SetFooter = 'embed_builder_button;set_footer',
   SetTimestamp = 'embed_builder_button;set_timestamp',
+  AddField = 'embed_builder_button;add_field',
 }
 
 export enum EmbedBuilderModalID {
@@ -30,6 +31,7 @@ export enum EmbedBuilderModalID {
   SetImage = 'embed_builder_modal;set_image',
   SetFooter = 'embed_builder_modal;set_footer',
   SetTimestamp = 'embed_builder_modal;set_timestamp',
+  AddField = 'embed_builder_modal;add_field',
 }
 
 export enum EmbedBuilderLimitations {
