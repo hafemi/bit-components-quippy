@@ -635,7 +635,10 @@ async function executeModalAddField(
   
   let hasOneError: string | undefined;
   
-  if (newEmbed.data.fields.length >= EmbedBuilderLimitations.Fields) {
+  if (
+    newEmbed.data.fields &&
+    newEmbed.data.fields.length >= EmbedBuilderLimitations.Fields
+  ) {
     const valuesUsed = codeBlock(`Name: ${field_name} \nValue: ${field_value}`)
     hasOneError = `exceeded the limit of ${EmbedBuilderLimitations.Fields} fields. \n${valuesUsed}`
   } else if (field_name && field_value) {
