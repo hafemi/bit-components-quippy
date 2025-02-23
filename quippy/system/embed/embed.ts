@@ -670,6 +670,7 @@ async function executeModalSubmit(
   let hasOneError: string | undefined;
   
   username = username || 'Quippy';
+  avatar_url = avatar_url || undefined;
 
   if (username || avatar_url) {
     const isValidURL = validateEmbedURL(avatar_url);
