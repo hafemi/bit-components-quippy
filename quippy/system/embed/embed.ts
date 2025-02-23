@@ -575,14 +575,16 @@ async function executeModalSetFooter(
   let hasOneError: string | undefined;
 
   if (footer_text || footer_icon_url) {
-    const isValidIconURL = validateEmbedURL(footerIconURL);
+    const isValidFooterIconURL = validateEmbedURL(footerIconURL);
+    
+    if (isValidFooterIconURL) {
+      newEmbed.setFooter({
+        text: footer_text || oldEmbed.data.footer?.text,
+        iconURL: footerIconURL
+      });
+    }
 
-    newEmbed.setFooter({
-      text: footer_text || oldEmbed.data.footer?.text,
-      iconURL: isValidIconURL ? footerIconURL : undefined
-    });
-
-    if (!isValidIconURL) hasOneError = `Invalid Footer Icon URL - \`${footer_icon_url}\``;
+    if (!isValidFooterIconURL) hasOneError = `Invalid Footer Icon URL - \`${footer_icon_url}\``;
     else undefined
   }
 
