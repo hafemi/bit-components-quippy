@@ -671,21 +671,19 @@ async function executeModalSubmit(
   const newEmbed = new EmbedBuilder(oldEmbed);
   
   let hasOneError: string | undefined;
-  
-  username = username || 'Quippy';
-  avatar_url = avatar_url || undefined;
 
   if (username || avatar_url) {
+    username = username || 'Quippy';
+    avatar_url = avatar_url || undefined;
+    
     const isValidURL = validateEmbedURL(avatar_url);
     hasOneError = !isValidURL ? `Invalid Avatar URL - \`${avatar_url}\`` : undefined;
-  }
-  
-  if (hasOneError) { 
-    await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues: false });
-    return;
-  }
-  
-  if (username || avatar_url) {
+    
+    if (hasOneError) {
+      await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues: false });
+      return;
+    }
+    
     await sendEmbedViaWebhook({ interaction, embed: newEmbed, username: username, avatarURL: avatar_url });
     await interaction.message.delete();
   } else {
