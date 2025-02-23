@@ -8,6 +8,7 @@ import {
   ColorResolvable,
   EmbedBuilder,
   ModalSubmitInteraction,
+  TextChannel,
   TextInputStyle
 } from "discord.js";
 
@@ -75,6 +76,16 @@ const actionRows = create5x5ButtonActionRows([
     id: EmbedBuilderButtonID.AddField,
     label: 'Add Field',
     style: ButtonStyle.Secondary,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.Cancel,
+    label: 'Cancel',
+    style: ButtonStyle.Danger,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.Submit,
+    label: 'Submit',
+    style: ButtonStyle.Success,
   })
 ]);
 
@@ -98,6 +109,8 @@ export function registerEmbedBuilderComponents(): void {
   addInteraction(EmbedBuilderButtonID.SetFooter, async (interaction: ButtonInteraction) => await executeButtonSetFooter(interaction));
   addInteraction(EmbedBuilderButtonID.SetTimestamp, async (interaction: ButtonInteraction) => await executeButtonSetTimestamp(interaction));
   addInteraction(EmbedBuilderButtonID.AddField, async (interaction: ButtonInteraction) => await executeButtonAddField(interaction));
+  addInteraction(EmbedBuilderButtonID.Cancel, async (interaction: ButtonInteraction) => await executeButtonCancel(interaction));
+  addInteraction(EmbedBuilderButtonID.Submit, async (interaction: ButtonInteraction) => await executeButtonSubmit(interaction));
 }
 
 async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<void> {
@@ -343,6 +356,56 @@ async function executeButtonAddField(interaction: ButtonInteraction): Promise<vo
   await interaction.showModal(modalAddField);
 }
 
+async function executeButtonCancel(interaction: ButtonInteraction): Promise<void> {
+  const modalIdCancel = EmbedBuilderModalID.Cancel;
+  
+  const modalCancel = wrapperCreateAndRegisterModal({
+    customId: modalIdCancel,
+    title: 'Cancel',
+    executeFunc: executeModalCancel,
+    textInputFields: [
+      {
+        id: 'cancel',
+        label: 'Are you sure you want to cancel?',
+        value: 'Click the buttons below to choose your decision',
+        placeholder: 'Click the buttons below to choose your decision',
+        style: TextInputStyle.Short,
+        required: false,
+      }
+    ],
+  });
+  
+  await interaction.showModal(modalCancel);
+}
+
+async function executeButtonSubmit(interaction: ButtonInteraction): Promise<void> {
+  const modalIdSubmit = EmbedBuilderModalID.Submit;
+  
+  const modalSubmit = wrapperCreateAndRegisterModal({
+    customId: modalIdSubmit,
+    title: 'Submit',
+    executeFunc: executeModalSubmit,
+    textInputFields: [
+      {
+        id: 'username',
+        label: 'Username',
+        placeholder: 'Quippy',
+        style: TextInputStyle.Short,
+        required: false,
+      },
+      {
+        id: 'avatar_url',
+        label: 'Avatar URL',
+        placeholder: 'https://example.com/avatar.png',
+        style: TextInputStyle.Short,
+        required: false,
+      }
+    ],
+  });
+  
+  await interaction.showModal(modalSubmit);
+}
+
 async function executeModalSetTitle(
   interaction: ModalSubmitInteraction,
   {
@@ -567,7 +630,6 @@ async function executeModalAddField(
   const oldEmbed = interaction.message.embeds[0];
   const newEmbed = new EmbedBuilder(oldEmbed);
   const inlineBool = inline ? true : false
-  const hasNoValues = false // automatically false since some fields are required
   
   let hasOneError: string | undefined;
   
@@ -582,7 +644,49 @@ async function executeModalAddField(
     });
   }
 
-  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues });
+  await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues: false });
+}
+
+async function executeModalCancel(interaction: ModalSubmitInteraction): Promise<void> { 
+  await interaction.message.delete()
+  await InteractionHelper.followUp(interaction, '`Success:` Embed cancelled');
+}
+
+async function executeModalSubmit(
+  interaction: ModalSubmitInteraction,
+  {
+    username,
+    avatar_url
+  }: {
+    username?: string;
+    avatar_url?: string;
+  }): Promise<void> {
+
+  const oldEmbed = interaction.message.embeds[0];
+  const newEmbed = new EmbedBuilder(oldEmbed);
+  
+  let hasOneError: string | undefined;
+  
+  username = username || 'Quippy';
+
+  if (username || avatar_url) {
+    const isValidURL = validateEmbedURL(avatar_url);
+    hasOneError = !isValidURL ? `Invalid Avatar URL - \`${avatar_url}\`` : undefined;
+  }
+  
+  if (hasOneError) { 
+    await updateEmbedAndSendReply({ interaction, newEmbed, hasOneError, hasNoValues: false });
+    return;
+  }
+  
+  if (username || avatar_url) {
+    await sendEmbedViaWebhook({ interaction, embed: newEmbed, username: username, avatarURL: avatar_url });
+    await interaction.message.delete();
+  } else {
+    await interaction.message.edit({ embeds: [newEmbed], components: [] });
+  }
+  
+  await InteractionHelper.followUp(interaction, '`Success:` Embed submitted');
 }
 
 async function updateEmbedAndSendReply({
@@ -645,4 +749,25 @@ export function getLimitationsEmbed(): EmbedBuilder {
       
       ${limitationString}
     `);
+}
+
+async function sendEmbedViaWebhook({
+  interaction,
+  embed,
+  username,
+  avatarURL
+}: {
+  interaction: ModalSubmitInteraction
+  embed: EmbedBuilder,
+  username: string,
+  avatarURL: string
+  }): Promise<void> {
+  const textChannel = interaction.channel as TextChannel;
+  const webhook = await textChannel.createWebhook({
+    name: username,
+    avatar: avatarURL
+  });
+
+  await webhook.send({ embeds: [embed] });
+  await webhook.delete();
 }
