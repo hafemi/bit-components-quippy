@@ -3,6 +3,7 @@ import {
   channelMention,
   ChatInputCommandInteraction,
   InteractionContextType,
+  MessageFlags,
   PermissionFlagsBits,
   SlashCommandBuilder,
   SlashCommandSubcommandsOnlyBuilder
@@ -51,7 +52,7 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
   );
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
-  await interaction.deferReply({ ephemeral: true });
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
   const subcommand = interaction.options.getSubcommand();
 
