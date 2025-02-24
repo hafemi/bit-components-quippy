@@ -1,5 +1,5 @@
 export {
-  getMessagePayload,
+  getStarterEmbed,
   registerEmbedBuilderComponents,
   getLimitationsEmbed,
   getAPIFormatForID

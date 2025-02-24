@@ -11,7 +11,7 @@ import {
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import {
-  getMessagePayload,
+  getStarterEmbed,
   getLimitationsEmbed,
   getAPIFormatForID
 } from "@hafemi/quippy.system.embed";
@@ -64,7 +64,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 }
 
 async function executeCreate(interaction: ChatInputCommandInteraction): Promise<void> {
-  const messagePayload = getMessagePayload();
+  const messagePayload = getStarterEmbed();
   await interaction.channel.send({
     embeds: [messagePayload.emptyEmbed],
     components: [...messagePayload.actionRows]

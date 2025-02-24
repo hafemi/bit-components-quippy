@@ -92,7 +92,7 @@ const actionRows = create5x5ButtonActionRows([
   })
 ]);
 
-export function getMessagePayload(): {
+export function getStarterEmbed(): {
   emptyEmbed: EmbedBuilder,
   actionRows: ActionRowBuilder<ButtonBuilder>[];
 } {
