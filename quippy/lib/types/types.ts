@@ -1,6 +1,6 @@
 import {
   EmbedBuilder
- } from "discord.js";
+} from "discord.js";
 
 // ███████╗███╗░░░███╗██████╗░███████╗██████╗░██████╗░██╗░░░██╗██╗██╗░░░░░██████╗░███████╗██████╗░
 // ██╔════╝████╗░████║██╔══██╗██╔════╝██╔══██╗██╔══██╗██║░░░██║██║██║░░░░░██╔══██╗██╔════╝██╔══██╗
@@ -55,4 +55,4 @@ export type SetAuthorPayload = {
   hasOneError: string | undefined 
   url: string
   iconURL: string
-}
+};

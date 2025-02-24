@@ -4,12 +4,15 @@ import {
   ButtonBuilder,
   ButtonInteraction,
   ButtonStyle,
+  channelMention,
   codeBlock,
   ColorResolvable,
   EmbedBuilder,
   ModalSubmitInteraction,
+  roleMention,
   TextChannel,
-  TextInputStyle
+  TextInputStyle,
+  userMention
 } from "discord.js";
 
 import {
@@ -774,4 +777,15 @@ async function sendEmbedViaWebhook({
 
   await webhook.send({ embeds: [embed] });
   await webhook.delete();
+}
+
+export function getAPIFormatForID(type: string, id: string): string {
+  switch (type) {
+    case 'user':
+      return userMention(id);
+    case 'channel':
+      return channelMention(id)
+    case 'role':
+      return roleMention(id)
+  }
 }

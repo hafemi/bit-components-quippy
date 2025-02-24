@@ -1,3 +1,4 @@
 export { 
-  fetchMessages
+  fetchMessages,
+  capitalizeFirstLetter
  } from './utils.js';

@@ -32,3 +32,7 @@ export async function fetchMessages(channel: TextBasedChannel, amount: number): 
   
   return fetchedMessages
 }
+
+export function capitalizeFirstLetter(val: string): string {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
