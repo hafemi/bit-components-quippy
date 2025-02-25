@@ -32,9 +32,8 @@ import {
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
-import { execute } from "@hafemi/quippy.bot.command.bot";
 
-const actionRows = create5x5ButtonActionRows([
+const configurateActionRows = create5x5ButtonActionRows([
   createButton({
     id: EmbedBuilderButtonID.SetTitle,
     label: 'Set Title',
@@ -54,6 +53,11 @@ const actionRows = create5x5ButtonActionRows([
     id: EmbedBuilderButtonID.SetDescription,
     label: 'Set Description',
     style: ButtonStyle.Secondary,
+  }),
+  createButton({
+    id: EmbedBuilderButtonID.SetContent,
+    label: 'Set Content',
+    style: ButtonStyle.Secondary
   }),
   createButton({
     id: EmbedBuilderButtonID.SetThumbnail,
@@ -79,7 +83,10 @@ const actionRows = create5x5ButtonActionRows([
     id: EmbedBuilderButtonID.AddField,
     label: 'Add Field',
     style: ButtonStyle.Secondary,
-  }),
+  })
+]);
+
+const submitActionRows = create5x5ButtonActionRows([
   createButton({
     id: EmbedBuilderButtonID.Cancel,
     label: 'Cancel',
@@ -99,7 +106,7 @@ export function getStarterEmbed(): {
   const emptyEmbed = new EmbedBuilder()
     .setDescription('Edit me by clicking the buttons below');
 
-  return { emptyEmbed, actionRows };
+  return { emptyEmbed, actionRows: [...configurateActionRows, ...submitActionRows] };
 }
 
 export function registerEmbedBuilderComponents(): void {
@@ -114,6 +121,7 @@ export function registerEmbedBuilderComponents(): void {
   addInteraction(EmbedBuilderButtonID.AddField, async (interaction: ButtonInteraction) => await executeButtonAddField(interaction));
   addInteraction(EmbedBuilderButtonID.Cancel, async (interaction: ButtonInteraction) => await executeButtonCancel(interaction));
   addInteraction(EmbedBuilderButtonID.Submit, async (interaction: ButtonInteraction) => await executeButtonSubmit(interaction));
+  addInteraction(EmbedBuilderButtonID.SetContent, async (interaction: ButtonInteraction) => await executeButtonSetContent(interaction));
 }
 
 async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<void> {
@@ -409,6 +417,28 @@ async function executeButtonSubmit(interaction: ButtonInteraction): Promise<void
   await interaction.showModal(modalSubmit);
 }
 
+async function executeButtonSetContent(interaction: ButtonInteraction): Promise<void> {
+  const modalIdSetContent = EmbedBuilderModalID.SetContent;
+
+  const modalSetContent = wrapperCreateAndRegisterModal({
+    customId: modalIdSetContent,
+    title: 'Set Content',
+    executeFunc: executeModalContent,
+    textInputFields: [
+      {
+        id: 'content',
+        label: 'New Embed Content',
+        placeholder: 'I\'m a fancy content',
+        style: TextInputStyle.Paragraph,
+        maxLength: EmbedBuilderLimitations.Content,
+        required: false
+      }
+    ],
+  });
+
+  await interaction.showModal(modalSetContent);
+}
+
 async function executeModalSetTitle(
   interaction: ModalSubmitInteraction,
   {
@@ -694,6 +724,20 @@ async function executeModalSubmit(
   }
   
   await InteractionHelper.followUp(interaction, '`Success:` Embed submitted');
+}
+
+async function executeModalContent(
+  interaction: ModalSubmitInteraction,
+  { content }: { content?: string; }
+): Promise<void> {
+  
+  if (content.length == 0) {
+    await InteractionHelper.followUp(interaction, '`Info:` No changes made');
+    return;
+  }
+  
+  await interaction.message.edit({ content: content });
+  await InteractionHelper.followUp(interaction, '`Success:` Content updated');
 }
 
 async function updateEmbedAndSendReply({
