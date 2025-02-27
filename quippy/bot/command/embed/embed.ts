@@ -41,12 +41,12 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
     .setName('format')
     .setDescription('Get the API format for an ID')
     .addStringOption(option => option
-      .setName('format_type')
+      .setName('type')
       .setDescription('The type of ID to format')
       .setRequired(true)
       .addChoices(formatStringOptions))
     .addStringOption(option => option
-      .setName('format_id')
+      .setName('id')
       .setDescription('The ID to format')
       .setRequired(true))
   );
@@ -79,8 +79,8 @@ async function executeLimitations(interaction: ChatInputCommandInteraction): Pro
 }
 
 async function executeFormat(interaction: ChatInputCommandInteraction): Promise<void> {
-  const type = interaction.options.getString('format_type');
-  const id = interaction.options.getString('format_id');
+  const type = interaction.options.getString('type');
+  const id = interaction.options.getString('_id');
   const formattedId = getAPIFormatForID(type, id);
   const capitalizedType = capitalizeFirstLetter(type)
   
