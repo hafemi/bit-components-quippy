@@ -80,7 +80,7 @@ async function executeLimitations(interaction: ChatInputCommandInteraction): Pro
 
 async function executeFormat(interaction: ChatInputCommandInteraction): Promise<void> {
   const type = interaction.options.getString('type');
-  const id = interaction.options.getString('_id');
+  const id = interaction.options.getString('id');
   const formattedId = getAPIFormatForID(type, id);
   const capitalizedType = capitalizeFirstLetter(type)
   

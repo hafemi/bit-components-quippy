@@ -33,7 +33,7 @@ function getClientLatency(interaction: ChatInputCommandInteraction): {
 export async function getBotInfoEmbed(interaction: ChatInputCommandInteraction): Promise<EmbedBuilder> {
   const guilds = (await Promise.all((await interaction.client.guilds.fetch()).map(guild => guild.fetch())));
   const guildsCount = guilds.length;
-  const userCount = interaction.client.users.cache.size;
+  const userCount = guilds.reduce((acc, guild) => acc + guild.memberCount, 0);
   const uptime = getBotUptime(interaction);
   const commandCount = await getCommandCount(interaction);
 
