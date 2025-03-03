@@ -1,6 +1,5 @@
 import {
   APIApplicationCommandOptionChoice,
-  channelMention,
   ChatInputCommandInteraction,
   InteractionContextType,
   MessageFlags,
@@ -11,14 +10,13 @@ import {
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import {
-  getStarterEmbed,
-  getLimitationsEmbed,
-  getAPIFormatForID
-} from "@hafemi/quippy.system.embed";
-import {
   capitalizeFirstLetter
-  
- } from "@hafemi/quippy.lib.utils"
+} from "@hafemi/quippy.lib.utils";
+import {
+  getAPIFormatForID,
+  getLimitationsEmbed
+} from "@hafemi/quippy.system.embed";
+import { getStarterEmbed } from "@hafemi/quippy.system.embed-create";
 
 const formatStringOptions: APIApplicationCommandOptionChoice<string>[] = [
   { name: 'User', value: 'user' },

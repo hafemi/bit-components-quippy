@@ -13,13 +13,13 @@ importers:
         version: 2.1.2(react@18.3.1)
       '@cd/core.djs.client':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.components':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.event.interaction-create':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper':
         specifier: ^2.1.20
         version: 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -28,10 +28,10 @@ importers:
         version: 2.1.3(react@18.3.1)
       '@cd/core.logger':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.string-transformer':
         specifier: ^2.1.14
-        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/types.core':
         specifier: ^2.1.14
         version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -68,13 +68,13 @@ importers:
     dependencies:
       '@hafemi/quippy.bot.command.bot':
         specifier: workspace:*
-        version: file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: file:quippy/bot/command/bot(react@18.3.1)
       '@hafemi/quippy.bot.command.embed':
         specifier: workspace:*
         version: file:quippy/bot/command/embed(react@18.3.1)
       '@hafemi/quippy.bot.event.ready':
         specifier: workspace:*
-        version: file:quippy/bot/event/ready(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: file:quippy/bot/event/ready(react@18.3.1)
       '@hafemi/quippy.lib.constants':
         specifier: workspace:*
         version: file:quippy/lib/constants
@@ -90,6 +90,9 @@ importers:
       '@hafemi/quippy.system.embed':
         specifier: workspace:*
         version: file:quippy/system/embed
+      '@hafemi/quippy.system.embed-create':
+        specifier: workspace:*
+        version: file:quippy/system/embed-create
     dependenciesMeta:
       '@hafemi/quippy.bot.command.bot':
         injected: true
@@ -107,12 +110,11 @@ importers:
         injected: true
       '@hafemi/quippy.system.embed':
         injected: true
+      '@hafemi/quippy.system.embed-create':
+        injected: true
 
   quippy/bot/command/bot:
     dependencies:
-      '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.20
-        version: 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -135,9 +137,6 @@ importers:
 
   quippy/bot/command/embed:
     dependencies:
-      '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.20
-        version: 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -160,21 +159,6 @@ importers:
 
   quippy/bot/event/ready:
     dependencies:
-      '@cd/core.database.sequelize.default-connection':
-        specifier: ^2.1.2
-        version: 2.1.2(react@18.3.1)
-      '@cd/core.djs.client':
-        specifier: ^2.1.14
-        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.webhook':
-        specifier: ^2.1.3
-        version: 2.1.3(react@18.3.1)
-      '@cd/core.logger':
-        specifier: ^2.1.14
-        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.utils.string-transformer':
-        specifier: ^2.1.14
-        version: 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -208,6 +192,10 @@ importers:
         version: 12.20.4
 
   quippy/lib/types:
+    dependencies:
+      discord.js:
+        specifier: ^14.18.0
+        version: 14.18.0
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.9
@@ -256,6 +244,18 @@ importers:
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
+    devDependencies:
+      '@babel/runtime':
+        specifier: 7.26.9
+        version: 7.26.9
+      '@types/jest':
+        specifier: 29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: 12.20.4
+        version: 12.20.4
+
+  quippy/system/embed-create:
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.9
@@ -510,6 +510,9 @@ packages:
 
   '@hafemi/quippy.system.bot@file:quippy/system/bot':
     resolution: {directory: quippy/system/bot, type: directory}
+
+  '@hafemi/quippy.system.embed-create@file:quippy/system/embed-create':
+    resolution: {directory: quippy/system/embed-create, type: directory}
 
   '@hafemi/quippy.system.embed@file:quippy/system/embed':
     resolution: {directory: quippy/system/embed, type: directory}
@@ -1803,38 +1806,24 @@ snapshots:
       - supports-color
       - tedious
 
-  '@cd/core.djs.client@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.djs.client@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.event.interaction-create': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.event.ready': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.interaction-create': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.ready': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
       - debug
       - encoding
-      - ffmpeg-static
-      - gcp-metadata
       - ibm_db
-      - immer
-      - kerberos
       - mariadb
-      - mongodb-client-encryption
       - mysql2
-      - node-opus
-      - opusscript
       - oracledb
       - pg
       - pg-hstore
-      - react-dom
-      - snappy
       - snowflake-sdk
-      - socks
       - sqlite3
       - supports-color
       - tedious
@@ -1842,41 +1831,17 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.components@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.djs.components@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
       - debug
       - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - ibm_db
-      - immer
-      - kerberos
-      - mariadb
-      - mongodb-client-encryption
-      - mysql2
-      - node-opus
-      - opusscript
-      - oracledb
-      - pg
-      - pg-hstore
-      - react-dom
-      - snappy
-      - snowflake-sdk
-      - socks
-      - sqlite3
-      - supports-color
-      - tedious
       - utf-8-validate
       - ws
       - zod
@@ -1920,40 +1885,26 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.event.interaction-create@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.djs.event.interaction-create@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.components': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)
+      '@cd/core.djs.components': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.cache': 2.1.2(react@18.3.1)
       '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
       '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
       - debug
       - encoding
-      - ffmpeg-static
-      - gcp-metadata
       - ibm_db
-      - immer
-      - kerberos
       - mariadb
-      - mongodb-client-encryption
       - mysql2
-      - node-opus
-      - opusscript
       - oracledb
       - pg
       - pg-hstore
-      - react-dom
-      - snappy
       - snowflake-sdk
-      - socks
       - sqlite3
       - supports-color
       - tedious
@@ -1961,39 +1912,25 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.event.ready@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.djs.event.ready@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.components': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.event.interaction-create': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)
+      '@cd/core.djs.components': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.interaction-create': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
       - debug
       - encoding
-      - ffmpeg-static
-      - gcp-metadata
       - ibm_db
-      - immer
-      - kerberos
       - mariadb
-      - mongodb-client-encryption
       - mysql2
-      - node-opus
-      - opusscript
       - oracledb
       - pg
       - pg-hstore
-      - react-dom
-      - snappy
       - snowflake-sdk
-      - socks
       - sqlite3
       - supports-color
       - tedious
@@ -2001,17 +1938,19 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.interaction-helper@2.1.14(react@18.3.1)':
+  '@cd/core.djs.interaction-helper@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.components': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.components': 2.1.14(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.14(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
       sequelize: 6.37.5(mysql2@3.12.0)
     transitivePeerDependencies:
       - bufferutil
+      - debug
+      - encoding
       - ibm_db
       - mariadb
       - mysql2
@@ -2023,6 +1962,8 @@ snapshots:
       - supports-color
       - tedious
       - utf-8-validate
+      - ws
+      - zod
 
   '@cd/core.djs.interaction-helper@2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
@@ -2093,40 +2034,16 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@cd/core.logger@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.logger@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.winston-transports.discord': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.winston-transports.discord': 2.1.14(react@18.3.1)(ws@8.18.0)
       react: 18.3.1
       winston: 3.17.0
       winston-daily-rotate-file: 5.0.0(winston@3.17.0)
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
       - debug
       - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - ibm_db
-      - immer
-      - kerberos
-      - mariadb
-      - mongodb-client-encryption
-      - mysql2
-      - node-opus
-      - opusscript
-      - oracledb
-      - pg
-      - pg-hstore
-      - react-dom
-      - snappy
-      - snowflake-sdk
-      - socks
-      - sqlite3
-      - supports-color
-      - tedious
       - utf-8-validate
       - ws
       - zod
@@ -2191,9 +2108,9 @@ snapshots:
 
   '@cd/core.utils.response-handler-factory@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)
+      '@cd/core.djs.interaction-helper': 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.indranet.service.axios': 1.1.3(react@18.3.1)
-      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.error-handler': 3.1.2(react@18.3.1)
       '@cd/types.api': 1.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -2265,39 +2182,14 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.utils.string-transformer@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.utils.string-transformer@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       json-bigint: 1.0.0
       react: 18.3.1
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
-      - debug
       - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - ibm_db
-      - immer
-      - kerberos
-      - mariadb
-      - mongodb-client-encryption
-      - mysql2
-      - node-opus
-      - opusscript
-      - oracledb
-      - pg
-      - pg-hstore
-      - react-dom
-      - snappy
-      - snowflake-sdk
-      - socks
-      - sqlite3
-      - supports-color
-      - tedious
       - utf-8-validate
       - ws
       - zod
@@ -2339,42 +2231,18 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.winston-transports.discord@2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.winston-transports.discord@2.1.14(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.14(react@18.3.1)(ws@8.18.0)
       '@cd/types.core': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       axios: 1.7.9
       axios-retry: 4.5.0(axios@1.7.9)
       react: 18.3.1
       winston-transport: 4.9.0
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
       - debug
       - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - ibm_db
-      - immer
-      - kerberos
-      - mariadb
-      - mongodb-client-encryption
-      - mysql2
-      - node-opus
-      - opusscript
-      - oracledb
-      - pg
-      - pg-hstore
-      - react-dom
-      - snappy
-      - snowflake-sdk
-      - socks
-      - sqlite3
-      - supports-color
-      - tedious
       - utf-8-validate
       - ws
       - zod
@@ -2805,111 +2673,44 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hafemi/quippy.bot.command.bot@file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@hafemi/quippy.bot.command.bot@file:quippy/bot/command/bot(react@18.3.1)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.bot': file:quippy/system/bot
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
-      - debug
-      - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - ibm_db
-      - immer
-      - kerberos
-      - mariadb
-      - mongodb-client-encryption
-      - mysql2
-      - node-opus
-      - opusscript
-      - oracledb
-      - pg
-      - pg-hstore
-      - react-dom
-      - snappy
-      - snowflake-sdk
-      - socks
-      - sqlite3
-      - supports-color
-      - tedious
       - utf-8-validate
-      - ws
-      - zod
 
   '@hafemi/quippy.bot.command.embed@file:quippy/bot/command/embed(react@18.3.1)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.lib.constants': file:quippy/lib/constants
+      '@hafemi/quippy.lib.utils': file:quippy/lib/utils
       '@hafemi/quippy.system.embed': file:quippy/system/embed
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
       - bufferutil
-      - ibm_db
-      - mariadb
-      - mysql2
-      - oracledb
-      - pg
-      - pg-hstore
-      - snowflake-sdk
-      - sqlite3
-      - supports-color
-      - tedious
       - utf-8-validate
 
-  '@hafemi/quippy.bot.event.ready@file:quippy/bot/event/ready(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@hafemi/quippy.bot.event.ready@file:quippy/bot/event/ready(react@18.3.1)':
     dependencies:
-      '@cd/core.database.sequelize.default-connection': 2.1.2(react@18.3.1)
-      '@cd/core.djs.client': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.webhook': 2.1.3(react@18.3.1)
-      '@cd/core.logger': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.utils.string-transformer': 2.1.14(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.bot.command.bot': file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.bot.command.bot': file:quippy/bot/command/bot(react@18.3.1)
       '@hafemi/quippy.bot.command.embed': file:quippy/bot/command/embed(react@18.3.1)
+      '@hafemi/quippy.system.embed': file:quippy/system/embed
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
       - bufferutil
-      - debug
-      - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - ibm_db
-      - immer
-      - kerberos
-      - mariadb
-      - mongodb-client-encryption
-      - mysql2
-      - node-opus
-      - opusscript
-      - oracledb
-      - pg
-      - pg-hstore
-      - react-dom
-      - snappy
-      - snowflake-sdk
-      - socks
-      - sqlite3
-      - supports-color
-      - tedious
       - utf-8-validate
-      - ws
-      - zod
 
   '@hafemi/quippy.lib.constants@file:quippy/lib/constants': {}
 
-  '@hafemi/quippy.lib.types@file:quippy/lib/types': {}
+  '@hafemi/quippy.lib.types@file:quippy/lib/types':
+    dependencies:
+      discord.js: 14.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   '@hafemi/quippy.lib.utils@file:quippy/lib/utils':
     dependencies:
@@ -2926,10 +2727,12 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
+  '@hafemi/quippy.system.embed-create@file:quippy/system/embed-create': {}
+
   '@hafemi/quippy.system.embed@file:quippy/system/embed':
     dependencies:
       '@hafemi/quippy.lib.constants': file:quippy/lib/constants
-      '@hafemi/quippy.lib.utils': file:quippy/lib/utils
+      '@hafemi/quippy.lib.types': file:quippy/lib/types
       discord.js: 14.18.0
     transitivePeerDependencies:
       - bufferutil

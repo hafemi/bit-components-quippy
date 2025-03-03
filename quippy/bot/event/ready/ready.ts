@@ -3,8 +3,8 @@ import * as ClientHelper from '@cd/core.djs.client';
 import { sendJSONToWebhook } from '@cd/core.djs.webhook';
 import { log } from '@cd/core.logger';
 import { replacePlaceholders } from '@cd/core.utils.string-transformer';
+import { registerEmbedBuilderComponents } from '@hafemi/quippy.system.embed-create';
 import { Client, Events } from 'discord.js';
-import { registerEmbedBuilderComponents } from '@hafemi/quippy.system.embed';
 
 //Command modules
 import '@hafemi/quippy.bot.command.bot';
