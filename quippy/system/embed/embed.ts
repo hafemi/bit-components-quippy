@@ -13,10 +13,15 @@ import {
 import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
 
 export function getLimitationsEmbed(): EmbedBuilder {
-  const limitationString = Object.keys(EmbedBuilderLimitations)
-    .filter(key => isNaN(Number(key[0]))) // Filter out numeric keys
-    .map(key => `${key}: ${EmbedBuilderLimitations[key as keyof typeof EmbedBuilderLimitations]}`)
-    .join('\n');
+  let field1Content = '';
+  let field2Content = '';
+  
+  for (const key in EmbedBuilderLimitations) {
+    if (isNaN(Number(key[0]))) {
+      field1Content += `${key}\n`;
+      field2Content += `${EmbedBuilderLimitations[key as keyof typeof EmbedBuilderLimitations]}\n`;
+    }
+  }
 
   return new EmbedBuilder()
     .setColor(defaultEmbedColor)
@@ -24,9 +29,11 @@ export function getLimitationsEmbed(): EmbedBuilder {
     .setDescription(`
       » Numbers represent amount of characters or different fields allowed.
       » Amount can not be exceeded due to Discord\'s API limitations.
-      
-      ${limitationString}
-    `);
+    `)
+    .addFields(
+      { name: 'Field', value: field1Content, inline: true },
+      { name: 'Limit', value: field2Content, inline: true }
+    );
 }
 
 export function getAPIFormatForID(type: string, id: string): string {
