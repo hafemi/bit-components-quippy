@@ -16,7 +16,8 @@ import {
 import {
   getAPIFormatForID,
   getLimitationsEmbed,
-  sendEmbedDataAsAttachment
+  sendEmbedDataAsAttachment,
+  sendEmbedFromAttachmentData
 } from "@hafemi/quippy.system.embed";
 import { getStarterEmbed } from "@hafemi/quippy.system.embed-create";
 
@@ -55,6 +56,13 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
     .addStringOption(option => option
       .setName('id')
       .setDescription('The Message ID to export the embed\'s from')
+      .setRequired(true)))
+  .addSubcommand(subcommand => subcommand
+    .setName('import')
+    .setDescription('Import an embed')
+    .addAttachmentOption(option => option
+      .setName('file')
+      .setDescription('The file to import')
       .setRequired(true)));
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -66,6 +74,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (subcommand == 'limitations') return await executeLimitations(interaction);
   if (subcommand == 'format') return await executeFormat(interaction);
   if (subcommand == 'export') return await executeExport(interaction);
+  if (subcommand == 'import') return await executeImport(interaction);
 
   await InteractionHelper.followUp(interaction, '`Error:` Unknown subcommand \'' + subcommand + '\'');
 }
@@ -89,19 +98,31 @@ async function executeFormat(interaction: ChatInputCommandInteraction): Promise<
   const type = interaction.options.getString('type');
   const id = interaction.options.getString('id');
   const formattedId = getAPIFormatForID(type, id);
-  const capitalizedType = capitalizeFirstLetter(type)
-  
+  const capitalizedType = capitalizeFirstLetter(type);
+
   await InteractionHelper.followUp(interaction, `\`Success:\` Formatted ${capitalizedType} ID: \`${formattedId}\``);
 }
 
 async function executeExport(interaction: ChatInputCommandInteraction): Promise<void> {
   const messageID = interaction.options.getString('id');
   const optionalMessage = await fetchMessageById({ channel: interaction.channel, messageId: messageID });
-  
+
   if (!optionalMessage) {
     await InteractionHelper.followUp(interaction, '`Error:` Message not found');
     return;
   }
-  
+
   await sendEmbedDataAsAttachment(interaction, optionalMessage.embeds);
+}
+
+async function executeImport(interaction: ChatInputCommandInteraction): Promise<void> {
+  const attachment = interaction.options.getAttachment('file');
+  const maybeResponse = await sendEmbedFromAttachmentData(interaction, attachment);
+
+  if (maybeResponse) {
+    await InteractionHelper.followUp(interaction, maybeResponse);
+  } else {
+    await InteractionHelper.followUp(interaction, '`Success:` Embed\'s imported');
+  }
+
 }
