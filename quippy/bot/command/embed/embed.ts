@@ -10,13 +10,12 @@ import {
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import {
-  capitalizeFirstLetter,
-  fetchMessageById
+  capitalizeFirstLetter
 } from "@hafemi/quippy.lib.utils";
 import {
   getAPIFormatForID,
   getLimitationsEmbed,
-  sendEmbedDataAsAttachment,
+  handleEmbedExport,
   sendEmbedFromAttachmentData
 } from "@hafemi/quippy.system.embed";
 import { getStarterEmbed } from "@hafemi/quippy.system.embed-create";
@@ -76,7 +75,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (subcommand == 'export') return await executeExport(interaction);
   if (subcommand == 'import') return await executeImport(interaction);
 
-  await InteractionHelper.followUp(interaction, '`Error:` Unknown subcommand \'' + subcommand + '\'');
+  await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
 }
 
 async function executeCreate(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -105,14 +104,11 @@ async function executeFormat(interaction: ChatInputCommandInteraction): Promise<
 
 async function executeExport(interaction: ChatInputCommandInteraction): Promise<void> {
   const messageID = interaction.options.getString('id');
-  const optionalMessage = await fetchMessageById({ channel: interaction.channel, messageId: messageID });
+  const maybeResponse = await handleEmbedExport(interaction, messageID);
 
-  if (!optionalMessage) {
-    await InteractionHelper.followUp(interaction, '`Error:` Message not found');
-    return;
+  if (maybeResponse) {
+    await InteractionHelper.followUp(interaction, maybeResponse);
   }
-
-  await sendEmbedDataAsAttachment(interaction, optionalMessage.embeds);
 }
 
 async function executeImport(interaction: ChatInputCommandInteraction): Promise<void> {

@@ -1,6 +1,6 @@
 export {
   getLimitationsEmbed,
   getAPIFormatForID,
-  sendEmbedDataAsAttachment,
+  handleEmbedExport,
   sendEmbedFromAttachmentData
 } from './embed.js';

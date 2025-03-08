@@ -20,6 +20,7 @@ import {
 import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
+import { fetchMessageById } from "@hafemi/quippy.lib.utils";
 
 export function getLimitationsEmbed(): EmbedBuilder {
   let field1Content = '';
@@ -56,7 +57,16 @@ export function getAPIFormatForID(type: string, id: string): string {
   }
 }
 
-export async function sendEmbedDataAsAttachment(interaction: ChatInputCommandInteraction, embeds: Embed[]): Promise<void> {
+export async function handleEmbedExport(interaction: ChatInputCommandInteraction, messageId: string): Promise<string | undefined> {
+  const message = await fetchMessageById({ channel: interaction.channel, messageId });
+  
+  if (!message) return `\`Error:\` Message with ID \`${messageId}\` not found`;
+  if (!message.embeds.length) return `\`Error:\` Message with ID \`${messageId}\` has no embeds`;
+  
+  await sendEmbedDataAsAttachment(interaction, message.embeds);
+}
+  
+async function sendEmbedDataAsAttachment(interaction: ChatInputCommandInteraction, embeds: Embed[]): Promise<void> {
   const embedString = JSON.stringify(embeds, null, 2);
   const attachment = createAttachmentFromString(embedString, 'embeds.json');
   await InteractionHelper.followUp(interaction, { files: [attachment] });
