@@ -5,18 +5,20 @@ import {
   MessageFlags,
   PermissionFlagsBits,
   SlashCommandBuilder,
-  SlashCommandSubcommandsOnlyBuilder
+  SlashCommandSubcommandsOnlyBuilder,
 } from "discord.js";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import {
-  capitalizeFirstLetter
+  capitalizeFirstLetter,
+  fetchMessageById
 } from "@hafemi/quippy.lib.utils";
 import {
   getAPIFormatForID,
   getLimitationsEmbed
 } from "@hafemi/quippy.system.embed";
 import { getStarterEmbed } from "@hafemi/quippy.system.embed-create";
+import { createAttachmentFromString } from "@cd/core.djs.attachment"
 
 const formatStringOptions: APIApplicationCommandOptionChoice<string>[] = [
   { name: 'User', value: 'user' },
@@ -46,8 +48,14 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
     .addStringOption(option => option
       .setName('id')
       .setDescription('The ID to format')
-      .setRequired(true))
-  );
+      .setRequired(true)))
+  .addSubcommand(subcommand => subcommand
+    .setName('export')
+    .setDescription('Export the embed\'s from a message')
+    .addStringOption(option => option
+      .setName('id')
+      .setDescription('The Message ID to export the embed\'s from')
+      .setRequired(true)));
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
@@ -57,6 +65,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (subcommand == 'create') return await executeCreate(interaction);
   if (subcommand == 'limitations') return await executeLimitations(interaction);
   if (subcommand == 'format') return await executeFormat(interaction);
+  if (subcommand == 'export') return await executeExport(interaction);
 
   await InteractionHelper.followUp(interaction, '`Error:` Unknown subcommand \'' + subcommand + '\'');
 }
@@ -83,5 +92,18 @@ async function executeFormat(interaction: ChatInputCommandInteraction): Promise<
   const capitalizedType = capitalizeFirstLetter(type)
   
   await InteractionHelper.followUp(interaction, `\`Success:\` Formatted ${capitalizedType} ID: \`${formattedId}\``);
+}
 
+async function executeExport(interaction: ChatInputCommandInteraction): Promise<void> {
+  const messageID = interaction.options.getString('id');
+  const optionalMessage = await fetchMessageById({ channel: interaction.channel, messageId: messageID });
+  
+  if (!optionalMessage) {
+    await InteractionHelper.followUp(interaction, '`Error:` Message not found');
+    return;
+  }
+  
+  const embedString = JSON.stringify(optionalMessage.embeds, null, 2);
+  const attachment = createAttachmentFromString(embedString, `${messageID}-embeds.json`);
+  await InteractionHelper.followUp(interaction, { files: [attachment] });
 }
