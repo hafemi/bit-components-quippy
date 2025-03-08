@@ -15,10 +15,10 @@ import {
 } from "@hafemi/quippy.lib.utils";
 import {
   getAPIFormatForID,
-  getLimitationsEmbed
+  getLimitationsEmbed,
+  sendEmbedDataAsAttachment
 } from "@hafemi/quippy.system.embed";
 import { getStarterEmbed } from "@hafemi/quippy.system.embed-create";
-import { createAttachmentFromString } from "@cd/core.djs.attachment"
 
 const formatStringOptions: APIApplicationCommandOptionChoice<string>[] = [
   { name: 'User', value: 'user' },
@@ -103,7 +103,5 @@ async function executeExport(interaction: ChatInputCommandInteraction): Promise<
     return;
   }
   
-  const embedString = JSON.stringify(optionalMessage.embeds, null, 2);
-  const attachment = createAttachmentFromString(embedString, `${messageID}-embeds.json`);
-  await InteractionHelper.followUp(interaction, { files: [attachment] });
+  await sendEmbedDataAsAttachment(interaction, optionalMessage.embeds);
 }

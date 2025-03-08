@@ -1,6 +1,8 @@
 
 import {
   channelMention,
+  ChatInputCommandInteraction,
+  Embed,
   EmbedBuilder,
   roleMention,
   userMention
@@ -11,6 +13,9 @@ import {
 } from '@hafemi/quippy.lib.types';
 
 import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
+import { createAttachmentFromString } from "@cd/core.djs.attachment"
+
+import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
 export function getLimitationsEmbed(): EmbedBuilder {
   let field1Content = '';
@@ -45,4 +50,10 @@ export function getAPIFormatForID(type: string, id: string): string {
     case 'role':
       return roleMention(id)
   }
+}
+
+export async function sendEmbedDataAsAttachment(interaction: ChatInputCommandInteraction, embeds: Embed[]): Promise<void> {
+  const embedString = JSON.stringify(embeds, null, 2);
+  const attachment = createAttachmentFromString(embedString, 'embeds.json');
+  await InteractionHelper.followUp(interaction, { files: [attachment] });
 }
