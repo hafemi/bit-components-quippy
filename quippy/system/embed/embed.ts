@@ -73,15 +73,17 @@ async function sendEmbedDataAsAttachment(interaction: ChatInputCommandInteractio
 }
 
 export async function sendEmbedFromAttachmentData(interaction: ChatInputCommandInteraction, attachment: Attachment): Promise<string | undefined> {
-  const attachmentContent = await getTextFromAttachment(attachment);
   try {
+    const attachmentContent = await getTextFromAttachment(attachment);
     const embeds = JSON.parse(attachmentContent);
     await interaction.channel.send({ embeds });
 
   } catch (err) {
-    if (err.message.includes('not valid JSON')) {
-      return '`Error:` Invalid JSON format in attachment';
+    switch (true) {
+      case err.message.includes('not valid JSON'): return '`Error:` Invalid JSON format in attachment';
+      case err.message.includes('non-text type attachment'): return '`Error:` Attachment is not a text file';
+      case (err.message.includes('description[BASE_TYPE_REQUIRED]')): return '`Error:` Embed description is required';
+      default: throw new Error(`\`Error:\` Something went wrong while sending the attachment ${err}`);
     }
-    throw new Error(`\`Error:\` Something went wrong while sending the attachment ${err}`);
   }
 }
