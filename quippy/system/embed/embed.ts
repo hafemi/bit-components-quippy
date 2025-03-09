@@ -48,24 +48,23 @@ export function getLimitationsEmbed(): EmbedBuilder {
 
 export function getAPIFormatForID(type: string, id: string): string {
   switch (type) {
-    case 'user':
-      return userMention(id);
-    case 'channel':
-      return channelMention(id);
-    case 'role':
-      return roleMention(id);
+    case 'user': return userMention(id);
+    case 'channel': return channelMention(id);
+    case 'role': return roleMention(id);
   }
 }
 
 export async function handleEmbedExport(interaction: ChatInputCommandInteraction, messageId: string): Promise<string | undefined> {
   const message = await fetchMessageById({ channel: interaction.channel, messageId });
   
-  if (!message) return `\`Error:\` Message with ID \`${messageId}\` not found`;
-  if (!message.embeds.length) return `\`Error:\` Message with ID \`${messageId}\` has no embeds`;
+  switch (true) {
+    case !message: return `\`Error:\` Message with ID \`${messageId}\` not found`;
+    case !message.embeds.length: return `\`Error:\` Message with ID \`${messageId}\` has no embeds`;
+  }
   
   await sendEmbedDataAsAttachment(interaction, message.embeds);
 }
-  
+
 async function sendEmbedDataAsAttachment(interaction: ChatInputCommandInteraction, embeds: Embed[]): Promise<void> {
   const embedString = JSON.stringify(embeds, null, 2);
   const attachment = createAttachmentFromString(embedString, 'embeds.json');
@@ -79,10 +78,11 @@ export async function sendEmbedFromAttachmentData(interaction: ChatInputCommandI
     await interaction.channel.send({ embeds });
 
   } catch (err) {
+    const msg = err.message
     switch (true) {
-      case err.message.includes('not valid JSON'): return '`Error:` Invalid JSON format in attachment';
-      case err.message.includes('non-text type attachment'): return '`Error:` Attachment is not a text file';
-      case err.message.includes('description[BASE_TYPE_REQUIRED]'): return '`Error:` Embed description is required';
+      case msg.includes('not valid JSON'): return '`Error:` Invalid JSON format in attachment';
+      case msg.includes('non-text type attachment'): return '`Error:` Attachment is not a text file';
+      case msg.includes('description[BASE_TYPE_REQUIRED]'): return '`Error:` Embed description is required';
       default: throw new Error(`\`Error:\` Something went wrong while sending the attachment ${err}`);
     }
   }
