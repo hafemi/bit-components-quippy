@@ -8,7 +8,8 @@ import {
 } from "discord.js";
 
 import {
-  handleTicketCreation
+  getTicketTypesEmbed,
+  handleTicketTypeCreation
 } from "@hafemi/quippy.system.ticket-system.command";
 
 import { validateUserPermission } from "@hafemi/quippy.lib.utils";
@@ -37,6 +38,9 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
         .setName('prefix')
         .setDescription('Prefix used when creating tickets')
         .setRequired(true)))
+    .addSubcommand(subcommand => subcommand
+      .setName('list')
+      .setDescription('List all ticket types of this server'))
   )
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -51,6 +55,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     }
     
     if (subcommand == 'add') return await executeTypeAdd(interaction);
+    if (subcommand == 'list') return await executeTypeList(interaction);
   }
 
   await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
@@ -63,9 +68,19 @@ async function executeTypeAdd(interaction: ChatInputCommandInteraction): Promise
   const role = interaction.options.getRole('role');
   const prefix = interaction.options.getString('prefix');
   
-  const maybeResponse = await handleTicketCreation({ interaction, name, role, prefix });
+  const maybeResponse = await handleTicketTypeCreation({ interaction, name, role, prefix });
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else 
     await InteractionHelper.followUp(interaction, '`Success:` Ticket type added');
+}
+
+async function executeTypeList(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+  
+  const maybeEmbed = await getTicketTypesEmbed(interaction.guildId);
+  if (maybeEmbed)
+    await InteractionHelper.followUp(interaction, {embeds: [maybeEmbed] });
+  else 
+    await InteractionHelper.followUp(interaction, '`Info:` This Server has no ticket types');
 }

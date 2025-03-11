@@ -1,18 +1,17 @@
 import {
   APIRole,
   ChatInputCommandInteraction,
+  EmbedBuilder,
   Role
 } from "discord.js";
 
-import {
-  TicketType
-} from "@hafemi/quippy.system.ticket-system.database-definition";
+import { TicketType } from "@hafemi/quippy.system.ticket-system.database-definition";
 
-import {
-  TicketSystemLimitations
- } from "@hafemi/quippy.lib.types";
+import { TicketSystemLimitations } from "@hafemi/quippy.lib.types";
+ 
+import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
 
-export async function handleTicketCreation({
+export async function handleTicketTypeCreation({
   interaction,
   name,
   role,
@@ -46,4 +45,23 @@ export async function handleTicketCreation({
     roleID: role.id,
     prefix
   });
+}
+
+export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder | undefined> {
+  const ticketTypes = await TicketType.findAll({ where: { guildID } });
+  if (ticketTypes.length == 0) return;
+  
+  const nameFieldValue = ticketTypes.map(type => type.typeName);
+  const roleFieldValue = ticketTypes.map(type => `<@&${type.roleID}>`);
+  const prefixFieldValue = ticketTypes.map(type => type.prefix);
+  
+  return new EmbedBuilder()
+    .setTitle('Ticket Types')
+    .setColor(defaultEmbedColor)
+    .setDescription('List of all ticket types of this server')
+    .addFields(
+      { name: 'Name', value: nameFieldValue.join('\n'), inline: true },
+      { name: 'Role', value: roleFieldValue.join('\n'), inline: true },
+      { name: 'Prefix', value: prefixFieldValue.join('\n'), inline: true }
+    );
 }
