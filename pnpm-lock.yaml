@@ -78,6 +78,9 @@ importers:
       '@hafemi/quippy.bot.event.ready':
         specifier: workspace:*
         version: file:quippy/bot/event/ready(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.lib.bit-components.slashcommand-subcommands':
+        specifier: workspace:*
+        version: file:quippy/lib/bit-components/slashcommand-subcommands
       '@hafemi/quippy.lib.constants':
         specifier: workspace:*
         version: file:quippy/lib/constants
@@ -92,7 +95,7 @@ importers:
         version: file:quippy/system/bot
       '@hafemi/quippy.system.embed':
         specifier: workspace:*
-        version: file:quippy/system/embed
+        version: file:quippy/system/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.embed-create':
         specifier: workspace:*
         version: file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -102,6 +105,8 @@ importers:
       '@hafemi/quippy.bot.command.embed':
         injected: true
       '@hafemi/quippy.bot.event.ready':
+        injected: true
+      '@hafemi/quippy.lib.bit-components.slashcommand-subcommands':
         injected: true
       '@hafemi/quippy.lib.constants':
         injected: true
@@ -143,9 +148,6 @@ importers:
 
   quippy/bot/command/embed:
     dependencies:
-      '@cd/core.djs.attachment':
-        specifier: ^2.1.38
-        version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper':
         specifier: ^2.1.38
         version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -205,6 +207,18 @@ importers:
       '@types/react':
         specifier: ^18.3.3
         version: 18.3.18
+
+  quippy/lib/bit-components/slashcommand-subcommands:
+    devDependencies:
+      '@babel/runtime':
+        specifier: 7.26.9
+        version: 7.26.9
+      '@types/jest':
+        specifier: 29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: 12.20.4
+        version: 12.20.4
 
   quippy/lib/constants:
     devDependencies:
@@ -268,6 +282,12 @@ importers:
 
   quippy/system/embed:
     dependencies:
+      '@cd/core.djs.attachment':
+        specifier: ^2.1.38
+        version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper':
+        specifier: ^2.1.38
+        version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -468,6 +488,9 @@ packages:
     resolution: {directory: quippy/bot/event/ready, type: directory}
     peerDependencies:
       react: ^18.3.1
+
+  '@hafemi/quippy.lib.bit-components.slashcommand-subcommands@file:quippy/lib/bit-components/slashcommand-subcommands':
+    resolution: {directory: quippy/lib/bit-components/slashcommand-subcommands, type: directory}
 
   '@hafemi/quippy.lib.constants@file:quippy/lib/constants':
     resolution: {directory: quippy/lib/constants, type: directory}
@@ -2325,10 +2348,9 @@ snapshots:
 
   '@hafemi/quippy.bot.command.embed@file:quippy/bot/command/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.attachment': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.lib.utils': file:quippy/lib/utils
-      '@hafemi/quippy.system.embed': file:quippy/system/embed
+      '@hafemi/quippy.system.embed': file:quippy/system/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.embed-create': file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
@@ -2408,6 +2430,8 @@ snapshots:
       - ws
       - zod
 
+  '@hafemi/quippy.lib.bit-components.slashcommand-subcommands@file:quippy/lib/bit-components/slashcommand-subcommands': {}
+
   '@hafemi/quippy.lib.constants@file:quippy/lib/constants': {}
 
   '@hafemi/quippy.lib.types@file:quippy/lib/types':
@@ -2472,14 +2496,46 @@ snapshots:
       - ws
       - zod
 
-  '@hafemi/quippy.system.embed@file:quippy/system/embed':
+  '@hafemi/quippy.system.embed@file:quippy/system/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
+      '@cd/core.djs.attachment': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.lib.constants': file:quippy/lib/constants
       '@hafemi/quippy.lib.types': file:quippy/lib/types
+      '@hafemi/quippy.lib.utils': file:quippy/lib/utils
       discord.js: 14.18.0
     transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
       - bufferutil
+      - debug
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - ibm_db
+      - immer
+      - kerberos
+      - mariadb
+      - mongodb-client-encryption
+      - mysql2
+      - node-opus
+      - opusscript
+      - oracledb
+      - pg
+      - pg-hstore
+      - react
+      - react-dom
+      - snappy
+      - snowflake-sdk
+      - socks
+      - sqlite3
+      - supports-color
+      - tedious
       - utf-8-validate
+      - ws
+      - zod
 
   '@hapi/hoek@9.3.0': {}
 
