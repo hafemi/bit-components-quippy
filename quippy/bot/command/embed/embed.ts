@@ -65,8 +65,6 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
       .setRequired(true)));
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
-  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-
   const subcommand = interaction.options.getSubcommand();
 
   if (subcommand == 'create') return await executeCreate(interaction);
@@ -79,6 +77,8 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 }
 
 async function executeCreate(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+  
   const messagePayload = getStarterEmbed();
   await interaction.channel.send({
     embeds: [messagePayload.emptyEmbed],
@@ -89,11 +89,15 @@ async function executeCreate(interaction: ChatInputCommandInteraction): Promise<
 }
 
 async function executeLimitations(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
   const embed = getLimitationsEmbed();
   await InteractionHelper.followUp(interaction, { embeds: [embed] });
 }
 
 async function executeFormat(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
   const type = interaction.options.getString('type');
   const id = interaction.options.getString('id');
   const formattedId = getAPIFormatForID(type, id);
@@ -103,6 +107,8 @@ async function executeFormat(interaction: ChatInputCommandInteraction): Promise<
 }
 
 async function executeExport(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
   const messageID = interaction.options.getString('id');
   const maybeResponse = await handleEmbedExport(interaction, messageID);
 
@@ -112,6 +118,8 @@ async function executeExport(interaction: ChatInputCommandInteraction): Promise<
 }
 
 async function executeImport(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
   const attachment = interaction.options.getAttachment('file');
   const maybeResponse = await sendEmbedFromAttachmentData(interaction, attachment);
 

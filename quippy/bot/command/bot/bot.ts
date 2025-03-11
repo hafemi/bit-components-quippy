@@ -25,7 +25,6 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
     .setDescription('Get information about the bot'));
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
-  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
   const subcommand = interaction.options.getSubcommand();
 
   if (subcommand == 'latency') return await executeLatency(interaction);
@@ -35,11 +34,15 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 }
 
 async function executeLatency(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+  
   const latencyEmbed = getClientLatencyWithinEmbed(interaction);
   await InteractionHelper.followUp(interaction, { embeds: [latencyEmbed] });
 }
 
 async function executeInfo(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+  
   const infoEmbed = await getBotInfoEmbed(interaction);
   await InteractionHelper.followUp(interaction, { embeds: [infoEmbed] });
 }
