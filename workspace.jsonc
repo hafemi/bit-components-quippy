@@ -56,11 +56,13 @@
     "policy": {
       "dependencies": {
         "@cd/core.database.sequelize.default-connection": "^2.1.4",
+        "@cd/core.database.util.uuid-handler": "^2.1.5",
         "@cd/core.djs.attachment": "^2.1.38",
         "@cd/core.djs.client": "^2.1.38",
         "@cd/core.djs.components": "^2.1.38",
         "@cd/core.djs.event.interaction-create": "^2.1.38",
-        "@cd/core.djs.interaction-helper": "^2.1.38",
+        "@cd/core.djs.interaction-helper": "^2.1.39",
+        "@cd/core.djs.member": "^2.1.20",
         "@cd/core.djs.webhook": "^2.1.4",
         "@cd/core.logger": "^2.1.38",
         "@cd/core.utils.string-transformer": "^2.1.38",
@@ -71,7 +73,8 @@
         "discord.js": "^14.18.0",
         "dotenv": "^16.4.7",
         "dotenv-safe": "^9.1.0",
-        "mysql": "^2.18.1"
+        "mysql": "^2.18.1",
+        "sequelize": "^6.37.5"
       },
       "peerDependencies": {
         "react": "^18.3.1"

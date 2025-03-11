@@ -1,4 +1,5 @@
 export { 
   capitalizeFirstLetter,
-  fetchMessageById
+  fetchMessageById,
+  validateUserPermission
  } from './utils.js';

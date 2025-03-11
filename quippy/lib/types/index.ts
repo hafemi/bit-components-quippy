@@ -2,5 +2,6 @@ export {
   EmbedBuilderButtonID,
   EmbedBuilderModalID,
   EmbedBuilderLimitations,
-  SetAuthorPayload
+  SetAuthorPayload,
+  TicketSystemLimitations
 } from './types.js';
