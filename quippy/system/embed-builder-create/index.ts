@@ -1,4 +1,4 @@
 export {
   getStarterEmbed,
   registerEmbedBuilderComponents,
-} from './embed-create.js';
+} from './embed-builder-create.js';

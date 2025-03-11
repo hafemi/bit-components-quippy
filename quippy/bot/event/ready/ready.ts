@@ -3,12 +3,12 @@ import * as ClientHelper from '@cd/core.djs.client';
 import { sendJSONToWebhook } from '@cd/core.djs.webhook';
 import { log } from '@cd/core.logger';
 import { replacePlaceholders } from '@cd/core.utils.string-transformer';
-import { registerEmbedBuilderComponents } from '@hafemi/quippy.system.embed-create';
+import { registerEmbedBuilderComponents } from '@hafemi/quippy.system.embed-builder-create';
 import { Client, Events } from 'discord.js';
 
 //Command modules
 import '@hafemi/quippy.bot.command.bot';
-import '@hafemi/quippy.bot.command.embed';
+import '@hafemi/quippy.bot.command.embed-builder';
 import '@hafemi/quippy.bot.command.ticket-system';
 
 export const name = Events.ClientReady;
@@ -27,7 +27,7 @@ export async function execute(client: Client): Promise<any> {
 
     const commands = [
       '@hafemi/quippy.bot.command.bot',
-      '@hafemi/quippy.bot.command.embed',
+      '@hafemi/quippy.bot.command.embed-builder',
       '@hafemi/quippy.bot.command.ticket-system'
     ];
 

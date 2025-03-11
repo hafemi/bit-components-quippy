@@ -3,4 +3,4 @@ export {
   getAPIFormatForID,
   handleEmbedExport,
   sendEmbedFromAttachmentData
-} from './embed.js';
+} from './embed-builder.js';

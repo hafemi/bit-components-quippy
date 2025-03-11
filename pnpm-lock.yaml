@@ -27,8 +27,8 @@ importers:
         specifier: ^2.1.38
         version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.39
-        version: 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        specifier: ^2.1.40
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.member':
         specifier: ^2.1.20
         version: 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -81,9 +81,9 @@ importers:
       '@hafemi/quippy.bot.command.bot':
         specifier: workspace:*
         version: file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.bot.command.embed':
+      '@hafemi/quippy.bot.command.embed-builder':
         specifier: workspace:*
-        version: file:quippy/bot/command/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: file:quippy/bot/command/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.ticket-system':
         specifier: workspace:*
         version: file:quippy/bot/command/ticket-system(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -104,13 +104,16 @@ importers:
         version: file:quippy/lib/types
       '@hafemi/quippy.lib.utils':
         specifier: workspace:*
-        version: file:quippy/lib/utils
+        version: file:quippy/lib/utils(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.bot':
         specifier: workspace:*
         version: file:quippy/system/bot
-      '@hafemi/quippy.system.embed':
+      '@hafemi/quippy.system.embed-builder':
         specifier: workspace:*
-        version: file:quippy/system/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: file:quippy/system/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.system.embed-builder-create':
+        specifier: workspace:*
+        version: file:quippy/system/embed-builder-create
       '@hafemi/quippy.system.embed-create':
         specifier: workspace:*
         version: file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -123,7 +126,7 @@ importers:
     dependenciesMeta:
       '@hafemi/quippy.bot.command.bot':
         injected: true
-      '@hafemi/quippy.bot.command.embed':
+      '@hafemi/quippy.bot.command.embed-builder':
         injected: true
       '@hafemi/quippy.bot.command.ticket-system':
         injected: true
@@ -141,7 +144,9 @@ importers:
         injected: true
       '@hafemi/quippy.system.bot':
         injected: true
-      '@hafemi/quippy.system.embed':
+      '@hafemi/quippy.system.embed-builder':
+        injected: true
+      '@hafemi/quippy.system.embed-builder-create':
         injected: true
       '@hafemi/quippy.system.embed-create':
         injected: true
@@ -153,8 +158,8 @@ importers:
   quippy/bot/command/bot:
     dependencies:
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.39
-        version: 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        specifier: ^2.1.40
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -175,11 +180,11 @@ importers:
         specifier: ^18.3.3
         version: 18.3.18
 
-  quippy/bot/command/embed:
+  quippy/bot/command/embed-builder:
     dependencies:
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.39
-        version: 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        specifier: ^2.1.40
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -203,8 +208,8 @@ importers:
   quippy/bot/command/ticket-system:
     dependencies:
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.39
-        version: 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        specifier: ^2.1.40
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -281,8 +286,8 @@ importers:
   quippy/lib/bit-components/slashcommand-subcommands:
     dependencies:
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.39
-        version: 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        specifier: ^2.1.40
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -327,6 +332,9 @@ importers:
 
   quippy/lib/utils:
     dependencies:
+      '@cd/core.djs.member':
+        specifier: ^2.1.20
+        version: 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -357,17 +365,29 @@ importers:
         specifier: 12.20.4
         version: 12.20.4
 
-  quippy/system/embed:
+  quippy/system/embed-builder:
     dependencies:
       '@cd/core.djs.attachment':
         specifier: ^2.1.38
         version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.39
-        version: 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        specifier: ^2.1.40
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
+    devDependencies:
+      '@babel/runtime':
+        specifier: 7.26.9
+        version: 7.26.9
+      '@types/jest':
+        specifier: 29.5.14
+        version: 29.5.14
+      '@types/node':
+        specifier: 12.20.4
+        version: 12.20.4
+
+  quippy/system/embed-builder-create:
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.9
@@ -388,8 +408,8 @@ importers:
         specifier: ^2.1.38
         version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper':
-        specifier: ^2.1.39
-        version: 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        specifier: ^2.1.40
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -490,8 +510,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@cd/core.djs.components@2.1.39':
-    resolution: {integrity: sha512-c7P0g4SPcpfrl/faQZcjR+lu54fYZbfIcXUDtexjfR1jffIhe2r7rmr8fwyq5QobHLKNndIOcf8AE8Z6CFAzAw==}
+  '@cd/core.djs.components@2.1.40':
+    resolution: {integrity: sha512-qb6YbXIQbE/6uNwPHx1vsRUvM5s3Oc+dE+KBoo4OhsG+6Is4u1YRdwN26Yt4WkIa+b0kaJxF22wNaLclunItCg==}
     peerDependencies:
       react: ^18.3.1
 
@@ -515,8 +535,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@cd/core.djs.interaction-helper@2.1.39':
-    resolution: {integrity: sha512-vi5CLlgdVTnusi5gPMUTNu2ziIk+JMD6MDMqPAzJ4pJxvQa81VFq7kIFI3aoqK+sA31d3l/8yFAwMUMkPedANQ==}
+  '@cd/core.djs.interaction-helper@2.1.40':
+    resolution: {integrity: sha512-bKHP+AP9puKyn/5LvFTNE6gJamKyFl6aAafZnYf+2cZ4Kqz8Q9Wu83R7kjYXvsfvcCQs+yxpAP13pNON7owcVw==}
     peerDependencies:
       react: ^18.3.1
 
@@ -545,8 +565,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@cd/core.logger@2.1.39':
-    resolution: {integrity: sha512-XMQJ8WjTA1vWuyQBFq8/I1EOMKaDkVHBerTNljw1PoyMXmMT71y+gh7QnnSQfPQ7lRxT8PF/LwPCXM7oeM2+YA==}
+  '@cd/core.logger@2.1.40':
+    resolution: {integrity: sha512-Zcp2ca29dNwIG04cpqDJo4YIOif+dZ0MVlBO76nv2VjWOPUZSlR/5o2VYTH4FGyFJBLVg2oMJdV4+GnolOPyaQ==}
     peerDependencies:
       react: ^18.3.1
 
@@ -565,8 +585,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@cd/core.utils.string-transformer@2.1.39':
-    resolution: {integrity: sha512-b95NxobXU0WdzYwnxE4619t1mLz4NLtP6CtoBYkkGPeHSRXbAuu0C+UexxfW/LzjqmpVabqp+PkzgumpDOJWQg==}
+  '@cd/core.utils.string-transformer@2.1.40':
+    resolution: {integrity: sha512-U05rjnxq3k1sZ9qE0uEPEAAlsyHaJZB+wfrXwJXKdXN5RMZlsWTK51uKQJGaHi8mGRH3qJHPOi1GLxuQ84Tirw==}
     peerDependencies:
       react: ^18.3.1
 
@@ -575,18 +595,13 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@cd/core.winston-transports.discord@2.1.39':
-    resolution: {integrity: sha512-DxDBU9ZjRFG3nEdGJxXW+ozGcYaZt2zHaDY09USQQAU33XQ+s9u79QRxrhQTrBDhz66sFRmGxauFL1LlGChwvg==}
+  '@cd/core.winston-transports.discord@2.1.40':
+    resolution: {integrity: sha512-9zi2kNqpFdTzkt+X0ZfxZY8FQx8Rb7deuSKRtBXHuTKXFg1pglh35hT+0A5votoKCTu/rN6fTpzDhgbmfqGiPQ==}
     peerDependencies:
       react: ^18.3.1
 
   '@cd/types.api@1.1.38':
     resolution: {integrity: sha512-HZnrp6ZzOc6zumQqlhi71033Vi4j524jGFl6fdKVdID1wJOpBBGQHjldR1uecAaBIKmF5VNVD6Q3olGJM8JOmQ==}
-    peerDependencies:
-      react: ^18.3.1
-
-  '@cd/types.api@1.1.39':
-    resolution: {integrity: sha512-W3T4IZkLp7Q79F+aABXVHTYl6Jh/dRM/PrkfSAOJnZDOjFJX3bxNr4N5h9/SbH222ML3z6oEgYxmu+QwWHxYhw==}
     peerDependencies:
       react: ^18.3.1
 
@@ -600,11 +615,6 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@cd/types.core@2.1.39':
-    resolution: {integrity: sha512-gz1/90yjAnMgWuz7XAOYgnTm72M5DHTnUi1elBUXaY3JTqECQvuT1b1zY4QxfK/APUsiGYv1I27bpRfp2KJZgA==}
-    peerDependencies:
-      react: ^18.3.1
-
   '@cd/types.core@2.1.40':
     resolution: {integrity: sha512-ECw+TGnU/CU+tJ0St+Vz40zSVBNSsVvSt713YfknQoyYeUXkDbbsxvMl/V6pLM1zGadl0xxe/KPxWrOIGmtV4g==}
     peerDependencies:
@@ -615,11 +625,6 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@cd/types.workflow-common@3.1.39':
-    resolution: {integrity: sha512-Q4RyjxUO2DtgUv7Scd7rDR5AtK5FoECuhgS794ILaX0Rl4RbIvRacLk26yhBDWK+QmvLfXkNsKhpo6GEl/EGzQ==}
-    peerDependencies:
-      react: ^18.3.1
-
   '@cd/types.workflow-common@3.1.40':
     resolution: {integrity: sha512-tSyrHatkayNyXin0mUSZjuC8t6Kem8WRjAPtAGjYGiTZy6rNtF6CjBscw8qn8jZr3i9KAz7DBzr/i57Pj+1icQ==}
     peerDependencies:
@@ -627,11 +632,6 @@ packages:
 
   '@cd/types.workflow-ui@2.1.38':
     resolution: {integrity: sha512-Zbfajy4q/sBXQFtUGucCHrBta9qDC+XSCClLSCEqnzeSfHgyeAbbxVUTRkmKc8FWnBPNSxEcqJwQgYiLL5PgBg==}
-    peerDependencies:
-      react: ^18.3.1
-
-  '@cd/types.workflow-ui@2.1.39':
-    resolution: {integrity: sha512-D1A81xkmJuG1sHGIB6WA1lbY9+QHaIM0BBnJXyqvz5XYCupKLKM+ai2bVZvalaX8z5iEZlq2FufF3/Muobujhg==}
     peerDependencies:
       react: ^18.3.1
 
@@ -684,8 +684,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  '@hafemi/quippy.bot.command.embed@file:quippy/bot/command/embed':
-    resolution: {directory: quippy/bot/command/embed, type: directory}
+  '@hafemi/quippy.bot.command.embed-builder@file:quippy/bot/command/embed-builder':
+    resolution: {directory: quippy/bot/command/embed-builder, type: directory}
     peerDependencies:
       react: ^18.3.1
 
@@ -715,11 +715,14 @@ packages:
   '@hafemi/quippy.system.bot@file:quippy/system/bot':
     resolution: {directory: quippy/system/bot, type: directory}
 
+  '@hafemi/quippy.system.embed-builder-create@file:quippy/system/embed-builder-create':
+    resolution: {directory: quippy/system/embed-builder-create, type: directory}
+
+  '@hafemi/quippy.system.embed-builder@file:quippy/system/embed-builder':
+    resolution: {directory: quippy/system/embed-builder, type: directory}
+
   '@hafemi/quippy.system.embed-create@file:quippy/system/embed-create':
     resolution: {directory: quippy/system/embed-create, type: directory}
-
-  '@hafemi/quippy.system.embed@file:quippy/system/embed':
-    resolution: {directory: quippy/system/embed, type: directory}
 
   '@hafemi/quippy.system.ticket-system.command@file:quippy/system/ticket-system/command':
     resolution: {directory: quippy/system/ticket-system/command, type: directory}
@@ -2114,11 +2117,11 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.components@2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.djs.components@2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.logger': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.utils.string-transformer': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/types.core': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
@@ -2274,12 +2277,12 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.djs.interaction-helper@2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.djs.interaction-helper@2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.components': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.logger': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.components': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.logger': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.error-handler': 3.1.7(react@18.3.1)
-      '@cd/core.utils.string-transformer': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
       sequelize: 6.37.5(mysql2@3.12.0)
@@ -2437,9 +2440,9 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.logger@2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.logger@2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.winston-transports.discord': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.winston-transports.discord': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       react: 18.3.1
       winston: 3.17.0
       winston-daily-rotate-file: 5.0.0(winston@3.17.0)
@@ -2503,9 +2506,9 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.utils.string-transformer@2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.utils.string-transformer@2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/types.core': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       json-bigint: 1.0.0
       react: 18.3.1
     transitivePeerDependencies:
@@ -2561,10 +2564,10 @@ snapshots:
       - ws
       - zod
 
-  '@cd/core.winston-transports.discord@2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@cd/core.winston-transports.discord@2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.utils.string-transformer': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/types.core': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.utils.string-transformer': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       axios: 1.7.9
       axios-retry: 4.5.0(axios@1.7.9)
       react: 18.3.1
@@ -2596,36 +2599,6 @@ snapshots:
     dependencies:
       '@cd/types.core': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/types.workflow-common': 3.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      express: 4.21.2
-      mongoose: 8.12.1
-      react: 18.3.1
-      stripe: 17.7.0
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
-      - bufferutil
-      - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - immer
-      - kerberos
-      - mongodb-client-encryption
-      - node-opus
-      - opusscript
-      - react-dom
-      - snappy
-      - socks
-      - supports-color
-      - utf-8-validate
-      - ws
-      - zod
-
-  '@cd/types.api@1.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
-    dependencies:
-      '@cd/types.core': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/types.workflow-common': 3.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       express: 4.21.2
       mongoose: 8.12.1
       react: 18.3.1
@@ -2685,35 +2658,6 @@ snapshots:
   '@cd/types.core@2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/types.api': 1.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      discord.js: 14.18.0
-      openai: 4.86.2(ws@8.18.0)
-      react: 18.3.1
-      winston-transport: 4.9.0
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
-      - bufferutil
-      - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - immer
-      - kerberos
-      - mongodb-client-encryption
-      - node-opus
-      - opusscript
-      - react-dom
-      - snappy
-      - socks
-      - supports-color
-      - utf-8-validate
-      - ws
-      - zod
-
-  '@cd/types.core@2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
-    dependencies:
-      '@cd/types.api': 1.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       openai: 4.86.2(ws@8.18.0)
       react: 18.3.1
@@ -2801,38 +2745,6 @@ snapshots:
       - ws
       - zod
 
-  '@cd/types.workflow-common@3.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
-    dependencies:
-      '@cd/types.api': 1.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/types.core': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/types.workflow-ui': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@discordjs/voice': 0.18.0
-      discord.js: 14.18.0
-      joi: 17.13.3
-      react: 18.3.1
-      reactflow: 11.11.4(@types/react@18.3.18)(react@18.3.1)
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
-      - bufferutil
-      - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - immer
-      - kerberos
-      - mongodb-client-encryption
-      - node-opus
-      - opusscript
-      - react-dom
-      - snappy
-      - socks
-      - supports-color
-      - utf-8-validate
-      - ws
-      - zod
-
   '@cd/types.workflow-common@3.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/types.api': 1.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -2868,32 +2780,6 @@ snapshots:
   '@cd/types.workflow-ui@2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/types.workflow-common': 3.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      react: 18.3.1
-    transitivePeerDependencies:
-      - '@aws-sdk/credential-providers'
-      - '@discordjs/opus'
-      - '@mongodb-js/zstd'
-      - '@types/react'
-      - bufferutil
-      - encoding
-      - ffmpeg-static
-      - gcp-metadata
-      - immer
-      - kerberos
-      - mongodb-client-encryption
-      - node-opus
-      - opusscript
-      - react-dom
-      - snappy
-      - socks
-      - supports-color
-      - utf-8-validate
-      - ws
-      - zod
-
-  '@cd/types.workflow-ui@2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
-    dependencies:
-      '@cd/types.workflow-common': 3.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -3015,7 +2901,7 @@ snapshots:
 
   '@hafemi/quippy.bot.command.bot@file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.bot': file:quippy/system/bot
       discord.js: 14.18.0
       react: 18.3.1
@@ -3051,11 +2937,10 @@ snapshots:
       - ws
       - zod
 
-  '@hafemi/quippy.bot.command.embed@file:quippy/bot/command/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@hafemi/quippy.bot.command.embed-builder@file:quippy/bot/command/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.lib.utils': file:quippy/lib/utils
-      '@hafemi/quippy.system.embed': file:quippy/system/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.lib.utils': file:quippy/lib/utils(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.embed-create': file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
@@ -3093,7 +2978,8 @@ snapshots:
 
   '@hafemi/quippy.bot.command.ticket-system@file:quippy/bot/command/ticket-system(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.lib.utils': file:quippy/lib/utils(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.ticket-system.command': file:quippy/system/ticket-system/command(react@18.3.1)
       discord.js: 14.18.0
     transitivePeerDependencies:
@@ -3137,7 +3023,6 @@ snapshots:
       '@cd/core.logger': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.string-transformer': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.bot': file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.bot.command.embed': file:quippy/bot/command/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.ticket-system': file:quippy/bot/command/ticket-system(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.embed-create': file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
@@ -3194,7 +3079,7 @@ snapshots:
 
   '@hafemi/quippy.lib.bit-components.slashcommand-subcommands@file:quippy/lib/bit-components/slashcommand-subcommands(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.interaction-helper': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -3238,12 +3123,17 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hafemi/quippy.lib.utils@file:quippy/lib/utils':
+  '@hafemi/quippy.lib.utils@file:quippy/lib/utils(react@18.3.1)(ws@8.18.0)':
     dependencies:
+      '@cd/core.djs.member': 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
     transitivePeerDependencies:
       - bufferutil
+      - encoding
+      - react
       - utf-8-validate
+      - ws
+      - zod
 
   '@hafemi/quippy.system.bot@file:quippy/system/bot':
     dependencies:
@@ -3253,12 +3143,15 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hafemi/quippy.system.embed-create@file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@hafemi/quippy.system.embed-builder-create@file:quippy/system/embed-builder-create': {}
+
+  '@hafemi/quippy.system.embed-builder@file:quippy/system/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.components': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.event.interaction-create': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.interaction-helper': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.attachment': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.lib.constants': file:quippy/lib/constants
       '@hafemi/quippy.lib.types': file:quippy/lib/types
+      '@hafemi/quippy.lib.utils': file:quippy/lib/utils(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -3293,13 +3186,12 @@ snapshots:
       - ws
       - zod
 
-  '@hafemi/quippy.system.embed@file:quippy/system/embed(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@hafemi/quippy.system.embed-create@file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.attachment': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@cd/core.djs.interaction-helper': 2.1.39(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.lib.constants': file:quippy/lib/constants
+      '@cd/core.djs.components': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.interaction-create': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.lib.types': file:quippy/lib/types
-      '@hafemi/quippy.lib.utils': file:quippy/lib/utils
       discord.js: 14.18.0
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'

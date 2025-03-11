@@ -56,12 +56,12 @@ export function getAPIFormatForID(type: string, id: string): string {
 
 export async function handleEmbedExport(interaction: ChatInputCommandInteraction, messageId: string): Promise<string | undefined> {
   const message = await fetchMessageById({ channel: interaction.channel, messageId });
-  
+
   switch (true) {
     case !message: return `\`Error:\` Message with ID \`${messageId}\` not found`;
     case !message.embeds.length: return `\`Error:\` Message with ID \`${messageId}\` has no embeds`;
   }
-  
+
   await sendEmbedDataAsAttachment(interaction, message.embeds);
 }
 
@@ -78,7 +78,7 @@ export async function sendEmbedFromAttachmentData(interaction: ChatInputCommandI
     await interaction.channel.send({ embeds });
 
   } catch (err) {
-    const msg = err.message
+    const msg = err.message;
     switch (true) {
       case msg.includes('not valid JSON'): return '`Error:` Invalid JSON format in attachment';
       case msg.includes('non-text type attachment'): return '`Error:` Attachment is not a text file';

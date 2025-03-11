@@ -45,13 +45,13 @@
             "teambit.semantics/schema": {}
         }
     },
-    "bot/command/embed": {
-        "name": "bot/command/embed",
+    "bot/command/embed-builder": {
+        "name": "bot/command/embed-builder",
         "scope": "",
         "version": "",
         "defaultScope": "hafemi.quippy",
         "mainFile": "index.ts",
-        "rootDir": "quippy/bot/command/embed",
+        "rootDir": "quippy/bot/command/embed-builder",
         "config": {
             "teambit.dependencies/dependency-resolver": {
                 "policy": {
@@ -75,7 +75,7 @@
                 "forkedFrom": {
                     "scope": "cd.core",
                     "name": "djs/command/ping-extended",
-                    "version": "2.1.20"
+                    "version": "2.1.40"
                 }
             },
             "teambit.semantics/schema": {}
@@ -362,13 +362,13 @@
             }
         }
     },
-    "system/embed": {
-        "name": "system/embed",
+    "system/embed-builder": {
+        "name": "system/embed-builder",
         "scope": "",
         "version": "",
         "defaultScope": "hafemi.quippy",
         "mainFile": "index.ts",
-        "rootDir": "quippy/system/embed",
+        "rootDir": "quippy/system/embed-builder",
         "config": {
             "teambit.dependencies/dependency-resolver": {
                 "policy": {
@@ -392,18 +392,18 @@
                 "forkedFrom": {
                     "scope": "cd.core",
                     "name": "template/empty-component-2",
-                    "version": "1.1.3"
+                    "version": "1.1.4"
                 }
             }
         }
     },
-    "system/embed-create": {
-        "name": "system/embed-create",
+    "system/embed-builder-create": {
+        "name": "system/embed-builder-create",
         "scope": "",
         "version": "",
         "defaultScope": "hafemi.quippy",
         "mainFile": "index.ts",
-        "rootDir": "quippy/system/embed-create",
+        "rootDir": "quippy/system/embed-builder-create",
         "config": {
             "teambit.dependencies/dependency-resolver": {
                 "policy": {

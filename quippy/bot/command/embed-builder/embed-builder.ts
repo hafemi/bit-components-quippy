@@ -17,8 +17,8 @@ import {
   getLimitationsEmbed,
   handleEmbedExport,
   sendEmbedFromAttachmentData
-} from "@hafemi/quippy.system.embed";
-import { getStarterEmbed } from "@hafemi/quippy.system.embed-create";
+} from "@hafemi/quippy.system.embed-builder";
+import { getStarterEmbed } from "@hafemi/quippy.system.embed-builder-create";
 
 const formatStringOptions: APIApplicationCommandOptionChoice<string>[] = [
   { name: 'User', value: 'user' },
@@ -78,7 +78,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
 async function executeCreate(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-  
+
   const messagePayload = getStarterEmbed();
   await interaction.channel.send({
     embeds: [messagePayload.emptyEmbed],
@@ -112,9 +112,8 @@ async function executeExport(interaction: ChatInputCommandInteraction): Promise<
   const messageID = interaction.options.getString('id');
   const maybeResponse = await handleEmbedExport(interaction, messageID);
 
-  if (maybeResponse) {
+  if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
-  }
 }
 
 async function executeImport(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -123,10 +122,9 @@ async function executeImport(interaction: ChatInputCommandInteraction): Promise<
   const attachment = interaction.options.getAttachment('file');
   const maybeResponse = await sendEmbedFromAttachmentData(interaction, attachment);
 
-  if (maybeResponse) {
+  if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
-  } else {
+  else
     await InteractionHelper.followUp(interaction, '`Success:` Embed\'s imported');
-  }
 
 }
