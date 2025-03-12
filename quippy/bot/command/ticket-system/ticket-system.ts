@@ -10,6 +10,7 @@ import {
 import {
   getTicketTypesEmbed,
   handleTicketTypeCreation,
+  handleTicketTypeEdit,
   handleTicketTypeRemoval
 } from "@hafemi/quippy.system.ticket-system.command";
 
@@ -21,6 +22,8 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
   .setName('ticket')
   .setDescription('Ticket system')
   .setContexts([InteractionContextType.Guild])
+  
+  // Ticket Type
   .addSubcommandGroup(subcommandGroup => subcommandGroup
     .setName('type')
     .setDescription('Modify ticket types of this server')
@@ -49,6 +52,22 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
         .setName('name')
         .setDescription('Name of the ticket type')
         .setRequired(true)))
+    .addSubcommand(subcommand => subcommand
+      .setName('edit')
+      .setDescription('Edit a ticket type')
+      .addStringOption(option => option
+        .setName('oldname')
+        .setDescription('Name of the ticket type to change')
+        .setRequired(true))
+      .addStringOption(option => option
+        .setName('newname')
+        .setDescription('New Name of the ticket type'))
+      .addRoleOption(option => option
+        .setName('newrole')
+        .setDescription('New Role to assign to ticket type'))
+      .addStringOption(option => option
+        .setName('newprefix')
+        .setDescription('New Prefix used when creating tickets')))
   )
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -65,6 +84,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     if (subcommand == 'add') return await executeTypeAdd(interaction);
     if (subcommand == 'list') return await executeTypeList(interaction);
     if (subcommand == 'remove') return await executeTypeRemove(interaction);
+    if (subcommand == 'edit') return await executeTypeEdit(interaction);
   }
 
   await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
@@ -77,7 +97,7 @@ async function executeTypeAdd(interaction: ChatInputCommandInteraction): Promise
   const role = interaction.options.getRole('role');
   const prefix = interaction.options.getString('prefix');
   
-  const maybeResponse = await handleTicketTypeCreation({ interaction, name, role, prefix, guildID: interaction.guildId });
+  const maybeResponse = await handleTicketTypeCreation({ name, role, prefix, guildID: interaction.guildId });
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else 
@@ -103,4 +123,20 @@ async function executeTypeRemove(interaction: ChatInputCommandInteraction): Prom
     await InteractionHelper.followUp(interaction, maybeResponse);
   else 
     await InteractionHelper.followUp(interaction, '`Success:` Ticket type removed');
+}
+
+async function executeTypeEdit(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+  const oldName = interaction.options.getString('oldname');
+  const newName = interaction.options.getString('newname');
+  const newRole = interaction.options.getRole('newrole');
+  const newPrefix = interaction.options.getString('newprefix');
+  const guildID = interaction.guildId;
+  
+  const maybeResponse = await handleTicketTypeEdit({ oldName, newName, newRole, newPrefix, guildID });
+  if (maybeResponse)
+    await InteractionHelper.followUp(interaction, maybeResponse);
+  else 
+    await InteractionHelper.followUp(interaction, '`Success:` Ticket type edited');
 }

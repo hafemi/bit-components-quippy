@@ -12,27 +12,18 @@ import { TicketSystemLimitations } from "@hafemi/quippy.lib.types";
 import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
 
 export async function handleTicketTypeCreation({
-  interaction,
   name,
   role,
   prefix,
   guildID
 }: {
-  interaction: ChatInputCommandInteraction;
   name: string;
   role: NonNullable<Role | APIRole>;
   prefix: string;
   guildID: string;
   }): Promise<string | undefined> {
-  const nameLimit = TicketSystemLimitations.NameLimit
-  const prefixLimit = TicketSystemLimitations.PrefixLimit
-  const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
-  
-  switch (true) {
-    case name.length > nameLimit: return `\`Error:\` Name \`${ name } \` exceeds the limit of ${nameLimit} characters (${name.length})`;
-    case prefix.length > prefixLimit: return `\`Error:\` Prefix \`${ prefix }\` exceeds the limit of ${prefixLimit} characters (${prefix.length})`;
-    case doesTypeExist: return `\`Error:\` Type \`${name}\` already exists`;
-  }
+  const areNotValid = await validateTicketTypeArguments({ name, prefix, guildID });
+  if (areNotValid) return areNotValid;
   
   const typeLimit = TicketSystemLimitations.Types;
   const typeAmount = await TicketType.count({ where: { guildID } });
@@ -46,11 +37,12 @@ export async function handleTicketTypeCreation({
     roleID: role.id,
     prefix
   });
+  return undefined;
 }
 
 export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder | undefined> {
   const ticketTypes = await TicketType.findAll({ where: { guildID } });
-  if (ticketTypes.length == 0) return;
+  if (ticketTypes.length == 0) return undefined;
   
   const nameFieldValue = ticketTypes.map(type => type.typeName);
   const roleFieldValue = ticketTypes.map(type => `<@&${type.roleID}>`);
@@ -74,9 +66,67 @@ export async function handleTicketTypeRemoval({
   name: string;
   guildID: string;
 }): Promise<string | undefined> {
-  const doesTypeExist = await TicketType.getEntry({ guildID, typeName: name });
+  const maybeTicketType = await TicketType.getEntry({ guildID, typeName: name });
   
-  if (!doesTypeExist) return `\`Error:\` Type \`${name}\` does not exist`;
+  if (!maybeTicketType) return `\`Error:\` Type \`${name}\` does not exist`;
   
-  await TicketType.destroy({ where: { guildID, typeName: name } });
+  await maybeTicketType.destroy();
+  return undefined;
+}
+
+export async function handleTicketTypeEdit({
+  oldName,
+  newName,
+  newRole,
+  newPrefix,
+  guildID
+}: {
+  oldName: string;
+  newName?: string;
+  newRole?: NonNullable<Role | APIRole>;
+  newPrefix?: string;
+  guildID: string;
+}): Promise<string | undefined> {
+  const areNotValid = await validateTicketTypeArguments({
+    name: newName,
+    prefix: newPrefix,
+    guildID
+  });
+  if (areNotValid) return areNotValid
+  
+  const maybeTicketType = await TicketType.getEntry({ guildID, typeName: oldName });
+  if (!maybeTicketType) return `\`Error:\` Type \`${oldName}\` does not exist`;
+  
+  await maybeTicketType.update({
+    typeName: newName ?? maybeTicketType.typeName,
+    roleID: newRole?.id ?? maybeTicketType.roleID,
+    prefix: newPrefix ?? maybeTicketType.prefix
+  })
+  
+  return undefined;
+}
+
+async function validateTicketTypeArguments({
+  name,
+  prefix,
+  guildID
+}: {
+  name?: string;
+  prefix?: string;
+  guildID?: string;
+}): Promise<string | undefined> {
+  const nameLimit = TicketSystemLimitations.NameLimit;
+  const prefixLimit = TicketSystemLimitations.PrefixLimit;
+  const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
+  
+  if (name && name.length > nameLimit)
+    return `\`Error:\` Name \`${name} \` exceeds the limit of ${nameLimit} characters (${name.length})`;
+  
+  if (prefix && prefix.length > prefixLimit)
+    return `\`Error:\` Prefix \`${prefix}\` exceeds the limit of ${prefixLimit} characters (${prefix.length})`;
+  
+  if (doesTypeExist)
+    return `\`Error:\` Type \`${name}\` already exists`;
+  
+  return undefined;
 }
