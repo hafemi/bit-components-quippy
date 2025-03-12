@@ -16,13 +16,14 @@ export async function handleTicketTypeCreation({
   name,
   role,
   prefix,
+  guildID
 }: {
   interaction: ChatInputCommandInteraction;
   name: string;
   role: NonNullable<Role | APIRole>;
   prefix: string;
+  guildID: string;
   }): Promise<string | undefined> {
-  const guildID = interaction.guildId;
   const nameLimit = TicketSystemLimitations.NameLimit
   const prefixLimit = TicketSystemLimitations.PrefixLimit
   const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
@@ -64,4 +65,18 @@ export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder
       { name: 'Role', value: roleFieldValue.join('\n'), inline: true },
       { name: 'Prefix', value: prefixFieldValue.join('\n'), inline: true }
     );
+}
+
+export async function handleTicketTypeRemoval({
+  name,
+  guildID
+}: {
+  name: string;
+  guildID: string;
+}): Promise<string | undefined> {
+  const doesTypeExist = await TicketType.getEntry({ guildID, typeName: name });
+  
+  if (!doesTypeExist) return `\`Error:\` Type \`${name}\` does not exist`;
+  
+  await TicketType.destroy({ where: { guildID, typeName: name } });
 }

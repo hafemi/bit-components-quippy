@@ -27,11 +27,11 @@ export class TicketType extends Model<InferAttributes<TicketType>, InferCreation
   static async getEntry(options: {
     guildID: string;
     typeName: string;
-  }): Promise<TicketType> {
+  }): Promise<TicketType | false> {
     const entry = await TicketType.findOne({ where: options });
 
     if (!entry)
-      throw new Error(`No entry found in TicketType`);
+      return false
 
     return entry;
   }

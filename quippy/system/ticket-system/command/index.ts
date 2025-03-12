@@ -1,4 +1,5 @@
 export {
   handleTicketTypeCreation,
-  getTicketTypesEmbed
+  getTicketTypesEmbed,
+  handleTicketTypeRemoval
 } from './command.js';

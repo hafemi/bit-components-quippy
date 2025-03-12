@@ -9,7 +9,8 @@ import {
 
 import {
   getTicketTypesEmbed,
-  handleTicketTypeCreation
+  handleTicketTypeCreation,
+  handleTicketTypeRemoval
 } from "@hafemi/quippy.system.ticket-system.command";
 
 import { validateUserPermission } from "@hafemi/quippy.lib.utils";
@@ -41,6 +42,13 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
     .addSubcommand(subcommand => subcommand
       .setName('list')
       .setDescription('List all ticket types of this server'))
+    .addSubcommand(subcommand => subcommand
+      .setName('remove')
+      .setDescription('Remove a ticket type')
+      .addStringOption(option => option
+        .setName('name')
+        .setDescription('Name of the ticket type')
+        .setRequired(true)))
   )
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -56,6 +64,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     
     if (subcommand == 'add') return await executeTypeAdd(interaction);
     if (subcommand == 'list') return await executeTypeList(interaction);
+    if (subcommand == 'remove') return await executeTypeRemove(interaction);
   }
 
   await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
@@ -68,7 +77,7 @@ async function executeTypeAdd(interaction: ChatInputCommandInteraction): Promise
   const role = interaction.options.getRole('role');
   const prefix = interaction.options.getString('prefix');
   
-  const maybeResponse = await handleTicketTypeCreation({ interaction, name, role, prefix });
+  const maybeResponse = await handleTicketTypeCreation({ interaction, name, role, prefix, guildID: interaction.guildId });
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else 
@@ -83,4 +92,15 @@ async function executeTypeList(interaction: ChatInputCommandInteraction): Promis
     await InteractionHelper.followUp(interaction, {embeds: [maybeEmbed] });
   else 
     await InteractionHelper.followUp(interaction, '`Info:` This Server has no ticket types');
+}
+
+async function executeTypeRemove(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+  
+  const name = interaction.options.getString('name');
+  const maybeResponse = await handleTicketTypeRemoval({ name, guildID: interaction.guildId });
+  if (maybeResponse)
+    await InteractionHelper.followUp(interaction, maybeResponse);
+  else 
+    await InteractionHelper.followUp(interaction, '`Success:` Ticket type removed');
 }
