@@ -9,7 +9,7 @@ import { TicketType } from "@hafemi/quippy.system.ticket-system.database-definit
 
 import { TicketSystemLimitations } from "@hafemi/quippy.lib.types";
  
-import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
+import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
 
 export async function handleTicketTypeCreation({
   name,
@@ -50,7 +50,7 @@ export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder
   
   return new EmbedBuilder()
     .setTitle('Ticket Types')
-    .setColor(defaultEmbedColor)
+    .setColor(ticketSystemEmbedColor)
     .setDescription('List of all ticket types of this server')
     .addFields(
       { name: 'Name', value: nameFieldValue.join('\n'), inline: true },
