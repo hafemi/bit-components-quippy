@@ -1,6 +1,8 @@
 export {
+  registerTicketSystemComponents,
   handleTicketTypeCreation,
   getTicketTypesEmbed,
   handleTicketTypeRemoval,
-  handleTicketTypeEdit
+  handleTicketTypeEdit,
+  handleButtonCreation
 } from './command.js';

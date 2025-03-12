@@ -1,4 +1,5 @@
 import {
+  ChatInputCommandInteraction,
   EmbedBuilder
 } from "discord.js";
 
@@ -60,11 +61,6 @@ export type SetAuthorPayload = {
   iconURL: string
 };
 
-
-
-
-
-
 // ████████╗██╗░█████╗░██╗░░██╗███████╗████████╗░██████╗██╗░░░██╗░██████╗████████╗███████╗███╗░░░███╗
 // ╚══██╔══╝██║██╔══██╗██║░██╔╝██╔════╝╚══██╔══╝██╔════╝╚██╗░██╔╝██╔════╝╚══██╔══╝██╔════╝████╗░████║
 // ░░░██║░░░██║██║░░╚═╝█████═╝░█████╗░░░░░██║░░░╚█████╗░░╚████╔╝░╚█████╗░░░░██║░░░█████╗░░██╔████╔██║
@@ -75,6 +71,21 @@ export type SetAuthorPayload = {
 
 export enum TicketSystemLimitations {
   Types = 3,
-  NameLimit = 15,
-  PrefixLimit = 10
+  Name = 15,
+  Prefix = 10,
+  CreationButton = 80
+}
+
+export type TicketSystemButtonCreationPayload = {
+  interaction: ChatInputCommandInteraction;
+  type: string;
+  title: string;
+  description: string;
+  buttonColor: string;
+  buttonText: string;
+  guildID: string;
+};
+
+export enum TicketSystemIDs {
+  CreationButton = 'ticket_system;creation_button'
 }

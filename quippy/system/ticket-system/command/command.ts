@@ -1,15 +1,31 @@
 import {
+  ActionRowBuilder,
   APIRole,
-  ChatInputCommandInteraction,
+  ButtonBuilder,
+  ButtonInteraction,
+  ButtonStyle,
   EmbedBuilder,
   Role
 } from "discord.js";
 
+import {
+  addInteraction
+} from '@cd/core.djs.event.interaction-create';
+
 import { TicketType } from "@hafemi/quippy.system.ticket-system.database-definition";
 
-import { TicketSystemLimitations } from "@hafemi/quippy.lib.types";
- 
+import {
+  EmbedBuilderLimitations,
+  TicketSystemButtonCreationPayload,
+  TicketSystemIDs,
+  TicketSystemLimitations
+} from "@hafemi/quippy.lib.types";
+
 import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
+
+export function registerTicketSystemComponents(): void {
+  addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreation(interaction));
+}
 
 export async function handleTicketTypeCreation({
   name,
@@ -21,15 +37,15 @@ export async function handleTicketTypeCreation({
   role: NonNullable<Role | APIRole>;
   prefix: string;
   guildID: string;
-  }): Promise<string | undefined> {
+}): Promise<string | undefined> {
   const areNotValid = await validateTicketTypeArguments({ name, prefix, guildID });
   if (areNotValid) return areNotValid;
-  
+
   const typeLimit = TicketSystemLimitations.Types;
   const typeAmount = await TicketType.count({ where: { guildID } });
-  
+
   if (typeAmount == typeLimit) return `\`Error:\` Server exceeds the limit of ${typeLimit} ticket types`;
-  
+
   await TicketType.create({
     uuid: await TicketType.createNewValidUUID(),
     guildID,
@@ -43,11 +59,11 @@ export async function handleTicketTypeCreation({
 export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder | undefined> {
   const ticketTypes = await TicketType.findAll({ where: { guildID } });
   if (ticketTypes.length == 0) return undefined;
-  
+
   const nameFieldValue = ticketTypes.map(type => type.typeName);
   const roleFieldValue = ticketTypes.map(type => `<@&${type.roleID}>`);
   const prefixFieldValue = ticketTypes.map(type => type.prefix);
-  
+
   return new EmbedBuilder()
     .setTitle('Ticket Types')
     .setColor(ticketSystemEmbedColor)
@@ -67,9 +83,9 @@ export async function handleTicketTypeRemoval({
   guildID: string;
 }): Promise<string | undefined> {
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: name });
-  
+
   if (!maybeTicketType) return `\`Error:\` Type \`${name}\` does not exist`;
-  
+
   await maybeTicketType.destroy();
   return undefined;
 }
@@ -92,17 +108,17 @@ export async function handleTicketTypeEdit({
     prefix: newPrefix,
     guildID
   });
-  if (areNotValid) return areNotValid
-  
+  if (areNotValid) return areNotValid;
+
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: oldName });
   if (!maybeTicketType) return `\`Error:\` Type \`${oldName}\` does not exist`;
-  
+
   await maybeTicketType.update({
     typeName: newName ?? maybeTicketType.typeName,
     roleID: newRole?.id ?? maybeTicketType.roleID,
     prefix: newPrefix ?? maybeTicketType.prefix
-  })
-  
+  });
+
   return undefined;
 }
 
@@ -115,18 +131,69 @@ async function validateTicketTypeArguments({
   prefix?: string;
   guildID?: string;
 }): Promise<string | undefined> {
-  const nameLimit = TicketSystemLimitations.NameLimit;
-  const prefixLimit = TicketSystemLimitations.PrefixLimit;
+  const nameLimit = TicketSystemLimitations.Name;
+  const prefixLimit = TicketSystemLimitations.Prefix;
   const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
-  
+
   if (name && name.length > nameLimit)
     return `\`Error:\` Name \`${name} \` exceeds the limit of ${nameLimit} characters (${name.length})`;
-  
+
   if (prefix && prefix.length > prefixLimit)
     return `\`Error:\` Prefix \`${prefix}\` exceeds the limit of ${prefixLimit} characters (${prefix.length})`;
-  
+
   if (doesTypeExist)
     return `\`Error:\` Type \`${name}\` already exists`;
+
+  return undefined;
+}
+
+export async function handleButtonCreation(options: TicketSystemButtonCreationPayload): Promise<string | undefined> {
+  const areNotValid = await validateButtonCreationArguments(options);
+  if (areNotValid) return areNotValid;
+  
+  const buttonStyle = getButtonStyleByString(options.buttonColor);
+    
+  const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
+    new ButtonBuilder()
+      .setStyle(buttonStyle)
+      .setLabel(options.buttonText)
+      .setCustomId(`${TicketSystemIDs.CreationButton};${options.type}`)
+  )
+  
+  const embed = new EmbedBuilder()
+    .setTitle(options.title)
+    .setDescription(options.description)
+    .setColor(ticketSystemEmbedColor);
+  
+  await options.interaction.channel.send({
+    embeds: [embed],
+    components: [actionRow]
+  })
+
+  return undefined;
+}
+
+async function validateButtonCreationArguments({
+  type,
+  guildID
+}: TicketSystemButtonCreationPayload
+): Promise<string | undefined> {
+  const maybeTicketType = await TicketType.getEntry({ guildID, typeName: type });
+  if (!maybeTicketType) return `\`Error:\` Type \`${type}\` does not exist`;
   
   return undefined;
+}
+
+function getButtonStyleByString(style: string): ButtonStyle {
+  switch (style) {
+    case 'PRIMARY': return ButtonStyle.Primary;
+    case 'SECONDARY': return ButtonStyle.Secondary;
+    case 'SUCCESS': return ButtonStyle.Success;
+    case 'DANGER': return ButtonStyle.Danger;
+    default: return ButtonStyle.Primary
+  }
+}
+
+export async function executeButtonCreation(interaction: ButtonInteraction): Promise<void> {
+  console.log('pressed button')
 }

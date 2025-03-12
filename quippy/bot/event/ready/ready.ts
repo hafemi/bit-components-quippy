@@ -4,6 +4,7 @@ import { sendJSONToWebhook } from '@cd/core.djs.webhook';
 import { log } from '@cd/core.logger';
 import { replacePlaceholders } from '@cd/core.utils.string-transformer';
 import { registerEmbedBuilderComponents } from '@hafemi/quippy.system.embed-builder-create';
+import { registerTicketSystemComponents } from '@hafemi/quippy.system.ticket-system.command';
 import { Client, Events } from 'discord.js';
 
 //Command modules
@@ -42,6 +43,7 @@ export async function execute(client: Client): Promise<any> {
         .catch(err => log.error(err));
     
     registerEmbedBuilderComponents();
+    registerTicketSystemComponents();
 
     log.warn('Ready!');
   } catch (err) {
