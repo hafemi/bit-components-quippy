@@ -22,11 +22,11 @@ export class TEMPLATE extends Model<InferAttributes<TEMPLATE>, InferCreationAttr
 
   static async getEntry(options: {
     uuid: string;
-  }): Promise<TEMPLATE> {
+  }): Promise<TEMPLATE | false> {
     const entry = await TEMPLATE.findOne({ where: options });
 
     if (!entry)
-      throw new Error(`No entry found in TEMPLATE`);
+      return false;
 
     return entry;
   }
@@ -40,14 +40,16 @@ export class TEMPLATE extends Model<InferAttributes<TEMPLATE>, InferCreationAttr
   }
 }
 
-TEMPLATE.init({
-  uuid: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-},
-  {
-    sequelize,
-    tableName: 'template'
-  });
+// Uncomment this when you want to setup the table
+
+// TEMPLATE.init({
+//   uuid: {
+//     type: DataTypes.STRING,
+//     allowNull: false,
+//     unique: true,
+//   },
+// },
+//   {
+//     sequelize,
+//     tableName: 'template'
+//   });
