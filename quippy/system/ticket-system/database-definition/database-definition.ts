@@ -7,12 +7,15 @@ import {
 import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import { createNewValidUUID } from "@cd/core.database.util.uuid-handler";
 
+import { TicketTypeModalInformation } from "@hafemi/quippy.lib.types";
+
 export class TicketType extends Model<InferAttributes<TicketType>, InferCreationAttributes<TicketType>> {
   declare uuid: string;
   declare guildID: string;
   declare typeName: string;
   declare roleID: string;
   declare prefix: string;
+  declare modalInformation: TicketTypeModalInformation;
 
   static async isValidUUID(uuid: string): Promise<boolean> {
     const entry = await TicketType.findOne({ where: { uuid: uuid } });
@@ -65,6 +68,10 @@ TicketType.init({
     type: DataTypes.STRING,
     allowNull: false,
   },
+  modalInformation: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  }
 },
   {
     sequelize,

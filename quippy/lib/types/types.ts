@@ -89,3 +89,7 @@ export type TicketSystemButtonCreationPayload = {
 export enum TicketSystemIDs {
   CreationButton = 'ticket_system;creation_button'
 }
+
+export type TicketTypeModalInformation = {
+  title: string;
+};
