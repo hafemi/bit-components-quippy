@@ -271,12 +271,10 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
   threadName: string;
   threadReason: string;
 }> {
-  const ticketAmount = await Ticket.count({ where: { type: type.typeName } });
+  const ticketAmount = await Ticket.count({ where: { guildID: type.guildID, type: type.typeName } });
   const ticketNumber = (ticketAmount + 1).toString().padStart(4, '0');
   const threadName = `${type.prefix}-${ticketNumber}`;
   const threadReason = `${type.typeName} Ticket created by <@${senderUser.id}>`;
 
   return { threadName, threadReason };
-
-
 }
