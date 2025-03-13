@@ -1,3 +1,4 @@
 export {
-  TicketType
+  TicketType,
+  Ticket
 } from './database-definition.js';

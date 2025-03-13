@@ -4,22 +4,31 @@ import {
   ButtonBuilder,
   ButtonInteraction,
   ButtonStyle,
+  ChannelType,
   EmbedBuilder,
-  Role
+  GuildMember,
+  MessageFlags,
+  PrivateThreadChannel,
+  Role,
+  TextChannel,
+  ThreadAutoArchiveDuration
 } from "discord.js";
 
 import {
   addInteraction
 } from '@cd/core.djs.event.interaction-create';
 
-import { TicketType } from "@hafemi/quippy.system.ticket-system.database-definition";
+import { TicketType, Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";
 
+import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
 import {
-  EmbedBuilderLimitations,
   TicketSystemButtonCreationPayload,
   TicketSystemIDs,
-  TicketSystemLimitations
+  TicketSystemLimitations,
+  TicketStatus
 } from "@hafemi/quippy.lib.types";
+
+import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
 import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
 
@@ -150,25 +159,25 @@ async function validateTicketTypeArguments({
 export async function handleButtonCreation(options: TicketSystemButtonCreationPayload): Promise<string | undefined> {
   const areNotValid = await validateButtonCreationArguments(options);
   if (areNotValid) return areNotValid;
-  
+
   const buttonStyle = getButtonStyleByString(options.buttonColor);
-    
+
   const actionRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
     new ButtonBuilder()
       .setStyle(buttonStyle)
       .setLabel(options.buttonText)
       .setCustomId(`${TicketSystemIDs.CreationButton};${options.type}`)
-  )
-  
+  );
+
   const embed = new EmbedBuilder()
     .setTitle(options.title)
     .setDescription(options.description)
     .setColor(ticketSystemEmbedColor);
-  
+
   await options.interaction.channel.send({
     embeds: [embed],
     components: [actionRow]
-  })
+  });
 
   return undefined;
 }
@@ -180,7 +189,7 @@ async function validateButtonCreationArguments({
 ): Promise<string | undefined> {
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: type });
   if (!maybeTicketType) return `\`Error:\` Type \`${type}\` does not exist`;
-  
+
   return undefined;
 }
 
@@ -190,10 +199,84 @@ function getButtonStyleByString(style: string): ButtonStyle {
     case 'SECONDARY': return ButtonStyle.Secondary;
     case 'SUCCESS': return ButtonStyle.Success;
     case 'DANGER': return ButtonStyle.Danger;
-    default: return ButtonStyle.Primary
+    default: return ButtonStyle.Primary;
   }
 }
 
 export async function executeButtonCreation(interaction: ButtonInteraction): Promise<void> {
-  console.log('pressed button')
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+  
+  const type = interaction.customId.split(';')[2];
+  const maybeTicketType = await TicketType.getEntry({ guildID: interaction.guildId, typeName: type });
+
+  if (!maybeTicketType) {
+    await InteractionHelper.followUp(interaction, `\`Error:\` Type \`${type}\` does not exist anymore for this button`);
+    return;
+  }
+
+  if (!maybeTicketType.modalInformation) {
+    await createTicket(interaction, maybeTicketType);
+  } else {
+    console.log('handle modal');
+  }
+}
+
+async function createTicket(interaction: ButtonInteraction, type: TicketType): Promise<void> {
+  if (!(interaction.channel instanceof TextChannel))
+    throw new Error('Something went wrong while creating the ticket in TextChannel');
+
+  const senderUser = await getMemberFromAPIGuildMember(interaction.client, interaction.guildId!, interaction.member!);
+  const threadID = await createThreadForID({ interaction, type, senderUser });
+  
+  await Ticket.create({
+    uuid: await Ticket.createNewValidUUID(),
+    guildID: interaction.guildId,
+    authorID: senderUser.id,
+    threadID,
+    type: type.typeName,
+    status: 'open'
+  });
+  
+  await InteractionHelper.followUp(interaction, `\`Success:\` Ticket created: <#${threadID}>`);
+}
+
+async function createThreadForID({
+  interaction,
+  type,
+  senderUser
+}: {
+  interaction: ButtonInteraction;
+  type: TicketType;
+  senderUser: GuildMember;
+}): Promise<string> {
+  const channel = interaction.channel;
+
+  if (!(channel instanceof TextChannel))
+    throw new Error('Something went wrong while creating the ticket in TextChannel');
+
+  const { threadName, threadReason } = await getThreadCreationDetails(type, senderUser);
+  const thread = await channel.threads.create({
+    name: threadName,
+    reason: threadReason,
+    autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
+    type: ChannelType.PrivateThread
+  });
+
+  await thread.members.add(senderUser.id);
+  await thread.send(`<@&${type.roleID}>`);
+  return thread.id;
+}
+
+async function getThreadCreationDetails(type: TicketType, senderUser: GuildMember): Promise<{
+  threadName: string;
+  threadReason: string;
+}> {
+  const ticketAmount = await Ticket.count({ where: { type: type.typeName } });
+  const ticketNumber = (ticketAmount + 1).toString().padStart(4, '0');
+  const threadName = `${type.prefix}-${ticketNumber}`;
+  const threadReason = `${type.typeName} Ticket created by <@${senderUser.id}>`;
+
+  return { threadName, threadReason };
+
+
 }

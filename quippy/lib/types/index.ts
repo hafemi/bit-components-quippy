@@ -6,5 +6,6 @@ export {
   TicketSystemLimitations,
   TicketSystemButtonCreationPayload,
   TicketSystemIDs,
-  TicketTypeModalInformation
+  TicketTypeModalInformation,
+  TicketStatus
 } from './types.js';

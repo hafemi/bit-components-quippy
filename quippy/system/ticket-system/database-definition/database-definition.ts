@@ -7,7 +7,10 @@ import {
 import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import { createNewValidUUID } from "@cd/core.database.util.uuid-handler";
 
-import { TicketTypeModalInformation } from "@hafemi/quippy.lib.types";
+import {
+  TicketTypeModalInformation,
+  TicketStatus
+} from "@hafemi/quippy.lib.types";
 
 export class TicketType extends Model<InferAttributes<TicketType>, InferCreationAttributes<TicketType>> {
   declare uuid: string;
@@ -15,7 +18,7 @@ export class TicketType extends Model<InferAttributes<TicketType>, InferCreation
   declare typeName: string;
   declare roleID: string;
   declare prefix: string;
-  declare modalInformation: TicketTypeModalInformation;
+  declare modalInformation?: TicketTypeModalInformation;
 
   static async isValidUUID(uuid: string): Promise<boolean> {
     const entry = await TicketType.findOne({ where: { uuid: uuid } });
@@ -34,13 +37,51 @@ export class TicketType extends Model<InferAttributes<TicketType>, InferCreation
     const entry = await TicketType.findOne({ where: options });
 
     if (!entry)
-      return false
+      return false;
 
     return entry;
   }
 
   static async isEntry(options: any): Promise<boolean> {
     const entry = await TicketType.findOne({ where: options });
+
+    return !!entry;
+  }
+}
+
+export class Ticket extends Model<InferAttributes<Ticket>, InferCreationAttributes<Ticket>> {
+  declare uuid: string;
+  declare guildID: string;
+  declare authorID: string;
+  declare threadID: string;
+  declare type: string;
+  declare status: TicketStatus;
+  declare modalInformation?: TicketTypeModalInformation;
+
+  static async isValidUUID(uuid: string): Promise<boolean> {
+    const entry = await Ticket.findOne({ where: { uuid: uuid } });
+
+    return !entry;
+  }
+
+  static async createNewValidUUID(): Promise<string> {
+    return await createNewValidUUID(this.isValidUUID);
+  }
+
+  static async getEntry(options: {
+    guildID: string;
+    typeName: string;
+  }): Promise<Ticket | false> {
+    const entry = await Ticket.findOne({ where: options });
+
+    if (!entry)
+      return false;
+
+    return entry;
+  }
+
+  static async isEntry(options: any): Promise<boolean> {
+    const entry = await Ticket.findOne({ where: options });
 
     return !!entry;
   }
@@ -76,4 +117,40 @@ TicketType.init({
   {
     sequelize,
     tableName: 'ticket_type'
-});
+  });
+
+Ticket.init({
+  uuid: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  guildID: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  authorID: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  threadID: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  type: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  modalInformation: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  }
+},
+  {
+    sequelize,
+    tableName: 'ticket'
+  });

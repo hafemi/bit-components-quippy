@@ -93,3 +93,5 @@ export enum TicketSystemIDs {
 export type TicketTypeModalInformation = {
   title: string;
 };
+
+export type TicketStatus = 'open' | 'closed' | 'deleted';
