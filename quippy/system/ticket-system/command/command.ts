@@ -209,29 +209,30 @@ function getButtonStyleByString(style: string): ButtonStyle {
 export async function executeButtonCreateTicket(interaction: ButtonInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
   
-  const ticketType = await validateTicketOpening(interaction);
+  const response = await validateTicketOpening(interaction);
+  if (typeof response == 'string') {
+    await InteractionHelper.followUp(interaction, response)
+    return
+  }
 
-  if (!ticketType.modalInformation) {
-    await createTicket(interaction, ticketType);
+  if (!response.modalInformation) {
+    await createTicket(interaction, response);
   } else {
     console.log('handle modal');
   }
 }
 
-async function validateTicketOpening(interaction: ButtonInteraction): Promise<TicketType | undefined> {
+async function validateTicketOpening(interaction: ButtonInteraction): Promise<TicketType | string> {
   const typeName = interaction.customId.split(';')[2];
   const maybeTicketType = await TicketType.getEntry({ guildID: interaction.guildId, typeName });
 
-  if (!maybeTicketType) {
-    await InteractionHelper.followUp(interaction, `\`Error:\` Type ${typeName} does not exist. Please inform the server team`);
-    return;
-  }
+  if (!maybeTicketType)
+    return `\`Error:\` Type ${typeName} does not exist. Please inform the server team`
 
   try {
     const role = await getRole(interaction.client, interaction.guildId, maybeTicketType.roleID);
   } catch {
-    await InteractionHelper.followUp(interaction, `\`Error:\` Role for type ${typeName} does not exist. Please inform the server team`);
-    return;
+    return `\`Error:\` Role for type ${typeName} does not exist. Please inform the server team`
   }
   
   return maybeTicketType;
