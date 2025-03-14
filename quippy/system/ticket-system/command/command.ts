@@ -227,12 +227,12 @@ async function validateTicketOpening(interaction: ButtonInteraction): Promise<Ti
   const maybeTicketType = await TicketType.getEntry({ guildID: interaction.guildId, typeName });
 
   if (!maybeTicketType)
-    return `\`Error:\` Type ${typeName} does not exist. Please inform the server team`
+    return `\`Error:\` Type \`${typeName}\` does not exist. Please inform the server team`
 
   try {
     const role = await getRole(interaction.client, interaction.guildId, maybeTicketType.roleID);
   } catch {
-    return `\`Error:\` Role for type ${typeName} does not exist. Please inform the server team`
+    return `\`Error:\` Role for type \`${typeName}\` does not exist. Please inform the server team`
   }
   
   return maybeTicketType;
@@ -280,6 +280,7 @@ async function createThreadForID({
     autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
     type: ChannelType.PrivateThread
   });
+  
 
   await thread.members.add(senderUser.id);
   await thread.send({ content: `<@${senderUser.id}>`, embeds: [embed] });
