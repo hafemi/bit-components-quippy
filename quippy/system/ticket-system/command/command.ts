@@ -22,7 +22,7 @@ import { TicketType, Ticket } from "@hafemi/quippy.system.ticket-system.database
 
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
 import {
-  TicketSystemButtonCreationPayload,
+  TicketSystemButtonCreateTicketPayload,
   TicketSystemIDs,
   TicketSystemLimitations,
   TicketStatus
@@ -33,7 +33,7 @@ import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
 
 export function registerTicketSystemComponents(): void {
-  addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreation(interaction));
+  addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreateTicket(interaction));
 }
 
 export async function handleTicketTypeCreation({
@@ -156,8 +156,8 @@ async function validateTicketTypeArguments({
   return undefined;
 }
 
-export async function handleButtonCreation(options: TicketSystemButtonCreationPayload): Promise<string | undefined> {
-  const areNotValid = await validateButtonCreationArguments(options);
+export async function handleButtonCreateTicket(options: TicketSystemButtonCreateTicketPayload): Promise<string | undefined> {
+  const areNotValid = await validateButtonCreateTicketArgs(options);
   if (areNotValid) return areNotValid;
 
   const buttonStyle = getButtonStyleByString(options.buttonColor);
@@ -182,10 +182,10 @@ export async function handleButtonCreation(options: TicketSystemButtonCreationPa
   return undefined;
 }
 
-async function validateButtonCreationArguments({
+async function validateButtonCreateTicketArgs({
   type,
   guildID
-}: TicketSystemButtonCreationPayload
+}: TicketSystemButtonCreateTicketPayload
 ): Promise<string | undefined> {
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: type });
   if (!maybeTicketType) return `\`Error:\` Type \`${type}\` does not exist`;
@@ -203,7 +203,7 @@ function getButtonStyleByString(style: string): ButtonStyle {
   }
 }
 
-export async function executeButtonCreation(interaction: ButtonInteraction): Promise<void> {
+export async function executeButtonCreateTicket(interaction: ButtonInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
   
   const type = interaction.customId.split(';')[2];
@@ -213,6 +213,8 @@ export async function executeButtonCreation(interaction: ButtonInteraction): Pro
     await InteractionHelper.followUp(interaction, `\`Error:\` Type \`${type}\` does not exist anymore for this button`);
     return;
   }
+  
+  
 
   if (!maybeTicketType.modalInformation) {
     await createTicket(interaction, maybeTicketType);

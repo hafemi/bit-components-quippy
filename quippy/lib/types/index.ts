@@ -4,7 +4,7 @@ export {
   EmbedBuilderLimitations,
   SetAuthorPayload,
   TicketSystemLimitations,
-  TicketSystemButtonCreationPayload,
+  TicketSystemButtonCreateTicketPayload,
   TicketSystemIDs,
   TicketTypeModalInformation,
   TicketStatus

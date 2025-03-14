@@ -76,7 +76,7 @@ export enum TicketSystemLimitations {
   CreationButton = 80
 }
 
-export type TicketSystemButtonCreationPayload = {
+export type TicketSystemButtonCreateTicketPayload = {
   interaction: ChatInputCommandInteraction;
   type: string;
   title: string;

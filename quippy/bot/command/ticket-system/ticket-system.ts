@@ -13,12 +13,12 @@ import {
   handleTicketTypeCreation,
   handleTicketTypeEdit,
   handleTicketTypeRemoval,
-  handleButtonCreation
+  handleButtonCreateTicket
 } from "@hafemi/quippy.system.ticket-system.command";
 
 import { validateUserPermission } from "@hafemi/quippy.lib.utils";
 import {
-  TicketSystemButtonCreationPayload,
+  TicketSystemButtonCreateTicketPayload,
   EmbedBuilderLimitations,
   TicketSystemLimitations
  } from "@hafemi/quippy.lib.types";
@@ -201,7 +201,7 @@ async function executeTypeEdit(interaction: ChatInputCommandInteraction): Promis
 async function executeButtonCreate(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
   
-  const creationPayload: TicketSystemButtonCreationPayload = {
+  const infoPayload: TicketSystemButtonCreateTicketPayload = {
     interaction,
     type: interaction.options.getString('type'),
     title: interaction.options.getString('title'),
@@ -211,7 +211,7 @@ async function executeButtonCreate(interaction: ChatInputCommandInteraction): Pr
     guildID: interaction.guildId
   };
   
-  const maybeResponse = await handleButtonCreation(creationPayload);
+  const maybeResponse = await handleButtonCreateTicket(infoPayload);
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
