@@ -5,6 +5,7 @@ import {
   ButtonInteraction,
   ButtonStyle,
   ChannelType,
+  Embed,
   EmbedBuilder,
   GuildMember,
   MessageFlags,
@@ -32,6 +33,7 @@ import {
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
 import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
+import { capitalizeFirstLetter } from "@hafemi/quippy.lib.utils";
 
 export function registerTicketSystemComponents(): void {
   addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreateTicket(interaction));
@@ -269,6 +271,8 @@ async function createThreadForID({
     throw new Error('Something went wrong while creating the ticket in TextChannel');
 
   const { threadName, threadReason } = await getThreadCreationDetails(type, senderUser);
+  const embed = getThreadStarterEmbed(type, senderUser);
+  
   const thread = await channel.threads.create({
     name: threadName,
     reason: threadReason,
@@ -277,7 +281,7 @@ async function createThreadForID({
   });
 
   await thread.members.add(senderUser.id);
-  await thread.send(`<@&${type.roleID}>`);
+  await thread.send({ content: `<@${senderUser.id}>`, embeds: [embed] });
   return thread.id;
 }
 
@@ -291,4 +295,14 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
   const threadReason = `${type.typeName} Ticket created by <@${senderUser.id}>`;
 
   return { threadName, threadReason };
+}
+
+function getThreadStarterEmbed(type: TicketType, senderUser: GuildMember): EmbedBuilder {
+  return new EmbedBuilder()
+    .setTitle(`${capitalizeFirstLetter(type.typeName)} Ticket`)
+    .setColor(ticketSystemEmbedColor)
+    .setDescription(`
+      Welcome to the Ticket Support <@${senderUser.id}>!
+      If you haven't already please describe your issue in detail, so we can help you as soon as possible.
+    `);
 }

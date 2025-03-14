@@ -1,10 +1,7 @@
 import {
-  APIInteractionGuildMember,
   ChatInputCommandInteraction,
-  GuildMember,
   GuildTextBasedChannel,
   Message,
-  PermissionFlagsBits,
   PermissionResolvable
 } from 'discord.js';
 
