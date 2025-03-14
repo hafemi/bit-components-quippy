@@ -63,6 +63,7 @@
         "@cd/core.djs.event.interaction-create": "^2.1.38",
         "@cd/core.djs.interaction-helper": "^2.1.40",
         "@cd/core.djs.member": "^2.1.20",
+        "@cd/core.djs.role": "^2.1.21",
         "@cd/core.djs.webhook": "^2.1.4",
         "@cd/core.logger": "^2.1.38",
         "@cd/core.utils.string-transformer": "^2.1.38",

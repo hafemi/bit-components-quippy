@@ -32,6 +32,9 @@ importers:
       '@cd/core.djs.member':
         specifier: ^2.1.20
         version: 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.role':
+        specifier: ^2.1.21
+        version: 2.1.21(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.webhook':
         specifier: ^2.1.4
         version: 2.1.4(react@18.3.1)
@@ -113,13 +116,10 @@ importers:
         version: file:quippy/system/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.embed-builder-create':
         specifier: workspace:*
-        version: file:quippy/system/embed-builder-create
-      '@hafemi/quippy.system.embed-create':
-        specifier: workspace:*
-        version: file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: file:quippy/system/embed-builder-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.ticket-system.command':
         specifier: workspace:*
-        version: file:quippy/system/ticket-system/command(react@18.3.1)
+        version: file:quippy/system/ticket-system/command(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.ticket-system.database-definition':
         specifier: workspace:*
         version: file:quippy/system/ticket-system/database-definition(react@18.3.1)
@@ -147,8 +147,6 @@ importers:
       '@hafemi/quippy.system.embed-builder':
         injected: true
       '@hafemi/quippy.system.embed-builder-create':
-        injected: true
-      '@hafemi/quippy.system.embed-create':
         injected: true
       '@hafemi/quippy.system.ticket-system.command':
         injected: true
@@ -388,22 +386,10 @@ importers:
         version: 12.20.4
 
   quippy/system/embed-builder-create:
-    devDependencies:
-      '@babel/runtime':
-        specifier: 7.26.9
-        version: 7.26.9
-      '@types/jest':
-        specifier: 29.5.14
-        version: 29.5.14
-      '@types/node':
-        specifier: 12.20.4
-        version: 12.20.4
-
-  quippy/system/embed-create:
     dependencies:
       '@cd/core.djs.components':
         specifier: ^2.1.38
-        version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.event.interaction-create':
         specifier: ^2.1.38
         version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -426,6 +412,15 @@ importers:
 
   quippy/system/ticket-system/command:
     dependencies:
+      '@cd/core.djs.event.interaction-create':
+        specifier: ^2.1.38
+        version: 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper':
+        specifier: ^2.1.40
+        version: 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.member':
+        specifier: ^2.1.20
+        version: 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -530,6 +525,11 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
+  '@cd/core.djs.guild@2.1.5':
+    resolution: {integrity: sha512-4G+tREvMhKlQKmfpSSwvqZRtdtePwT9zgdaiZbwNId/LWlqtRwihuVCQN0Mm9mxqSZ876ZstwhcVlS5kx9KOQg==}
+    peerDependencies:
+      react: ^18.3.1
+
   '@cd/core.djs.interaction-helper@2.1.38':
     resolution: {integrity: sha512-aWXJx6zqJuzULSvCvmEue7eh5VAaH/tkxpxl9PAU9lDQ0bLOX9Bxb0lgeF6uqmqiYMVaZSh1WkKzXAOZX/KmnQ==}
     peerDependencies:
@@ -550,6 +550,11 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
+  '@cd/core.djs.role@2.1.21':
+    resolution: {integrity: sha512-9Bxr+rxYGm2axZjLkFTkkID5yFslKfh8LOdbG/DDAG5+1+SeoigxDqzw7ShDKwxDKn5Ssi6exXpSrsOsrf+2xQ==}
+    peerDependencies:
+      react: ^18.3.1
+
   '@cd/core.djs.webhook@2.1.4':
     resolution: {integrity: sha512-1R1HvRwz9qH/6LKYVnLxNPUCMPMjgwcADc/9YzWnAkGzYQxAb0b0UhSVIMdymHfHWuVneEtiQhZ3xNvlmOxlrw==}
     peerDependencies:
@@ -557,6 +562,11 @@ packages:
 
   '@cd/core.errors@2.1.19':
     resolution: {integrity: sha512-NV5GfrWjw1WFeVdgRNKEjntxgWSbT5IWc6i0X58zKQ5by7+RWIi0cnxgRcACWiPC7+fNt1ptlspjH2VysfMY2g==}
+    peerDependencies:
+      react: ^18.3.1
+
+  '@cd/core.errors@2.1.20':
+    resolution: {integrity: sha512-2Xc9UJdFHYL1hvhFPaJScwMmt4hqoYnk8C8q1rmgoJ2xue8CjH+eS9CxIr4ZZhasZuMC9PWY7MItZGWdwiyuHA==}
     peerDependencies:
       react: ^18.3.1
 
@@ -610,6 +620,11 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
+  '@cd/types.api@1.1.41':
+    resolution: {integrity: sha512-6d3H9JALPvXXBQV9HD/nCMmXGyla4say5nYGuPCbPq+yIRp48FS6pMje/qPtvSUNhx8InrSfRV1Cpyo8QkYuxA==}
+    peerDependencies:
+      react: ^18.3.1
+
   '@cd/types.core@2.1.38':
     resolution: {integrity: sha512-OGHsKYVBCXDsEC+jdHA20uGd7yAAYAaKTLwTuwn3VrjvMtVMPUQmHAFJyFm48ehkovo9RRHH4M/tOyA0CiN2bg==}
     peerDependencies:
@@ -617,6 +632,11 @@ packages:
 
   '@cd/types.core@2.1.40':
     resolution: {integrity: sha512-ECw+TGnU/CU+tJ0St+Vz40zSVBNSsVvSt713YfknQoyYeUXkDbbsxvMl/V6pLM1zGadl0xxe/KPxWrOIGmtV4g==}
+    peerDependencies:
+      react: ^18.3.1
+
+  '@cd/types.core@2.1.41':
+    resolution: {integrity: sha512-ez0nTu7oJGo2qcC20Kmb1zoeUGcrBKRwQ/FWoAiLjm126vaggYqur4Zs/F+eoOfjuRquT9W9dACIm3Z4TqXjQQ==}
     peerDependencies:
       react: ^18.3.1
 
@@ -630,6 +650,11 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
+  '@cd/types.workflow-common@3.1.41':
+    resolution: {integrity: sha512-7zETalVjnPKne7s7MtCcrfVsosg1mqSp11CYs08aEQO2NWjOJdy3CpZkJHqATxJu2dBpfxT+U4fK8TXpsTSTTg==}
+    peerDependencies:
+      react: ^18.3.1
+
   '@cd/types.workflow-ui@2.1.38':
     resolution: {integrity: sha512-Zbfajy4q/sBXQFtUGucCHrBta9qDC+XSCClLSCEqnzeSfHgyeAbbxVUTRkmKc8FWnBPNSxEcqJwQgYiLL5PgBg==}
     peerDependencies:
@@ -637,6 +662,11 @@ packages:
 
   '@cd/types.workflow-ui@2.1.40':
     resolution: {integrity: sha512-dRZckSyKfxKs7oUeqKCrwz0i8xDeidRSYE2gagGRw3kFhTa5tw6aYnbRbvhd+KNegFWcAe3rVGst+GdikqIG6Q==}
+    peerDependencies:
+      react: ^18.3.1
+
+  '@cd/types.workflow-ui@2.1.41':
+    resolution: {integrity: sha512-APjFJT8mCbA+NKhX0gE7CuBa9+uitzMHP1R8S7qRONq1ML8TKd0YyxF2amA3wplU0+3oiDD4YzzU5x8pZ0cPZQ==}
     peerDependencies:
       react: ^18.3.1
 
@@ -720,9 +750,6 @@ packages:
 
   '@hafemi/quippy.system.embed-builder@file:quippy/system/embed-builder':
     resolution: {directory: quippy/system/embed-builder, type: directory}
-
-  '@hafemi/quippy.system.embed-create@file:quippy/system/embed-create':
-    resolution: {directory: quippy/system/embed-create, type: directory}
 
   '@hafemi/quippy.system.ticket-system.command@file:quippy/system/ticket-system/command':
     resolution: {directory: quippy/system/ticket-system/command, type: directory}
@@ -1598,6 +1625,18 @@ packages:
       zod:
         optional: true
 
+  openai@4.87.3:
+    resolution: {integrity: sha512-d2D54fzMuBYTxMW8wcNmhT1rYKcTfMJ8t+4KjH2KtvYenygITiGBgHoIrzHwnDQWW+C5oCA+ikIR2jgPCFqcKQ==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.23.8
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
+
   parseurl@1.3.3:
     resolution: {integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==}
     engines: {node: '>= 0.8'}
@@ -2236,6 +2275,14 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
+  '@cd/core.djs.guild@2.1.5(react@18.3.1)':
+    dependencies:
+      discord.js: 14.18.0
+      react: 18.3.1
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   '@cd/core.djs.interaction-helper@2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/core.djs.components': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -2375,6 +2422,34 @@ snapshots:
       - ws
       - zod
 
+  '@cd/core.djs.role@2.1.21(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/core.djs.guild': 2.1.5(react@18.3.1)
+      '@cd/core.errors': 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      discord.js: 14.18.0
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
+      - bufferutil
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - immer
+      - kerberos
+      - mongodb-client-encryption
+      - node-opus
+      - opusscript
+      - react-dom
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
   '@cd/core.djs.webhook@2.1.4(react@18.3.1)':
     dependencies:
       discord.js: 14.18.0
@@ -2388,6 +2463,32 @@ snapshots:
   '@cd/core.errors@2.1.19(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/types.core': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
+      - bufferutil
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - immer
+      - kerberos
+      - mongodb-client-encryption
+      - node-opus
+      - opusscript
+      - react-dom
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@cd/core.errors@2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/types.core': 2.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -2655,6 +2756,36 @@ snapshots:
       - ws
       - zod
 
+  '@cd/types.api@1.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/types.core': 2.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.workflow-common': 3.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      express: 4.21.2
+      mongoose: 8.12.1
+      react: 18.3.1
+      stripe: 17.7.0
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
+      - bufferutil
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - immer
+      - kerberos
+      - mongodb-client-encryption
+      - node-opus
+      - opusscript
+      - react-dom
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
   '@cd/types.core@2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/types.api': 1.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -2689,6 +2820,35 @@ snapshots:
       '@cd/types.api': 1.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       openai: 4.86.2(ws@8.18.0)
+      react: 18.3.1
+      winston-transport: 4.9.0
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
+      - bufferutil
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - immer
+      - kerberos
+      - mongodb-client-encryption
+      - node-opus
+      - opusscript
+      - react-dom
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@cd/types.core@2.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/types.api': 1.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      discord.js: 14.18.0
+      openai: 4.87.3(ws@8.18.0)
       react: 18.3.1
       winston-transport: 4.9.0
     transitivePeerDependencies:
@@ -2777,6 +2937,38 @@ snapshots:
       - ws
       - zod
 
+  '@cd/types.workflow-common@3.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/types.api': 1.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.core': 2.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/types.workflow-ui': 2.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@discordjs/voice': 0.18.0
+      discord.js: 14.18.0
+      joi: 17.13.3
+      react: 18.3.1
+      reactflow: 11.11.4(@types/react@18.3.18)(react@18.3.1)
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
+      - bufferutil
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - immer
+      - kerberos
+      - mongodb-client-encryption
+      - node-opus
+      - opusscript
+      - react-dom
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
   '@cd/types.workflow-ui@2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/types.workflow-common': 3.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -2806,6 +2998,32 @@ snapshots:
   '@cd/types.workflow-ui@2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/types.workflow-common': 3.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      react: 18.3.1
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
+      - bufferutil
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - immer
+      - kerberos
+      - mongodb-client-encryption
+      - node-opus
+      - opusscript
+      - react-dom
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@cd/types.workflow-ui@2.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/types.workflow-common': 3.1.41(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -2941,7 +3159,8 @@ snapshots:
     dependencies:
       '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.lib.utils': file:quippy/lib/utils(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.system.embed-create': file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.system.embed-builder': file:quippy/system/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.system.embed-builder-create': file:quippy/system/embed-builder-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
@@ -2979,8 +3198,9 @@ snapshots:
   '@hafemi/quippy.bot.command.ticket-system@file:quippy/bot/command/ticket-system(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.lib.types': file:quippy/lib/types
       '@hafemi/quippy.lib.utils': file:quippy/lib/utils(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.system.ticket-system.command': file:quippy/system/ticket-system/command(react@18.3.1)
+      '@hafemi/quippy.system.ticket-system.command': file:quippy/system/ticket-system/command(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -3023,8 +3243,10 @@ snapshots:
       '@cd/core.logger': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.utils.string-transformer': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.bot': file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.bot.command.embed-builder': file:quippy/bot/command/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.ticket-system': file:quippy/bot/command/ticket-system(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.system.embed-create': file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.system.embed-builder-create': file:quippy/system/embed-builder-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.system.ticket-system.command': file:quippy/system/ticket-system/command(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
       react: 18.3.1
     transitivePeerDependencies:
@@ -3143,7 +3365,45 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@hafemi/quippy.system.embed-builder-create@file:quippy/system/embed-builder-create': {}
+  '@hafemi/quippy.system.embed-builder-create@file:quippy/system/embed-builder-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+    dependencies:
+      '@cd/core.djs.components': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.event.interaction-create': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.lib.types': file:quippy/lib/types
+      discord.js: 14.18.0
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
+      - bufferutil
+      - debug
+      - encoding
+      - ffmpeg-static
+      - gcp-metadata
+      - ibm_db
+      - immer
+      - kerberos
+      - mariadb
+      - mongodb-client-encryption
+      - mysql2
+      - node-opus
+      - opusscript
+      - oracledb
+      - pg
+      - pg-hstore
+      - react
+      - react-dom
+      - snappy
+      - snowflake-sdk
+      - socks
+      - sqlite3
+      - supports-color
+      - tedious
+      - utf-8-validate
+      - ws
+      - zod
 
   '@hafemi/quippy.system.embed-builder@file:quippy/system/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
@@ -3186,12 +3446,14 @@ snapshots:
       - ws
       - zod
 
-  '@hafemi/quippy.system.embed-create@file:quippy/system/embed-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
+  '@hafemi/quippy.system.ticket-system.command@file:quippy/system/ticket-system/command(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
-      '@cd/core.djs.components': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.event.interaction-create': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.member': 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.lib.constants': file:quippy/lib/constants
       '@hafemi/quippy.lib.types': file:quippy/lib/types
+      '@hafemi/quippy.system.ticket-system.database-definition': file:quippy/system/ticket-system/database-definition(react@18.3.1)
       discord.js: 14.18.0
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
@@ -3226,11 +3488,12 @@ snapshots:
       - ws
       - zod
 
-  '@hafemi/quippy.system.ticket-system.command@file:quippy/system/ticket-system/command(react@18.3.1)':
+  '@hafemi/quippy.system.ticket-system.database-definition@file:quippy/system/ticket-system/database-definition(react@18.3.1)':
     dependencies:
+      '@cd/core.database.sequelize.default-connection': 2.1.4(react@18.3.1)
+      '@cd/core.database.util.uuid-handler': 2.1.5(react@18.3.1)
       '@hafemi/quippy.lib.types': file:quippy/lib/types
-      '@hafemi/quippy.system.ticket-system.database-definition': file:quippy/system/ticket-system/database-definition(react@18.3.1)
-      discord.js: 14.18.0
+      sequelize: 6.37.5(mysql2@3.12.0)
     transitivePeerDependencies:
       - bufferutil
       - ibm_db
@@ -3245,24 +3508,6 @@ snapshots:
       - supports-color
       - tedious
       - utf-8-validate
-
-  '@hafemi/quippy.system.ticket-system.database-definition@file:quippy/system/ticket-system/database-definition(react@18.3.1)':
-    dependencies:
-      '@cd/core.database.sequelize.default-connection': 2.1.4(react@18.3.1)
-      '@cd/core.database.util.uuid-handler': 2.1.5(react@18.3.1)
-      sequelize: 6.37.5(mysql2@3.12.0)
-    transitivePeerDependencies:
-      - ibm_db
-      - mariadb
-      - mysql2
-      - oracledb
-      - pg
-      - pg-hstore
-      - react
-      - snowflake-sdk
-      - sqlite3
-      - supports-color
-      - tedious
 
   '@hapi/hoek@9.3.0': {}
 
@@ -4189,6 +4434,20 @@ snapshots:
       fn.name: 1.1.0
 
   openai@4.86.2(ws@8.18.0):
+    dependencies:
+      '@types/node': 18.19.75
+      '@types/node-fetch': 2.6.12
+      abort-controller: 3.0.0
+      agentkeepalive: 4.6.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0
+    optionalDependencies:
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - encoding
+
+  openai@4.87.3(ws@8.18.0):
     dependencies:
       '@types/node': 18.19.75
       '@types/node-fetch': 2.6.12

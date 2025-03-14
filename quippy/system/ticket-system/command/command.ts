@@ -21,6 +21,7 @@ import {
 import { TicketType, Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";
 
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
+import { getRole } from '@cd/core.djs.role';
 import {
   TicketSystemButtonCreateTicketPayload,
   TicketSystemIDs,
@@ -206,21 +207,32 @@ function getButtonStyleByString(style: string): ButtonStyle {
 export async function executeButtonCreateTicket(interaction: ButtonInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
   
-  const type = interaction.customId.split(';')[2];
-  const maybeTicketType = await TicketType.getEntry({ guildID: interaction.guildId, typeName: type });
+  const ticketType = await validateTicketOpening(interaction);
 
-  if (!maybeTicketType) {
-    await InteractionHelper.followUp(interaction, `\`Error:\` Type \`${type}\` does not exist anymore for this button`);
-    return;
-  }
-  
-  
-
-  if (!maybeTicketType.modalInformation) {
-    await createTicket(interaction, maybeTicketType);
+  if (!ticketType.modalInformation) {
+    await createTicket(interaction, ticketType);
   } else {
     console.log('handle modal');
   }
+}
+
+async function validateTicketOpening(interaction: ButtonInteraction): Promise<TicketType | undefined> {
+  const typeName = interaction.customId.split(';')[2];
+  const maybeTicketType = await TicketType.getEntry({ guildID: interaction.guildId, typeName });
+
+  if (!maybeTicketType) {
+    await InteractionHelper.followUp(interaction, `\`Error:\` Type ${typeName} does not exist. Please inform the server team`);
+    return;
+  }
+
+  try {
+    const role = await getRole(interaction.client, interaction.guildId, maybeTicketType.roleID);
+  } catch {
+    await InteractionHelper.followUp(interaction, `\`Error:\` Role for type ${typeName} does not exist. Please inform the server team`);
+    return;
+  }
+  
+  return maybeTicketType;
 }
 
 async function createTicket(interaction: ButtonInteraction, type: TicketType): Promise<void> {
