@@ -10,18 +10,18 @@ import {
 
 import {
   getTicketTypesEmbed,
+  handleButtonCreateTicket,
   handleTicketTypeCreation,
   handleTicketTypeEdit,
-  handleTicketTypeRemoval,
-  handleButtonCreateTicket
+  handleTicketTypeRemoval
 } from "@hafemi/quippy.system.ticket-system.command";
 
-import { validateUserPermission } from "@hafemi/quippy.lib.utils";
 import {
-  TicketSystemButtonCreateTicketPayload,
   EmbedBuilderLimitations,
+  TicketSystemButtonCreateTicketPayload,
   TicketSystemLimitations
- } from "@hafemi/quippy.lib.types";
+} from "@hafemi/quippy.lib.types";
+import { validateUserPermission } from "@hafemi/quippy.lib.utils";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
@@ -70,12 +70,9 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
       .setName('edit')
       .setDescription('Edit a ticket type')
       .addStringOption(option => option
-        .setName('oldname')
-        .setDescription('Name of the ticket type to change')
+        .setName('type')
+        .setDescription('Ticket type to change')
         .setRequired(true))
-      .addStringOption(option => option
-        .setName('newname')
-        .setDescription('New Name of the ticket type'))
       .addRoleOption(option => option
         .setName('newrole')
         .setDescription('New Role to assign to ticket type'))
@@ -185,13 +182,12 @@ async function executeTypeRemove(interaction: ChatInputCommandInteraction): Prom
 async function executeTypeEdit(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-  const oldName = interaction.options.getString('oldname');
-  const newName = interaction.options.getString('newname');
+  const type = interaction.options.getString('type');
   const newRole = interaction.options.getRole('newrole');
   const newPrefix = interaction.options.getString('newprefix');
   const guildID = interaction.guildId;
 
-  const maybeResponse = await handleTicketTypeEdit({ oldName, newName, newRole, newPrefix, guildID });
+  const maybeResponse = await handleTicketTypeEdit({ type, newRole, newPrefix, guildID });
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else

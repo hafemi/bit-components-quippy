@@ -5,11 +5,9 @@ import {
   ButtonInteraction,
   ButtonStyle,
   ChannelType,
-  Embed,
   EmbedBuilder,
   GuildMember,
   MessageFlags,
-  PrivateThreadChannel,
   Role,
   TextChannel,
   ThreadAutoArchiveDuration
@@ -19,15 +17,14 @@ import {
   addInteraction
 } from '@cd/core.djs.event.interaction-create';
 
-import { TicketType, Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";
+import { Ticket, TicketType } from "@hafemi/quippy.system.ticket-system.database-definition";
 
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
 import { getRole } from '@cd/core.djs.role';
 import {
   TicketSystemButtonCreateTicketPayload,
   TicketSystemIDs,
-  TicketSystemLimitations,
-  TicketStatus
+  TicketSystemLimitations
 } from "@hafemi/quippy.lib.types";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
@@ -103,30 +100,26 @@ export async function handleTicketTypeRemoval({
 }
 
 export async function handleTicketTypeEdit({
-  oldName,
-  newName,
+  type,
   newRole,
   newPrefix,
-  guildID
+  guildID,
 }: {
-  oldName: string;
-  newName?: string;
+  type: string;
   newRole?: NonNullable<Role | APIRole>;
   newPrefix?: string;
   guildID: string;
 }): Promise<string | undefined> {
   const areNotValid = await validateTicketTypeArguments({
-    name: newName,
     prefix: newPrefix,
     guildID
   });
   if (areNotValid) return areNotValid;
 
-  const maybeTicketType = await TicketType.getEntry({ guildID, typeName: oldName });
-  if (!maybeTicketType) return `\`Error:\` Type \`${oldName}\` does not exist`;
+  const maybeTicketType = await TicketType.getEntry({ guildID, typeName: type });
+  if (!maybeTicketType) return `\`Error:\` Type \`${type}\` does not exist`;
 
   await maybeTicketType.update({
-    typeName: newName ?? maybeTicketType.typeName,
     roleID: newRole?.id ?? maybeTicketType.roleID,
     prefix: newPrefix ?? maybeTicketType.prefix
   });
@@ -143,18 +136,21 @@ async function validateTicketTypeArguments({
   prefix?: string;
   guildID?: string;
 }): Promise<string | undefined> {
-  const nameLimit = TicketSystemLimitations.Name;
-  const prefixLimit = TicketSystemLimitations.Prefix;
-  const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
+  if (!name && !prefix && !guildID) return `\`Info:\` Missing arguments`;
 
-  if (name && name.length > nameLimit)
-    return `\`Error:\` Name \`${name} \` exceeds the limit of ${nameLimit} characters (${name.length})`;
+  if (prefix && prefix.length > TicketSystemLimitations.Prefix) {
+    return `\`Error:\` Prefix \`${prefix}\` exceeds the limit of ${TicketSystemLimitations.Prefix} characters (${prefix.length})`;
+  }
 
-  if (prefix && prefix.length > prefixLimit)
-    return `\`Error:\` Prefix \`${prefix}\` exceeds the limit of ${prefixLimit} characters (${prefix.length})`;
+  if (name) {
+    const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
+    const nameLimit = TicketSystemLimitations.Name;
 
-  if (doesTypeExist)
-    return `\`Error:\` Type \`${name}\` already exists`;
+    if (doesTypeExist)
+      return `\`Error:\` Type \`${name}\` already exists`;
+    if (name.length > nameLimit)
+      return `\`Error:\` Name \`${name} \` exceeds the limit of ${nameLimit} characters (${name.length})`;
+  }
 
   return undefined;
 }
@@ -208,11 +204,11 @@ function getButtonStyleByString(style: string): ButtonStyle {
 
 export async function executeButtonCreateTicket(interaction: ButtonInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-  
+
   const response = await validateTicketOpening(interaction);
   if (typeof response == 'string') {
-    await InteractionHelper.followUp(interaction, response)
-    return
+    await InteractionHelper.followUp(interaction, response);
+    return;
   }
 
   if (!response.modalInformation) {
@@ -227,14 +223,14 @@ async function validateTicketOpening(interaction: ButtonInteraction): Promise<Ti
   const maybeTicketType = await TicketType.getEntry({ guildID: interaction.guildId, typeName });
 
   if (!maybeTicketType)
-    return `\`Error:\` Type \`${typeName}\` does not exist. Please inform the server team`
+    return `\`Error:\` Type \`${typeName}\` does not exist. Please inform the server team`;
 
   try {
     const role = await getRole(interaction.client, interaction.guildId, maybeTicketType.roleID);
   } catch {
-    return `\`Error:\` Role for type \`${typeName}\` does not exist. Please inform the server team`
+    return `\`Error:\` Role for type \`${typeName}\` does not exist. Please inform the server team`;
   }
-  
+
   return maybeTicketType;
 }
 
@@ -244,7 +240,7 @@ async function createTicket(interaction: ButtonInteraction, type: TicketType): P
 
   const senderUser = await getMemberFromAPIGuildMember(interaction.client, interaction.guildId!, interaction.member!);
   const threadID = await createThreadForID({ interaction, type, senderUser });
-  
+
   await Ticket.create({
     uuid: await Ticket.createNewValidUUID(),
     guildID: interaction.guildId,
@@ -253,7 +249,7 @@ async function createTicket(interaction: ButtonInteraction, type: TicketType): P
     type: type.typeName,
     status: 'open'
   });
-  
+
   await InteractionHelper.followUp(interaction, `\`Success:\` Ticket created: <#${threadID}>`);
 }
 
@@ -273,14 +269,14 @@ async function createThreadForID({
 
   const { threadName, threadReason } = await getThreadCreationDetails(type, senderUser);
   const embed = getThreadStarterEmbed(type, senderUser);
-  
+
   const thread = await channel.threads.create({
     name: threadName,
     reason: threadReason,
     autoArchiveDuration: ThreadAutoArchiveDuration.OneWeek,
     type: ChannelType.PrivateThread
   });
-  
+
 
   await thread.members.add(senderUser.id);
   await thread.send({ content: `<@${senderUser.id}>`, embeds: [embed] });

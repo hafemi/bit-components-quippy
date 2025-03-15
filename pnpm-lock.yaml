@@ -161,9 +161,6 @@ importers:
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.7
@@ -186,9 +183,6 @@ importers:
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.9
@@ -242,9 +236,6 @@ importers:
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
     devDependencies:
       '@babel/runtime':
         specifier: 7.26.7
@@ -421,6 +412,9 @@ importers:
       '@cd/core.djs.member':
         specifier: ^2.1.20
         version: 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.role':
+        specifier: ^2.1.21
+        version: 2.1.21(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js:
         specifier: ^14.18.0
         version: 14.18.0
@@ -711,21 +705,15 @@ packages:
 
   '@hafemi/quippy.bot.command.bot@file:quippy/bot/command/bot':
     resolution: {directory: quippy/bot/command/bot, type: directory}
-    peerDependencies:
-      react: ^18.3.1
 
   '@hafemi/quippy.bot.command.embed-builder@file:quippy/bot/command/embed-builder':
     resolution: {directory: quippy/bot/command/embed-builder, type: directory}
-    peerDependencies:
-      react: ^18.3.1
 
   '@hafemi/quippy.bot.command.ticket-system@file:quippy/bot/command/ticket-system':
     resolution: {directory: quippy/bot/command/ticket-system, type: directory}
 
   '@hafemi/quippy.bot.event.ready@file:quippy/bot/event/ready':
     resolution: {directory: quippy/bot/event/ready, type: directory}
-    peerDependencies:
-      react: ^18.3.1
 
   '@hafemi/quippy.lib.bit-components.database-definition@file:quippy/lib/bit-components/database-definition':
     resolution: {directory: quippy/lib/bit-components/database-definition, type: directory}
@@ -3122,7 +3110,6 @@ snapshots:
       '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.bot': file:quippy/system/bot
       discord.js: 14.18.0
-      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -3144,6 +3131,7 @@ snapshots:
       - oracledb
       - pg
       - pg-hstore
+      - react
       - react-dom
       - snappy
       - snowflake-sdk
@@ -3162,7 +3150,6 @@ snapshots:
       '@hafemi/quippy.system.embed-builder': file:quippy/system/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.embed-builder-create': file:quippy/system/embed-builder-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -3184,6 +3171,7 @@ snapshots:
       - oracledb
       - pg
       - pg-hstore
+      - react
       - react-dom
       - snappy
       - snowflake-sdk
@@ -3248,7 +3236,6 @@ snapshots:
       '@hafemi/quippy.system.embed-builder-create': file:quippy/system/embed-builder-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.ticket-system.command': file:quippy/system/ticket-system/command(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
-      react: 18.3.1
     transitivePeerDependencies:
       - '@aws-sdk/credential-providers'
       - '@discordjs/opus'
@@ -3270,6 +3257,7 @@ snapshots:
       - oracledb
       - pg
       - pg-hstore
+      - react
       - react-dom
       - snappy
       - snowflake-sdk
@@ -3451,8 +3439,10 @@ snapshots:
       '@cd/core.djs.event.interaction-create': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@cd/core.djs.member': 2.1.20(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@cd/core.djs.role': 2.1.21(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.lib.constants': file:quippy/lib/constants
       '@hafemi/quippy.lib.types': file:quippy/lib/types
+      '@hafemi/quippy.lib.utils': file:quippy/lib/utils(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.ticket-system.database-definition': file:quippy/system/ticket-system/database-definition(react@18.3.1)
       discord.js: 14.18.0
     transitivePeerDependencies:
