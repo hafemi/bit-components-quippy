@@ -26,6 +26,6 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
 async function executeExample(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-  
+
   console.log('executed example');
 }

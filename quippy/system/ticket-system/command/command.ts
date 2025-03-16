@@ -48,7 +48,7 @@ export async function handleTicketTypeCreation({
   guildID: string;
 }): Promise<string | undefined> {
   const maybeResponse = await validateTicketTypeCreation({ name, guildID });
-  if (maybeResponse) return maybeResponse
+  if (maybeResponse) return maybeResponse;
 
   await TicketType.create({
     uuid: await TicketType.createNewValidUUID(),
@@ -57,7 +57,7 @@ export async function handleTicketTypeCreation({
     roleID: role.id,
     prefix
   });
-  
+
   return undefined;
 }
 

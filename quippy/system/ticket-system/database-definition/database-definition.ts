@@ -1,15 +1,15 @@
-import {
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes
-} from "sequelize";
 import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import { createNewValidUUID } from "@cd/core.database.util.uuid-handler";
+import {
+  DataTypes,
+  InferAttributes,
+  InferCreationAttributes,
+  Model
+} from "sequelize";
 
 import {
-  TicketTypeModalInformation,
-  TicketStatus
+  TicketStatus,
+  TicketTypeModalInformation
 } from "@hafemi/quippy.lib.types";
 
 export class TicketType extends Model<InferAttributes<TicketType>, InferCreationAttributes<TicketType>> {

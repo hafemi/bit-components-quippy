@@ -56,9 +56,9 @@ export enum EmbedBuilderLimitations {
 
 export type SetAuthorPayload = {
   newEmbed: EmbedBuilder;
-  hasOneError: string | undefined 
-  url: string
-  iconURL: string
+  hasOneError: string | undefined;
+  url: string;
+  iconURL: string;
 };
 
 // ████████╗██╗░█████╗░██╗░░██╗███████╗████████╗░██████╗██╗░░░██╗░██████╗████████╗███████╗███╗░░░███╗

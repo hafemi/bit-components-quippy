@@ -122,7 +122,7 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const subcommand = interaction.options.getSubcommand();
   const subcommandGroup = interaction.options.getSubcommandGroup();
-  
+
   if (
     subcommandGroup == 'type' ||
     subcommandGroup == 'button'
@@ -140,7 +140,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     if (subcommand == 'remove') return await executeTypeRemove(interaction);
     if (subcommand == 'edit') return await executeTypeEdit(interaction);
   }
-  
+
   if (subcommandGroup == 'button') {
     if (subcommand == 'create') return await executeButtonCreate(interaction);
   }
@@ -200,7 +200,7 @@ async function executeTypeEdit(interaction: ChatInputCommandInteraction): Promis
 
 async function executeButtonCreate(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-  
+
   const infoPayload: TicketSystemButtonCreateTicketPayload = {
     interaction,
     type: interaction.options.getString('type'),
@@ -210,7 +210,7 @@ async function executeButtonCreate(interaction: ChatInputCommandInteraction): Pr
     buttonText: interaction.options.getString('buttontext'),
     guildID: interaction.guildId
   };
-  
+
   const maybeResponse = await handleButtonCreateTicket(infoPayload);
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);

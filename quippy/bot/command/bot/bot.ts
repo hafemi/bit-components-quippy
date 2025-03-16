@@ -35,14 +35,14 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
 async function executeLatency(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-  
+
   const latencyEmbed = getClientLatencyWithinEmbed(interaction);
   await InteractionHelper.followUp(interaction, { embeds: [latencyEmbed] });
 }
 
 async function executeInfo(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
-  
+
   const infoEmbed = await getBotInfoEmbed(interaction);
   await InteractionHelper.followUp(interaction, { embeds: [infoEmbed] });
 }

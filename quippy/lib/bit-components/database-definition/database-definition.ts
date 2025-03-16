@@ -1,11 +1,11 @@
-import {
-  Model,
-  InferAttributes,
-  InferCreationAttributes,
-  DataTypes
-} from "sequelize";
 import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import { createNewValidUUID } from "@cd/core.database.util.uuid-handler";
+import {
+  InferAttributes,
+  InferCreationAttributes,
+  Model,
+  DataTypes
+} from "sequelize";
 
 export class TEMPLATE extends Model<InferAttributes<TEMPLATE>, InferCreationAttributes<TEMPLATE>> {
   declare uuid: string;

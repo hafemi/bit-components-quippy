@@ -41,7 +41,7 @@ export async function execute(client: Client): Promise<any> {
           unixseconds: Math.floor(Date.now() / 1000)
         })), process.env.WEBHOOK_URL_BOT_STATUS)
         .catch(err => log.error(err));
-    
+
     registerEmbedBuilderComponents();
     registerTicketSystemComponents();
 
@@ -50,6 +50,6 @@ export async function execute(client: Client): Promise<any> {
     log.error(err.stack, { discordEvent: Events.ClientReady });
     log.warn('Destroying client after fatal error..');
     client.destroy();
-    log.warn('Client destroyed')
+    log.warn('Client destroyed');
   }
 }
