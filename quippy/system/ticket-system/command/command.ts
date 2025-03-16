@@ -47,13 +47,8 @@ export async function handleTicketTypeCreation({
   prefix: string;
   guildID: string;
 }): Promise<string | undefined> {
-  const areNotValid = await validateTicketTypeArguments({ name, prefix, guildID });
-  if (areNotValid) return areNotValid;
-
-  const typeLimit = TicketSystemLimitations.Types;
-  const typeAmount = await TicketType.count({ where: { guildID } });
-
-  if (typeAmount == typeLimit) return `\`Error:\` Server exceeds the limit of ${typeLimit} ticket types`;
+  const maybeResponse = await validateTicketTypeCreation({ name, guildID });
+  if (maybeResponse) return maybeResponse
 
   await TicketType.create({
     uuid: await TicketType.createNewValidUUID(),
@@ -62,7 +57,23 @@ export async function handleTicketTypeCreation({
     roleID: role.id,
     prefix
   });
+  
   return undefined;
+}
+
+async function validateTicketTypeCreation({
+  name,
+  guildID
+}: {
+  name: string;
+  guildID: string;
+}): Promise<string | undefined> {
+  const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
+  if (doesTypeExist) return `\`Error:\` Type \`${name}\` already exists`;
+
+  const typeLimit = TicketSystemLimitations.DifferentTypes;
+  const typeAmount = await TicketType.count({ where: { guildID } });
+  if (typeAmount == typeLimit) return `\`Error:\` Server exceeds the limit of ${typeLimit} ticket types`;
 }
 
 export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder | undefined> {
@@ -110,11 +121,7 @@ export async function handleTicketTypeEdit({
   newPrefix?: string;
   guildID: string;
 }): Promise<string | undefined> {
-  const areNotValid = await validateTicketTypeArguments({
-    prefix: newPrefix,
-    guildID
-  });
-  if (areNotValid) return areNotValid;
+  if (!newRole && !newPrefix) return `\`Info:\` No new role or prefix provided`;
 
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: type });
   if (!maybeTicketType) return `\`Error:\` Type \`${type}\` does not exist`;
@@ -123,34 +130,6 @@ export async function handleTicketTypeEdit({
     roleID: newRole?.id ?? maybeTicketType.roleID,
     prefix: newPrefix ?? maybeTicketType.prefix
   });
-
-  return undefined;
-}
-
-async function validateTicketTypeArguments({
-  name,
-  prefix,
-  guildID
-}: {
-  name?: string;
-  prefix?: string;
-  guildID?: string;
-}): Promise<string | undefined> {
-  if (!name && !prefix && !guildID) return `\`Info:\` Missing arguments`;
-
-  if (prefix && prefix.length > TicketSystemLimitations.Prefix) {
-    return `\`Error:\` Prefix \`${prefix}\` exceeds the limit of ${TicketSystemLimitations.Prefix} characters (${prefix.length})`;
-  }
-
-  if (name) {
-    const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
-    const nameLimit = TicketSystemLimitations.Name;
-
-    if (doesTypeExist)
-      return `\`Error:\` Type \`${name}\` already exists`;
-    if (name.length > nameLimit)
-      return `\`Error:\` Name \`${name} \` exceeds the limit of ${nameLimit} characters (${name.length})`;
-  }
 
   return undefined;
 }

@@ -47,6 +47,7 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
       .addStringOption(option => option
         .setName('name')
         .setDescription('Name of the ticket type')
+        .setMaxLength(TicketSystemLimitations.Name)
         .setRequired(true))
       .addRoleOption(option => option
         .setName('role')
@@ -55,6 +56,7 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
       .addStringOption(option => option
         .setName('prefix')
         .setDescription('Prefix used when creating tickets')
+        .setMaxLength(TicketSystemLimitations.Prefix)
         .setRequired(true)))
     .addSubcommand(subcommand => subcommand
       .setName('list')
@@ -78,7 +80,9 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
         .setDescription('New Role to assign to ticket type'))
       .addStringOption(option => option
         .setName('newprefix')
-        .setDescription('New Prefix used when creating tickets')))
+        .setDescription('New Prefix used when creating tickets')
+        .setMaxLength(TicketSystemLimitations.Prefix))
+    )
   )
 
   // Button
