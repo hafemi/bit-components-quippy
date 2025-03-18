@@ -256,9 +256,8 @@ async function createThreadForID({
     type: ChannelType.PrivateThread
   });
 
-
   await thread.members.add(senderUser.id);
-  await thread.send({ content: `<@${senderUser.id}>`, embeds: [embed] });
+  await thread.send({ content: `<@&${type.roleID}>`, embeds: [embed] });
   return thread.id;
 }
 
