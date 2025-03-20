@@ -51,7 +51,7 @@ export async function getBotInfoEmbed(interaction: ChatInputCommandInteraction):
 
   infoEmbed.addFields(
     { name: 'Uptime', value: `${botInfo.uptime}`, inline: true },
-    { name: 'Ticket Amount', value: `${botInfo.tickets}`, inline: true }
+    { name: 'Tickets created', value: `${botInfo.tickets}`, inline: true }
   );
 
   return infoEmbed;
@@ -71,12 +71,14 @@ async function getBotInfo(interaction: ChatInputCommandInteraction): Promise<
   const userCount = guilds.reduce((acc, guild) => acc + guild.memberCount, 0);
   const uptime = getBotUptime(interaction);
   const commandCount = (await interaction.client.application?.commands.fetch()).size;
-  const ticketCount = await Ticket.count();
+  
+  // @ts-ignore
+  const ticketCount = await Ticket.max('id');
 
   return {
     guilds: formatNumberWithApostrophes(guildsCount),
     users: formatNumberWithApostrophes(userCount),
-    tickets: formatNumberWithApostrophes(ticketCount),
+    tickets: formatNumberWithApostrophes(ticketCount as number),
     uptime,
     commands: commandCount,
   };
