@@ -103,8 +103,16 @@ export async function handleTicketTypeRemoval({
   guildID: string;
 }): Promise<string | undefined> {
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: name });
-
   if (!maybeTicketType) return `\`Error:\` Type \`${name}\` does not exist`;
+  
+  const randomEntry = await Ticket.findOne({
+    where: {
+      guildID,
+      type: name,
+      status: 'open'
+    }
+  })
+  if (randomEntry) return `\`Error:\` You can't remove a type with open tickets`;
 
   await maybeTicketType.destroy();
   return undefined;
