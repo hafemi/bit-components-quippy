@@ -8,6 +8,7 @@ import {
   ColorResolvable,
   EmbedBuilder,
   ModalSubmitInteraction,
+  PermissionFlagsBits,
   TextChannel,
   TextInputStyle
 } from "discord.js";
@@ -28,6 +29,7 @@ import {
 } from '@hafemi/quippy.lib.types';
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
+import { validateUserPermission } from "@hafemi/quippy.lib.utils";
 
 const configurateActionRows = create5x5ButtonActionRows([
   createButton({
@@ -106,18 +108,31 @@ export function getStarterEmbed(): {
 }
 
 export function registerEmbedBuilderComponents(): void {
-  addInteraction(EmbedBuilderButtonID.SetTitle, async (interaction: ButtonInteraction) => await executeButtonSetTitle(interaction));
-  addInteraction(EmbedBuilderButtonID.SetColor, async (interaction: ButtonInteraction) => await executeButtonSetColor(interaction));
-  addInteraction(EmbedBuilderButtonID.SetAuthor, async (interaction: ButtonInteraction) => await executeButtonSetAuthor(interaction));
-  addInteraction(EmbedBuilderButtonID.SetDescription, async (interaction: ButtonInteraction) => await executeButtonSetDescription(interaction));
-  addInteraction(EmbedBuilderButtonID.SetThumbnail, async (interaction: ButtonInteraction) => await executeButtonSetThumbnail(interaction));
-  addInteraction(EmbedBuilderButtonID.SetImage, async (interaction: ButtonInteraction) => await executeButtonSetImage(interaction));
-  addInteraction(EmbedBuilderButtonID.SetFooter, async (interaction: ButtonInteraction) => await executeButtonSetFooter(interaction));
-  addInteraction(EmbedBuilderButtonID.SetTimestamp, async (interaction: ButtonInteraction) => await executeButtonSetTimestamp(interaction));
-  addInteraction(EmbedBuilderButtonID.AddField, async (interaction: ButtonInteraction) => await executeButtonAddField(interaction));
-  addInteraction(EmbedBuilderButtonID.Cancel, async (interaction: ButtonInteraction) => await executeButtonCancel(interaction));
-  addInteraction(EmbedBuilderButtonID.Submit, async (interaction: ButtonInteraction) => await executeButtonSubmit(interaction));
-  addInteraction(EmbedBuilderButtonID.SetContent, async (interaction: ButtonInteraction) => await executeButtonSetContent(interaction));
+  addInteraction(EmbedBuilderButtonID.SetTitle, wrapInteractionWithPermission(executeButtonSetTitle));
+  addInteraction(EmbedBuilderButtonID.SetColor, wrapInteractionWithPermission(executeButtonSetColor));
+  addInteraction(EmbedBuilderButtonID.SetAuthor, wrapInteractionWithPermission(executeButtonSetAuthor));
+  addInteraction(EmbedBuilderButtonID.SetDescription, wrapInteractionWithPermission(executeButtonSetDescription));
+  addInteraction(EmbedBuilderButtonID.SetThumbnail, wrapInteractionWithPermission(executeButtonSetThumbnail));
+  addInteraction(EmbedBuilderButtonID.SetImage, wrapInteractionWithPermission(executeButtonSetImage));
+  addInteraction(EmbedBuilderButtonID.SetFooter, wrapInteractionWithPermission(executeButtonSetFooter));
+  addInteraction(EmbedBuilderButtonID.SetTimestamp, wrapInteractionWithPermission(executeButtonSetTimestamp));
+  addInteraction(EmbedBuilderButtonID.AddField, wrapInteractionWithPermission(executeButtonAddField));
+  addInteraction(EmbedBuilderButtonID.Cancel, wrapInteractionWithPermission(executeButtonCancel));
+  addInteraction(EmbedBuilderButtonID.Submit, wrapInteractionWithPermission(executeButtonSubmit));
+  addInteraction(EmbedBuilderButtonID.SetContent, wrapInteractionWithPermission(executeButtonSetContent));
+}
+
+function wrapInteractionWithPermission(
+  interactionHandler: (interaction: ButtonInteraction) => Promise<void>
+): (interaction: ButtonInteraction) => Promise<void> {
+  return async (interaction: ButtonInteraction) => {
+    const hasPermissions = await validateUserPermission(interaction, PermissionFlagsBits.ManageMessages);
+    if (!hasPermissions) {
+      await InteractionHelper.followUp(interaction, '`Error:` You don\'t have the \`ManageMessages\` Permission');
+      return;
+    }
+    await interactionHandler(interaction);
+  };
 }
 
 async function executeButtonSetTitle(interaction: ButtonInteraction): Promise<void> {
