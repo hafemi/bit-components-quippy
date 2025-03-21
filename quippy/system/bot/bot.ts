@@ -71,14 +71,12 @@ async function getBotInfo(interaction: ChatInputCommandInteraction): Promise<
   const userCount = guilds.reduce((acc, guild) => acc + guild.memberCount, 0);
   const uptime = getBotUptime(interaction);
   const commandCount = (await interaction.client.application?.commands.fetch()).size;
-  
-  // @ts-ignore
-  const ticketCount = await Ticket.max('id');
+  const ticketCount = await Ticket.count();
 
   return {
     guilds: formatNumberWithApostrophes(guildsCount),
     users: formatNumberWithApostrophes(userCount),
-    tickets: formatNumberWithApostrophes(ticketCount as number),
+    tickets: formatNumberWithApostrophes(ticketCount),
     uptime,
     commands: commandCount,
   };
