@@ -70,7 +70,7 @@ export type SetAuthorPayload = {
 // Ticket System
 
 export enum TicketSystemLimitations {
-  DifferentTypes = 3,
+  DifferentTypes = 5,
   Name = 200,
   Prefix = 15,
   CreationButton = 80
