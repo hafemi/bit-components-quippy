@@ -4,5 +4,6 @@ export {
   getTicketTypesEmbed,
   handleTicketTypeRemoval,
   handleTicketTypeEdit,
-  handleButtonCreateTicket
+  handleButtonCreateTicket,
+  handleButtonEditing
 } from './command.js';

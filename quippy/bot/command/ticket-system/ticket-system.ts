@@ -13,13 +13,14 @@ import {
   handleButtonCreateTicket,
   handleTicketTypeCreation,
   handleTicketTypeEdit,
-  handleTicketTypeRemoval
+  handleTicketTypeRemoval,
+  handleButtonEditing
 } from "@hafemi/quippy.system.ticket-system.command";
 
 import {
   EmbedBuilderLimitations,
   TicketSystemButtonCreateTicketPayload,
-  TicketSystemLimitations
+  TicketSystemLimitations,
 } from "@hafemi/quippy.lib.types";
 import { validateUserPermission } from "@hafemi/quippy.lib.utils";
 
@@ -115,8 +116,21 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
         .setName('buttontext')
         .setDescription('Text of the button')
         .setMaxLength(TicketSystemLimitations.CreationButton)
-        .setRequired(true))
-    )
+        .setRequired(true)))
+    .addSubcommand(subcommand => subcommand
+      .setName('disable')
+      .setDescription('Disable the buttons of a message')
+      .addStringOption(option => option
+        .setName('messageid')
+        .setDescription('ID of the message')
+        .setRequired(true)))
+    .addSubcommand(subcommand => subcommand
+      .setName('enable')
+      .setDescription('Enable the buttons of a message')
+      .addStringOption(option => option
+        .setName('messageid')
+        .setDescription('ID of the message')
+        .setRequired(true)))
   );
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -143,6 +157,8 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
   if (subcommandGroup == 'button') {
     if (subcommand == 'create') return await executeButtonCreate(interaction);
+    if (subcommand == 'disable') return await executeButtonDisable(interaction);
+    if (subcommand == 'enable') return await executeButtonEnable(interaction);
   }
 
   await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
@@ -216,4 +232,26 @@ async function executeButtonCreate(interaction: ChatInputCommandInteraction): Pr
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
     await InteractionHelper.followUp(interaction, '`Success:` Button created');
+}
+
+async function executeButtonDisable(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+  const messageId = interaction.options.getString('messageid');
+  const maybeResponse = await handleButtonEditing({ interaction, messageId, type: 'disable' })
+  if (maybeResponse)
+    await InteractionHelper.followUp(interaction, maybeResponse);
+  else
+    await InteractionHelper.followUp(interaction, '`Success:` Button disabled');
+}
+
+async function executeButtonEnable(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+  const messageId = interaction.options.getString('messageid');
+  const maybeResponse = await handleButtonEditing({ interaction, messageId, type: 'enable' })
+  if (maybeResponse)
+    await InteractionHelper.followUp(interaction, maybeResponse);
+  else
+    await InteractionHelper.followUp(interaction, '`Success:` Button enabled');
 }

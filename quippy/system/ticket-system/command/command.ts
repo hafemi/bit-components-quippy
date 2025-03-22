@@ -5,8 +5,11 @@ import {
   ButtonInteraction,
   ButtonStyle,
   ChannelType,
+  ChatInputCommandInteraction,
+  ComponentType,
   EmbedBuilder,
   GuildMember,
+  Message,
   MessageFlags,
   Role,
   TextChannel,
@@ -22,6 +25,7 @@ import { Ticket, TicketType } from "@hafemi/quippy.system.ticket-system.database
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
 import { getRole } from '@cd/core.djs.role';
 import {
+  EditButtonType,
   TicketSystemButtonCreateTicketPayload,
   TicketSystemIDs,
   TicketSystemLimitations
@@ -30,7 +34,7 @@ import {
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
 import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
-import { capitalizeFirstLetter } from "@hafemi/quippy.lib.utils";
+import { capitalizeFirstLetter, fetchMessageById } from "@hafemi/quippy.lib.utils";
 
 export function registerTicketSystemComponents(): void {
   addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreateTicket(interaction));
@@ -191,7 +195,7 @@ function getButtonStyleByString(style: string): ButtonStyle {
   }
 }
 
-export async function executeButtonCreateTicket(interaction: ButtonInteraction): Promise<void> {
+async function executeButtonCreateTicket(interaction: ButtonInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
   const response = await validateTicketOpening(interaction);
@@ -291,4 +295,38 @@ function getThreadStarterEmbed(type: TicketType, senderUser: GuildMember): Embed
       Welcome to the Ticket Support <@${senderUser.id}>!
       If you haven't already please describe your issue in detail, so we can help you as soon as possible.
     `);
+}
+
+export async function handleButtonEditing({
+  interaction,
+  messageId,
+  type
+}: {
+  interaction: ChatInputCommandInteraction
+  messageId: string
+  type: EditButtonType
+}): Promise<string | undefined> {
+  const maybeMessage = await fetchMessageById({ channel: interaction.channel, messageId });
+  if (!maybeMessage) return `\`Error:\` Message not found`;
+  
+  const buttons = maybeMessage.components.flatMap(row =>
+    row.components.filter(component => component.type == ComponentType.Button)
+  );
+  if (buttons.length == 0) return `\`Error:\` No buttons found in the message`;
+  if (buttons.length > 5) return `\`Error:\` Too many buttons found in the message`;
+  
+  let newActionRow = new ActionRowBuilder<ButtonBuilder>();
+  buttons.forEach(button => {
+    const newButton = new ButtonBuilder()
+      .setCustomId(button.customId)
+      .setLabel(button.label)
+      .setStyle(button.style);
+    
+    if (type == 'disable') newButton.setDisabled(true);
+    if (type == 'enable') newButton.setDisabled(false);
+    
+    newActionRow.addComponents(newButton);
+  })
+  
+  await maybeMessage.edit({ components: [newActionRow] });
 }
