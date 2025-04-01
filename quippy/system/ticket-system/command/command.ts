@@ -55,7 +55,7 @@ export async function handleTicketTypeCreation({
   prefix: string;
   guildID: string;
 }): Promise<string | undefined> {
-  const maybeResponse = await validateTicketTypeCreation({ name, guildID });
+  const maybeResponse = await validateTicketTypeCreation({ name, guildID, roleID: role.id });
   if (maybeResponse) return maybeResponse;
 
   await TicketType.create({
@@ -71,10 +71,12 @@ export async function handleTicketTypeCreation({
 
 async function validateTicketTypeCreation({
   name,
-  guildID
+  guildID,
+  roleID
 }: {
   name: string;
   guildID: string;
+  roleID: string;
 }): Promise<string | undefined> {
   const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
   if (doesTypeExist) return `\`Error:\` Type \`${name}\` already exists`;
@@ -82,6 +84,8 @@ async function validateTicketTypeCreation({
   const typeLimit = TicketSystemLimitations.DifferentTypes;
   const typeAmount = await TicketType.count({ where: { guildID } });
   if (typeAmount == typeLimit) return `\`Error:\` Server exceeds the limit of ${typeLimit} ticket types`;
+  
+  if (roleID == guildID) return `\`Error:\` You can't use the \`@everyone\` role`;
 }
 
 export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder | undefined> {
@@ -116,7 +120,7 @@ export async function handleTicketTypeRemoval({
   // disabled since to this day you can't delete/close a ticket
   // const randomEntry = await Ticket.findOne({
   //   where: {
-  //     guildID,how wou
+  //     guildID,
   //     type: name,
   //     status: 'open'
   //   }
