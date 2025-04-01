@@ -1,6 +1,6 @@
 export { 
   capitalizeFirstLetter,
   fetchMessageById,
-  validateUserPermission,
+  hasUserPermission,
   formatNumberWithApostrophes
  } from './utils.js';

@@ -25,7 +25,7 @@ export async function fetchMessageById({
   }
 }
 
-export async function validateUserPermission(interaction: any, permission: PermissionResolvable): Promise<boolean> {
+export async function hasUserPermission(interaction: any, permission: PermissionResolvable): Promise<boolean> {
   const senderUser = await getMemberFromAPIGuildMember(interaction.client, interaction.guildId!, interaction.member!);
 
   if (!senderUser.permissions.has(permission)) {

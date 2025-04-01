@@ -29,7 +29,7 @@ import {
 } from '@hafemi/quippy.lib.types';
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
-import { validateUserPermission } from "@hafemi/quippy.lib.utils";
+import { hasUserPermission } from "@hafemi/quippy.lib.utils";
 
 const configurateActionRows = create5x5ButtonActionRows([
   createButton({
@@ -126,7 +126,7 @@ function wrapInteractionWithPermission(
   interactionHandler: (interaction: ButtonInteraction) => Promise<void>
 ): (interaction: ButtonInteraction) => Promise<void> {
   return async (interaction: ButtonInteraction) => {
-    const hasPermissions = await validateUserPermission(interaction, PermissionFlagsBits.ManageMessages);
+    const hasPermissions = await hasUserPermission(interaction, PermissionFlagsBits.ManageMessages);
     if (!hasPermissions) {
       await InteractionHelper.followUp(interaction, '`Error:` You don\'t have the \`ManageMessages\` Permission');
       return;

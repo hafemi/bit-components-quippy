@@ -11,10 +11,11 @@ import {
 import {
   getTicketTypesEmbed,
   handleButtonCreateTicket,
+  handleButtonEditing,
   handleTicketTypeCreation,
   handleTicketTypeEdit,
   handleTicketTypeRemoval,
-  handleButtonEditing
+  handleUserAction
 } from "@hafemi/quippy.system.ticket-system.command";
 
 import {
@@ -22,7 +23,7 @@ import {
   TicketSystemButtonCreateTicketPayload,
   TicketSystemLimitations,
 } from "@hafemi/quippy.lib.types";
-import { validateUserPermission } from "@hafemi/quippy.lib.utils";
+import { hasUserPermission } from "@hafemi/quippy.lib.utils";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
@@ -131,21 +132,36 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
         .setName('messageid')
         .setDescription('ID of the message')
         .setRequired(true)))
-  );
+)
+
+  // User
+  .addSubcommandGroup(subcommandGroup => subcommandGroup
+    .setName('user')
+    .setDescription('Add or remove a user from a ticket')
+    .addSubcommand(subcommand => subcommand
+      .setName('add')
+      .setDescription('Add a user to a ticket')
+      .addUserOption(option => option
+        .setName('user')
+        .setDescription('User to add')
+        .setRequired(true)))
+    .addSubcommand(subcommand => subcommand
+      .setName('remove')
+      .setDescription('Remove a user from a ticket')
+      .addUserOption(option => option
+        .setName('user')
+        .setDescription('User to remove')
+        .setRequired(true)))
+  )
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const subcommand = interaction.options.getSubcommand();
   const subcommandGroup = interaction.options.getSubcommandGroup();
 
-  if (
-    subcommandGroup == 'type' ||
-    subcommandGroup == 'button'
-  ) {
-    const hasPermissions = await validateUserPermission(interaction, PermissionFlagsBits.Administrator);
-    if (!hasPermissions) {
-      await InteractionHelper.followUp(interaction, '`Error:` You need Administrator permissions to use this subcommand');
-      return;
-    }
+  const maybePermissionError = await validateUserPermission(interaction, subcommandGroup);
+  if (maybePermissionError) {
+    await InteractionHelper.followUp(interaction, maybePermissionError);
+    return;
   }
 
   if (subcommandGroup == 'type') {
@@ -160,8 +176,27 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     if (subcommand == 'disable') return await executeButtonDisable(interaction);
     if (subcommand == 'enable') return await executeButtonEnable(interaction);
   }
+  
+  if (subcommandGroup == 'user') {
+    if (subcommand == 'add') return await executeUserAdd(interaction);
+    if (subcommand == 'remove') return await executeUserRemove(interaction);
+  }
 
   await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
+}
+
+async function validateUserPermission(interaction: ChatInputCommandInteraction, subcommandGroup: string): Promise<string | undefined> { 
+  if (
+    subcommandGroup == 'type' ||
+    subcommandGroup == 'button'
+  ) {
+    const hasPermission = await hasUserPermission(interaction, PermissionFlagsBits.Administrator);
+    if (!hasPermission
+    )
+      return '`Error: `You need Administrator permissions to use this subcommand'
+  }
+  
+  return undefined
 }
 
 async function executeTypeAdd(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -254,4 +289,26 @@ async function executeButtonEnable(interaction: ChatInputCommandInteraction): Pr
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
     await InteractionHelper.followUp(interaction, '`Success:` Button enabled');
+}
+
+async function executeUserAdd(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+  const user = interaction.options.getUser('user');
+  const maybeResponse = await handleUserAction({ interaction, user, action: 'add' });
+  if (maybeResponse)
+    await InteractionHelper.followUp(interaction, maybeResponse);
+  else
+    await InteractionHelper.followUp(interaction, '`Success:` User added to ticket');
+}
+
+async function executeUserRemove(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+  const user = interaction.options.getUser('user');
+  const maybeResponse = await handleUserAction({ interaction, user, action: 'remove' });
+  if (maybeResponse)
+    await InteractionHelper.followUp(interaction, maybeResponse);
+  else
+    await InteractionHelper.followUp(interaction, '`Success:` User removed from ticket');
 }

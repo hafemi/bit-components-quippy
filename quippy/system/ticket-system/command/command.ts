@@ -9,11 +9,12 @@ import {
   ComponentType,
   EmbedBuilder,
   GuildMember,
-  Message,
   MessageFlags,
   Role,
   TextChannel,
-  ThreadAutoArchiveDuration
+  ThreadAutoArchiveDuration,
+  ThreadChannel,
+  User
 } from "discord.js";
 
 import {
@@ -22,7 +23,10 @@ import {
 
 import { Ticket, TicketType } from "@hafemi/quippy.system.ticket-system.database-definition";
 
-import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
+import {
+  getMember,
+  getMemberFromAPIGuildMember
+} from '@cd/core.djs.member';
 import { getRole } from '@cd/core.djs.role';
 import {
   EditButtonType,
@@ -330,3 +334,50 @@ export async function handleButtonEditing({
   
   await maybeMessage.edit({ components: [newActionRow] });
 }
+
+export async function handleUserAction({
+  interaction,
+  user,
+  action
+}: {
+  interaction: ChatInputCommandInteraction;
+  user: User;
+  action: 'add' | 'remove';
+}): Promise<string | undefined> {
+  const maybeResponse = await validateThreadUserEdit({ interaction, user });
+  if (typeof maybeResponse === 'string') return maybeResponse;
+
+  const thread = maybeResponse;
+  const guildMember = await getMember(interaction.client, interaction.guildId, user.id);
+  const isInThread = (await thread.members.fetch()).has(guildMember.id);
+
+  if (action === 'add') {
+    if (isInThread) return `\`Error:\` User is already in the ticket`;
+    await thread.members.add(guildMember);
+  } else if (action === 'remove') {
+    if (!isInThread) return `\`Error:\` User is not in the ticket`;
+    await thread.members.remove(guildMember);
+  }
+
+  return undefined;
+}
+
+async function validateThreadUserEdit({
+  interaction,
+  user
+}: {
+  interaction: ChatInputCommandInteraction;
+  user: User;
+  }): Promise<string | ThreadChannel> {
+  const isEntry = await Ticket.isEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
+  if (!isEntry)
+    return `\`Error:\` This channel is not a ticket`
+  
+  if (interaction.user == user)
+    return `\`Error:\` You can't add yourself to a ticket`
+  
+  if (!interaction.channel.isThread())
+    return `\`Error:\` This command can only be used in a thread`;
+  
+  return interaction.channel
+ }
