@@ -7,7 +7,10 @@ import {
   defaultEmbedColor,
   githubRepoLink
 } from '@hafemi/quippy.lib.constants';
-import { formatNumberWithApostrophes } from "@hafemi/quippy.lib.utils";
+import {
+  formatNumberWithApostrophes,
+  getNextAutoIncrement
+ } from "@hafemi/quippy.lib.utils";
 import { Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";
 
 export function getClientLatencyWithinEmbed(interaction: ChatInputCommandInteraction): EmbedBuilder {
@@ -71,12 +74,12 @@ async function getBotInfo(interaction: ChatInputCommandInteraction): Promise<
   const userCount = guilds.reduce((acc, guild) => acc + guild.memberCount, 0);
   const uptime = getBotUptime(interaction);
   const commandCount = (await interaction.client.application?.commands.fetch()).size;
-  const ticketCount = await Ticket.count();
+  const nextAutoIncrement = await getNextAutoIncrement('Ticket');
 
   return {
     guilds: formatNumberWithApostrophes(guildsCount),
     users: formatNumberWithApostrophes(userCount),
-    tickets: formatNumberWithApostrophes(ticketCount),
+    tickets: formatNumberWithApostrophes(nextAutoIncrement - 1),
     uptime,
     commands: commandCount,
   };
