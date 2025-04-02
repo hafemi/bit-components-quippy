@@ -378,7 +378,7 @@ async function validateThreadUserEdit({
     return `\`Error:\` This channel is not a ticket`
   
   if (interaction.user == user)
-    return `\`Error:\` You can't add yourself to a ticket`
+    return `\`Error:\` You can't add/remove yourself from the thread`
   
   if (!interaction.channel.isThread())
     return `\`Error:\` This command can only be used in a thread`;
