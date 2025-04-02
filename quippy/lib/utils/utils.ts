@@ -4,9 +4,7 @@ import {
   PermissionResolvable
 } from 'discord.js';
 
-import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
-import { QueryTypes } from "sequelize";
 
 export function capitalizeFirstLetter(val: string): string {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
@@ -38,13 +36,4 @@ export async function hasUserPermission(interaction: any, permission: Permission
 
 export function formatNumberWithApostrophes(num: number): string {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
-}
-
-export async function getNextAutoIncrement(modelName: string): Promise<number> {
-  const tableName = sequelize.model(modelName).getTableName();
-  const result = await sequelize.query(`SHOW TABLE STATUS LIKE '${tableName}'`, {
-    type: QueryTypes.SELECT
-  });
-
-  return (result[0] as { Auto_increment: number; }).Auto_increment;
 }

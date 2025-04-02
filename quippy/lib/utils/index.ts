@@ -2,6 +2,5 @@ export {
   capitalizeFirstLetter,
   fetchMessageById,
   hasUserPermission,
-  formatNumberWithApostrophes,
-  getNextAutoIncrement
+  formatNumberWithApostrophes
  } from './utils.js';

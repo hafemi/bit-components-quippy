@@ -3,15 +3,15 @@ import {
   EmbedBuilder
 } from "discord.js";
 
+import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import {
   defaultEmbedColor,
   githubRepoLink
 } from '@hafemi/quippy.lib.constants';
 import {
-  formatNumberWithApostrophes,
-  getNextAutoIncrement
- } from "@hafemi/quippy.lib.utils";
-import { Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";
+  formatNumberWithApostrophes
+} from "@hafemi/quippy.lib.utils";
+import { QueryTypes } from "sequelize";
 
 export function getClientLatencyWithinEmbed(interaction: ChatInputCommandInteraction): EmbedBuilder {
   const clientLatency = getClientLatency(interaction);
@@ -74,7 +74,7 @@ async function getBotInfo(interaction: ChatInputCommandInteraction): Promise<
   const userCount = guilds.reduce((acc, guild) => acc + guild.memberCount, 0);
   const uptime = getBotUptime(interaction);
   const commandCount = (await interaction.client.application?.commands.fetch()).size;
-  const nextAutoIncrement = await getNextAutoIncrement('Ticket');
+  const nextAutoIncrement = await getNextTicketAutoIncrement('ticket');
 
   return {
     guilds: formatNumberWithApostrophes(guildsCount),
@@ -91,4 +91,16 @@ function getBotUptime(interaction: ChatInputCommandInteraction): string {
   const epochSeconds = currentSeconds - seconds;
 
   return `<t:${epochSeconds}:f>`;
+}
+
+async function getNextTicketAutoIncrement(modelName: string): Promise<number> {
+  // update the count
+  await sequelize.query(`ANALYZE TABLE ticket`, {
+    type: QueryTypes.SELECT
+  });
+  const result = await sequelize.query(`SHOW TABLE STATUS LIKE 'ticket'`, {
+    type: QueryTypes.SELECT
+  });
+
+  return (result[0] as { Auto_increment: number; }).Auto_increment;
 }

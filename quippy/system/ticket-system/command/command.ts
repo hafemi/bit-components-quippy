@@ -384,4 +384,4 @@ async function validateThreadUserEdit({
     return `\`Error:\` This command can only be used in a thread`;
   
   return interaction.channel
- }
+}
