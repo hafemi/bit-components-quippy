@@ -128,7 +128,7 @@ export async function handleTicketTypeRemoval({
   //if (randomEntry) return `\`Error:\` You can't remove a type with open tickets`;
 
   await maybeTicketType.destroy();
-  await Ticket.update({ status: 'deleted' }, { where: { guildID, type: name } });
+  await Ticket.destroy({ where: { guildID, type: name } });
   return undefined;
 }
 
