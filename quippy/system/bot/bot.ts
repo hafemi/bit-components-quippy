@@ -36,53 +36,21 @@ function getClientLatency(interaction: ChatInputCommandInteraction): {
 }
 
 export async function getBotInfoEmbed(interaction: ChatInputCommandInteraction): Promise<EmbedBuilder> {
-  const botInfo = await getBotInfo(interaction);
+  const botUptime = getBotUptime(interaction)
 
   const infoEmbed = new EmbedBuilder()
     .setColor(defaultEmbedColor)
     .setTitle('🤖 Bot Information')
     .setDescription(`
-      » Multi-functional bot with a variety of features
-      » [GitHub Repository](${githubRepoLink})
+      Multi-functional bot with a variety of features
+      [GitHub Repository](${githubRepoLink})
     `);
 
   infoEmbed.addFields(
-    { name: 'Guild Amount', value: `${botInfo.guilds}`, inline: true },
-    { name: 'User Amount', value: `${botInfo.users}`, inline: true },
-    { name: 'Command Amount', value: `${botInfo.commands}`, inline: true }
-  );
-
-  infoEmbed.addFields(
-    { name: 'Uptime', value: `${botInfo.uptime}`, inline: true },
-    { name: 'Tickets created', value: `${botInfo.tickets}`, inline: true }
+    { name: 'Uptime', value: `${botUptime}`, inline: true },
   );
 
   return infoEmbed;
-}
-
-async function getBotInfo(interaction: ChatInputCommandInteraction): Promise<
-  {
-    guilds: string;
-    users: string;
-    tickets: string;
-    uptime: string;
-    commands: number;
-  }
-> {
-  const guilds = (await Promise.all((await interaction.client.guilds.fetch()).map(guild => guild.fetch())));
-  const guildsCount = guilds.length;
-  const userCount = guilds.reduce((acc, guild) => acc + guild.memberCount, 0);
-  const uptime = getBotUptime(interaction);
-  const commandCount = (await interaction.client.application?.commands.fetch()).size;
-  const nextAutoIncrement = await getNextTicketAutoIncrement('ticket');
-
-  return {
-    guilds: formatNumberWithApostrophes(guildsCount),
-    users: formatNumberWithApostrophes(userCount),
-    tickets: formatNumberWithApostrophes(nextAutoIncrement - 1),
-    uptime,
-    commands: commandCount,
-  };
 }
 
 function getBotUptime(interaction: ChatInputCommandInteraction): string {
@@ -91,6 +59,46 @@ function getBotUptime(interaction: ChatInputCommandInteraction): string {
   const epochSeconds = currentSeconds - seconds;
 
   return `<t:${epochSeconds}:f>`;
+}
+
+export async function getBotStatisticsEmbed(interaction: ChatInputCommandInteraction): Promise<EmbedBuilder> {
+  const botInfo = await getBotStatistics(interaction);
+
+  const statisticsEmbed = new EmbedBuilder()
+    .setColor(defaultEmbedColor)
+    .setTitle('📊 Bot Statistics')
+    .setDescription(null);
+
+  statisticsEmbed.addFields(
+    { name: 'In Guilds', value: `${botInfo.guilds}`, inline: true },
+    { name: 'Watching Users', value: `${botInfo.users}`, inline: true },
+    { name: 'Tickets Created', value: `${botInfo.tickets}`, inline: true },
+    { name: 'Unique Commands', value: `${botInfo.commands}`, inline: true },
+  );
+
+  return statisticsEmbed;
+}
+
+async function getBotStatistics(interaction: ChatInputCommandInteraction): Promise<
+  {
+    guilds: string;
+    users: string;
+    tickets: string;
+    commands: number;
+  }
+> {
+  const guilds = (await Promise.all((await interaction.client.guilds.fetch()).map(guild => guild.fetch())));
+  const guildsCount = guilds.length;
+  const userCount = guilds.reduce((acc, guild) => acc + guild.memberCount, 0);
+  const commandCount = (await interaction.client.application?.commands.fetch()).size;
+  const nextAutoIncrement = await getNextTicketAutoIncrement('ticket');
+
+  return {
+    guilds: formatNumberWithApostrophes(guildsCount),
+    users: formatNumberWithApostrophes(userCount),
+    tickets: formatNumberWithApostrophes(nextAutoIncrement - 1),
+    commands: commandCount,
+  };
 }
 
 async function getNextTicketAutoIncrement(modelName: string): Promise<number> {
