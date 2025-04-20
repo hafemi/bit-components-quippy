@@ -385,3 +385,14 @@ async function validateThreadUserEdit({
   
   return interaction.channel
 }
+
+export async function isChannelIdValidTicket({
+  channelId,
+  guildId
+}: {
+  channelId: string;
+  guildId: string;
+}): Promise<boolean> {
+  const isEntry = await Ticket.isEntry({ guildID: guildId, threadID: channelId });
+  if (!isEntry) return false;
+}

@@ -23,9 +23,10 @@ import {
   TicketSystemButtonCreateTicketPayload,
   TicketSystemLimitations,
 } from "@hafemi/quippy.lib.types";
-import { hasUserPermission } from "@hafemi/quippy.lib.utils";
+import { fetchMessagesFromChannel, hasUserPermission } from "@hafemi/quippy.lib.utils";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
+import { Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";
 
 const buttonColorStringOptions: APIApplicationCommandOptionChoice<string>[] = [
   { name: 'Blue', value: 'PRIMARY' },
@@ -154,6 +155,13 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
         .setRequired(true)))
   )
 
+  // Standalone
+  .addSubcommand(subcommand => subcommand
+    .setName('transcript')
+    .setDescription('Get a transcript of the ticket')
+  )
+  
+
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const subcommand = interaction.options.getSubcommand();
   const subcommandGroup = interaction.options.getSubcommandGroup();
@@ -181,6 +189,8 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     if (subcommand == 'add') return await executeUserAdd(interaction);
     if (subcommand == 'remove') return await executeUserRemove(interaction);
   }
+  
+  if (subcommand == 'transcript') return await executeTranscript(interaction);
 
   await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
 }
@@ -312,3 +322,16 @@ async function executeUserRemove(interaction: ChatInputCommandInteraction): Prom
   else
     await InteractionHelper.followUp(interaction, '`Success:` User removed from ticket');
 }
+
+async function executeTranscript(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+  const isChannelATicket = await Ticket.isEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
+  if (!isChannelATicket) {
+    await InteractionHelper.followUp(interaction, '`Error:` This channel is not a ticket');
+    return;
+  }
+  
+  const attachment = await fetchMessagesFromChannel(interaction.channel, 99999);
+  await InteractionHelper.followUp(interaction, { files: [attachment] });
+}  
