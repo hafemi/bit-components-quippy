@@ -9,6 +9,7 @@ import {
 } from "discord.js";
 
 import {
+  closeTicket,
   getTicketTypesEmbed,
   handleButtonCreateTicket,
   handleButtonEditing,
@@ -160,6 +161,14 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
     .setName('transcript')
     .setDescription('Get a transcript of the ticket')
   )
+  .addSubcommand(subcommand => subcommand
+    .setName('close')
+    .setDescription('Close the ticket')
+    .addStringOption(option => option
+      .setName('reason')
+      .setDescription('Reason for closing the ticket')
+      .setMaxLength(256))
+  )
   
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -191,6 +200,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   }
   
   if (subcommand == 'transcript') return await executeTranscript(interaction);
+  if (subcommand == 'close') return await executeClose(interaction);
 
   await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
 }
@@ -334,4 +344,18 @@ async function executeTranscript(interaction: ChatInputCommandInteraction): Prom
   
   const attachment = await fetchMessagesFromChannel(interaction.channel, 99999);
   await InteractionHelper.followUp(interaction, { files: [attachment] });
-}  
+}
+
+async function executeClose(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+  const isChannelATicket = await Ticket.isEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
+  if (!isChannelATicket) {
+    await InteractionHelper.followUp(interaction, '`Error:` This channel is not a ticket');
+    return;
+  }
+  
+  const reason = interaction.options.getString('reason');
+
+  await closeTicket({ interaction, reason });
+}

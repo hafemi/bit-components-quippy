@@ -58,6 +58,7 @@
         "@cd/core.database.sequelize.default-connection": "^2.1.4",
         "@cd/core.database.util.uuid-handler": "^2.1.5",
         "@cd/core.djs.attachment": "^2.1.38",
+        "@cd/core.djs.channel": "^2.1.64",
         "@cd/core.djs.client": "^2.1.38",
         "@cd/core.djs.components": "^2.1.38",
         "@cd/core.djs.event.interaction-create": "^2.1.38",

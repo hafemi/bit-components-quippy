@@ -396,3 +396,16 @@ export async function isChannelIdValidTicket({
   const isEntry = await Ticket.isEntry({ guildID: guildId, threadID: channelId });
   if (!isEntry) return false;
 }
+
+export async function closeTicket({
+  interaction,
+  reason
+}: {
+  interaction: ChatInputCommandInteraction;
+  reason: string;
+  }): Promise<void> {
+  const guildID = interaction.guildId
+  const threadID = interaction.channelId
+  await Ticket.destroy({ where: { guildID, threadID } });
+  await interaction.channel.delete(reason)
+}
