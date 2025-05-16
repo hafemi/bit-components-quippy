@@ -222,7 +222,7 @@ async function validateUserPermission(interaction: ChatInputCommandInteraction, 
 async function executeTypeAdd(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-  const name = interaction.options.getString('name');
+  const name = interaction.options.getString('name').toLowerCase();
   const role = interaction.options.getRole('role');
   const prefix = interaction.options.getString('prefix');
 
