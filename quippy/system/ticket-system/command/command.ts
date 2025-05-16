@@ -117,15 +117,13 @@ export async function handleTicketTypeRemoval({
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: name });
   if (!maybeTicketType) return `\`Error:\` Type \`${name}\` does not exist`;
   
-  // disabled since to this day you can't delete/close a ticket
-  // const randomEntry = await Ticket.findOne({
-  //   where: {
-  //     guildID,
-  //     type: name,
-  //     status: 'open'
-  //   }
-  // })
-  //if (randomEntry) return `\`Error:\` You can't remove a type with open tickets`;
+  const randomEntry = await Ticket.findOne({
+    where: {
+      guildID,
+      type: name,
+    }
+  })
+  if (randomEntry) return `\`Error:\` You can't remove a type with open tickets`;
 
   await maybeTicketType.destroy();
   await Ticket.destroy({ where: { guildID, type: name } });
