@@ -8,7 +8,6 @@ import {
 } from "sequelize";
 
 import {
-  TicketStatus,
   TicketTypeModalInformation
 } from "@hafemi/quippy.lib.types";
 
@@ -55,7 +54,6 @@ export class Ticket extends Model<InferAttributes<Ticket>, InferCreationAttribut
   declare authorID: string;
   declare threadID: string;
   declare type: string;
-  declare status: TicketStatus;
   declare modalInformation?: TicketTypeModalInformation;
 
   static async isValidUUID(uuid: string): Promise<boolean> {
@@ -138,10 +136,6 @@ Ticket.init({
     allowNull: false,
   },
   type: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  status: {
     type: DataTypes.STRING,
     allowNull: false,
   },

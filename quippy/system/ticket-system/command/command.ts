@@ -247,8 +247,7 @@ async function createTicket(interaction: ButtonInteraction, type: TicketType): P
     guildID: interaction.guildId,
     authorID: senderUser.id,
     threadID,
-    type: type.typeName,
-    status: 'open'
+    type: type.typeName
   });
 
   await InteractionHelper.followUp(interaction, `\`Success:\` Ticket created: <#${threadID}>`);

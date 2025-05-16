@@ -94,6 +94,4 @@ export type TicketTypeModalInformation = {
   title: string;
 };
 
-export type TicketStatus = 'open' | 'closed' | 'deleted';
-
 export type EditButtonType = 'enable' | 'disable';
