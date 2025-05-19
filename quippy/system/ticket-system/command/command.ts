@@ -298,7 +298,6 @@ function getThreadStarterEmbed(type: TicketType, senderUser: GuildMember): Embed
     .setColor(ticketSystemEmbedColor)
     .setDescription(`
       Welcome to the Ticket Support <@${senderUser.id}>!
-      If you haven't already please describe your issue in detail, so we can help you as soon as possible.
     `);
 }
 
