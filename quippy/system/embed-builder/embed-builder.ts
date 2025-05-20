@@ -83,7 +83,7 @@ export async function sendEmbedFromAttachmentData(interaction: ChatInputCommandI
       case msg.includes('not valid JSON'): return '`Error:` Invalid JSON format in attachment';
       case msg.includes('non-text type attachment'): return '`Error:` Attachment is not a text file';
       case msg.includes('description[BASE_TYPE_REQUIRED]'): return '`Error:` Embed description is required';
-      default: throw new Error(`\`Error:\` Something went wrong while sending the attachment ${err}`);
+      default: throw new Error(`Something went wrong while sending the attachment ${err}`);
     }
   }
 }
