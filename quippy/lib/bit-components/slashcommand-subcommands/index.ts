@@ -1,1 +1,3 @@
-export {} from './slashcommand-subcommands.js';
+export {
+  data, execute
+} from './slashcommand-subcommands.js';
