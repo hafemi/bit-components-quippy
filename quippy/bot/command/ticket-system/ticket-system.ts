@@ -38,7 +38,7 @@ const buttonColorStringOptions: APIApplicationCommandOptionChoice<string>[] = [
 
 export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder()
   .setName('ticket')
-  .setDescription('Ticket system')
+  .setDescription('Create and manage tickets')
   .setContexts([InteractionContextType.Guild])
 
   // Ticket Type
@@ -211,8 +211,7 @@ async function validateUserPermission(interaction: ChatInputCommandInteraction, 
     subcommandGroup == 'button'
   ) {
     const hasPermission = await hasUserPermission(interaction, PermissionFlagsBits.Administrator);
-    if (!hasPermission
-    )
+    if (!hasPermission)
       return '`Error: `You need Administrator permissions to use this subcommand'
   }
   
