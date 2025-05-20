@@ -81,6 +81,41 @@
             "teambit.semantics/schema": {}
         }
     },
+    "bot/command/server-config": {
+        "name": "bot/command/server-config",
+        "scope": "",
+        "version": "",
+        "defaultScope": "hafemi.quippy",
+        "mainFile": "index.ts",
+        "rootDir": "quippy/bot/command/server-config",
+        "config": {
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "devDependencies": {
+                        "@babel/runtime": "7.26.9",
+                        "@types/jest": "29.5.14"
+                    }
+                }
+            },
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            },
+            "teambit.component/dev-files": {},
+            "teambit.semantics/schema": {},
+            "teambit.preview/preview": {},
+            "teambit.compositions/compositions": {},
+            "teambit.docs/docs": {},
+            "teambit.pipelines/builder": {},
+            "teambit.component/forking": {
+                "forkedFrom": {
+                    "name": "lib/bit-components/slashcommand-subcommands",
+                    "scope": "hafemi.quippy"
+                }
+            },
+            "teambit.harmony/application": {}
+        }
+    },
     "bot/command/ticket-system": {
         "name": "bot/command/ticket-system",
         "scope": "",
@@ -428,6 +463,41 @@
                     "scope": "cd.core",
                     "name": "template/empty-component-2",
                     "version": "1.1.4"
+                }
+            }
+        }
+    },
+    "system/server-config": {
+        "name": "system/server-config",
+        "scope": "",
+        "version": "",
+        "defaultScope": "hafemi.quippy",
+        "mainFile": "index.ts",
+        "rootDir": "quippy/system/server-config",
+        "config": {
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "devDependencies": {
+                        "@babel/runtime": "7.27.1",
+                        "@types/jest": "29.5.14"
+                    }
+                }
+            },
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            },
+            "teambit.component/dev-files": {},
+            "teambit.semantics/schema": {},
+            "teambit.preview/preview": {},
+            "teambit.compositions/compositions": {},
+            "teambit.docs/docs": {},
+            "teambit.pipelines/builder": {},
+            "teambit.component/forking": {
+                "forkedFrom": {
+                    "scope": "cd.core",
+                    "name": "template/empty-component-2",
+                    "version": "1.1.7"
                 }
             }
         }

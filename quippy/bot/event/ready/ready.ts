@@ -11,6 +11,7 @@ import { Client, Events } from 'discord.js';
 import '@hafemi/quippy.bot.command.bot';
 import '@hafemi/quippy.bot.command.embed-builder';
 import '@hafemi/quippy.bot.command.ticket-system';
+import '@hafemi/quippy.bot.command.server-config';
 
 export const name = Events.ClientReady;
 export const once = true;
@@ -29,7 +30,8 @@ export async function execute(client: Client): Promise<any> {
     const commands = [
       '@hafemi/quippy.bot.command.bot',
       '@hafemi/quippy.bot.command.embed-builder',
-      '@hafemi/quippy.bot.command.ticket-system'
+      '@hafemi/quippy.bot.command.ticket-system',
+      '@hafemi/quippy.bot.command.server-config'
     ];
 
     await ClientHelper.deployCommands(client, process.env.DISCORD_BOT_TOKEN!, commands)
