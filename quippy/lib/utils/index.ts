@@ -2,5 +2,6 @@ export {
   capitalizeFirstLetter,
   fetchMessageById,
   hasUserPermission,
-  fetchMessagesFromChannel
+  fetchMessagesFromChannel,
+  isChannel
  } from './utils.js';

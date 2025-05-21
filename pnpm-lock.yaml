@@ -95,7 +95,7 @@ importers:
         version: file:quippy/bot/command/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.server-config':
         specifier: workspace:*
-        version: file:quippy/bot/command/server-config(react@18.3.1)(ws@8.18.0)
+        version: file:quippy/bot/command/server-config(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.ticket-system':
         specifier: workspace:*
         version: file:quippy/bot/command/ticket-system(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -107,7 +107,7 @@ importers:
         version: file:quippy/lib/bit-components/database-definition(react@18.3.1)
       '@hafemi/quippy.lib.bit-components.slashcommand-subcommands':
         specifier: workspace:*
-        version: file:quippy/lib/bit-components/slashcommand-subcommands(react@18.3.1)(ws@8.18.0)
+        version: file:quippy/lib/bit-components/slashcommand-subcommands(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.lib.constants':
         specifier: workspace:*
         version: file:quippy/lib/constants
@@ -126,9 +126,9 @@ importers:
       '@hafemi/quippy.system.embed-builder-create':
         specifier: workspace:*
         version: file:quippy/system/embed-builder-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
-      '@hafemi/quippy.system.server-config':
+      '@hafemi/quippy.system.server-config.command':
         specifier: workspace:*
-        version: file:quippy/system/server-config
+        version: file:quippy/system/server-config/command
       '@hafemi/quippy.system.ticket-system.command':
         specifier: workspace:*
         version: file:quippy/system/ticket-system/command(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -162,7 +162,7 @@ importers:
         injected: true
       '@hafemi/quippy.system.embed-builder-create':
         injected: true
-      '@hafemi/quippy.system.server-config':
+      '@hafemi/quippy.system.server-config.command':
         injected: true
       '@hafemi/quippy.system.ticket-system.command':
         injected: true
@@ -457,7 +457,7 @@ importers:
         specifier: 12.20.4
         version: 12.20.4
 
-  quippy/system/server-config:
+  quippy/system/server-config/command:
     devDependencies:
       '@babel/runtime':
         specifier: 7.27.1
@@ -844,8 +844,8 @@ packages:
   '@hafemi/quippy.system.embed-builder@file:quippy/system/embed-builder':
     resolution: {directory: quippy/system/embed-builder, type: directory}
 
-  '@hafemi/quippy.system.server-config@file:quippy/system/server-config':
-    resolution: {directory: quippy/system/server-config, type: directory}
+  '@hafemi/quippy.system.server-config.command@file:quippy/system/server-config/command':
+    resolution: {directory: quippy/system/server-config/command, type: directory}
 
   '@hafemi/quippy.system.ticket-system.command@file:quippy/system/ticket-system/command':
     resolution: {directory: quippy/system/ticket-system/command, type: directory}
@@ -3644,22 +3644,37 @@ snapshots:
       - ws
       - zod
 
-  '@hafemi/quippy.bot.command.server-config@file:quippy/bot/command/server-config(react@18.3.1)(ws@8.18.0)':
+  '@hafemi/quippy.bot.command.server-config@file:quippy/bot/command/server-config(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.lib.utils': file:quippy/lib/utils(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
     transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
       - bufferutil
       - debug
       - encoding
+      - ffmpeg-static
+      - gcp-metadata
       - ibm_db
+      - immer
+      - kerberos
       - mariadb
+      - mongodb-client-encryption
       - mysql2
+      - node-opus
+      - opusscript
       - oracledb
       - pg
       - pg-hstore
       - react
+      - react-dom
+      - snappy
       - snowflake-sdk
+      - socks
       - sqlite3
       - supports-color
       - tedious
@@ -3717,6 +3732,7 @@ snapshots:
       '@cd/core.utils.string-transformer': 2.1.38(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.bot': file:quippy/bot/command/bot(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.embed-builder': file:quippy/bot/command/embed-builder(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
+      '@hafemi/quippy.bot.command.server-config': file:quippy/bot/command/server-config(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.bot.command.ticket-system': file:quippy/bot/command/ticket-system(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.embed-builder-create': file:quippy/system/embed-builder-create(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       '@hafemi/quippy.system.ticket-system.command': file:quippy/system/ticket-system/command(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
@@ -3772,22 +3788,36 @@ snapshots:
       - supports-color
       - tedious
 
-  '@hafemi/quippy.lib.bit-components.slashcommand-subcommands@file:quippy/lib/bit-components/slashcommand-subcommands(react@18.3.1)(ws@8.18.0)':
+  '@hafemi/quippy.lib.bit-components.slashcommand-subcommands@file:quippy/lib/bit-components/slashcommand-subcommands(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:
       '@cd/core.djs.interaction-helper': 2.1.40(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)
       discord.js: 14.18.0
     transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@discordjs/opus'
+      - '@mongodb-js/zstd'
+      - '@types/react'
       - bufferutil
       - debug
       - encoding
+      - ffmpeg-static
+      - gcp-metadata
       - ibm_db
+      - immer
+      - kerberos
       - mariadb
+      - mongodb-client-encryption
       - mysql2
+      - node-opus
+      - opusscript
       - oracledb
       - pg
       - pg-hstore
       - react
+      - react-dom
+      - snappy
       - snowflake-sdk
+      - socks
       - sqlite3
       - supports-color
       - tedious
@@ -3965,7 +3995,7 @@ snapshots:
       - ws
       - zod
 
-  '@hafemi/quippy.system.server-config@file:quippy/system/server-config': {}
+  '@hafemi/quippy.system.server-config.command@file:quippy/system/server-config/command': {}
 
   '@hafemi/quippy.system.ticket-system.command@file:quippy/system/ticket-system/command(@types/react@18.3.18)(react@18.3.1)(ws@8.18.0)':
     dependencies:

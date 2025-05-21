@@ -467,13 +467,13 @@
             }
         }
     },
-    "system/server-config": {
-        "name": "system/server-config",
+    "system/server-config/command": {
+        "name": "system/server-config/command",
         "scope": "",
         "version": "",
         "defaultScope": "hafemi.quippy",
         "mainFile": "index.ts",
-        "rootDir": "quippy/system/server-config",
+        "rootDir": "quippy/system/server-config/command",
         "config": {
             "teambit.dependencies/dependency-resolver": {
                 "policy": {
@@ -497,9 +497,44 @@
                 "forkedFrom": {
                     "scope": "cd.core",
                     "name": "template/empty-component-2",
-                    "version": "1.1.7"
+                    "version": "1.1.8"
                 }
             }
+        }
+    },
+    "system/server-config/database-definition": {
+        "name": "system/server-config/database-definition",
+        "scope": "",
+        "version": "",
+        "defaultScope": "hafemi.quippy",
+        "mainFile": "index.ts",
+        "rootDir": "quippy/system/server-config/database-definition",
+        "config": {
+            "teambit.dependencies/dependency-resolver": {
+                "policy": {
+                    "devDependencies": {
+                        "@babel/runtime": "7.26.9",
+                        "@types/jest": "29.5.14"
+                    }
+                }
+            },
+            "teambit.harmony/node": {},
+            "teambit.envs/envs": {
+                "env": "teambit.harmony/node"
+            },
+            "teambit.component/dev-files": {},
+            "teambit.semantics/schema": {},
+            "teambit.preview/preview": {},
+            "teambit.compositions/compositions": {},
+            "teambit.docs/docs": {},
+            "teambit.pipelines/builder": {},
+            "teambit.component/forking": {
+                "forkedFrom": {
+                    "name": "lib/bit-components/database-definition",
+                    "scope": "hafemi.quippy"
+                }
+            },
+            "teambit.harmony/application": {}
         }
     },
     "system/ticket-system/command": {

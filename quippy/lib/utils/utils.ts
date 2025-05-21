@@ -1,13 +1,17 @@
 import {
   AttachmentBuilder,
+  ChatInputCommandInteraction,
   GuildTextBasedChannel,
   Message,
   PermissionResolvable
 } from 'discord.js';
 
 import { createAttachmentFromString } from '@cd/core.djs.attachment';
+import { getChannel } from "@cd/core.djs.channel";
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
 import { fetchMessages } from '@cd/core.djs.message';
+
+import * as InteractionHelper from '@cd/core.djs.interaction-helper';
 
 export function capitalizeFirstLetter(val: string): string {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
@@ -45,4 +49,20 @@ export async function fetchMessagesFromChannel(channel: GuildTextBasedChannel, a
   ).join('\n \n');
 
   return createAttachmentFromString(messageData, `${channel.name}-messages.txt`);
+}
+
+export async function isChannel(interaction: ChatInputCommandInteraction, id: string): Promise<boolean> {
+  if (!/^\d+$/.test(id)) return false;
+  try {
+    await getChannel(interaction.client, interaction.guildId, id);
+    return true;
+  } catch (error) {
+    if (error instanceof Error &&
+      error.message === 'Unknown Channel' ||
+      error.message.includes('Invalid Form Body')
+    )
+      return false;
+
+    throw error;
+  }
 }
