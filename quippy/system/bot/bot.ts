@@ -6,8 +6,9 @@ import {
 import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import {
   defaultEmbedColor,
-  githubRepoLink,
-  discordHelpServerLink
+  discordHelpServerLink,
+  githubCommandsLink,
+  githubRepoLink
 } from '@hafemi/quippy.lib.constants';
 import {
   formatNumberWithApostrophes
@@ -44,8 +45,9 @@ export async function getBotInfoEmbed(interaction: ChatInputCommandInteraction):
     .setTitle('🤖 Bot Information')
     .setDescription(`
       Multi-functional bot with a variety of features
-      • [GitHub Repository](${githubRepoLink})
+      • [Commands List](${githubCommandsLink})
       • [Discord Help Server](${discordHelpServerLink})
+      • [GitHub Repository](${githubRepoLink})
     `)
     .addFields(
       { name: 'Uptime', value: `${botUptime}`, inline: true },
