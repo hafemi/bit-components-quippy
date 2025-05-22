@@ -12,7 +12,12 @@ import { hasUserPermission } from "@hafemi/quippy.lib.utils";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import { ConfigEditPayload } from "@hafemi/quippy.lib.types";
-import { editLogChannelConfig, getServerConfigDatabaseEntry } from "@hafemi/quippy.system.server-config.command";
+import {
+  editLogChannelConfig,
+  getEmbedWithServerConfigData,
+  getServerConfigDatabaseEntry,
+  isServerConfigEmpty
+} from "@hafemi/quippy.system.server-config.command";
 
 const configurationStringOptions: APIApplicationCommandOptionChoice<string>[] = [
   { name: 'Log Channel', value: 'LOGCHANNEL' }
@@ -37,17 +42,22 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
       .setRequired(true)
     )
   )
+  .addSubcommand(subcommand => subcommand
+    .setName('list')
+    .setDescription('List all server configurations')
+  );
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const subcommand = interaction.options.getSubcommand();
-  
+
   const maybePermissionError = await validateUserPermission(interaction);
   if (maybePermissionError) {
     await InteractionHelper.followUp(interaction, maybePermissionError);
     return;
   }
 
-  if (subcommand == 'edit') return await executeConfigEdit(interaction);
+  if (subcommand == 'edit') return await executeEdit(interaction);
+  if (subcommand == 'list') return await executeList(interaction);
 
   await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
 }
@@ -60,7 +70,7 @@ async function validateUserPermission(interaction: ChatInputCommandInteraction):
   return undefined;
 }
 
-async function executeConfigEdit(interaction: ChatInputCommandInteraction): Promise<void> {
+async function executeEdit(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
   const configuration = interaction.options.getString('configuration');
@@ -69,9 +79,9 @@ async function executeConfigEdit(interaction: ChatInputCommandInteraction): Prom
   const payload: ConfigEditPayload = {
     interaction,
     value: value,
-    ServerConfig: serverConfig
+    serverConfig: serverConfig
   };
-  
+
   switch (configuration) {
     case 'LOGCHANNEL':
       await editLogChannelConfig(payload);
@@ -79,4 +89,18 @@ async function executeConfigEdit(interaction: ChatInputCommandInteraction): Prom
     default:
       throw new Error(`Unknown configuration '${configuration}'`);
   }
+}
+
+async function executeList(interaction: ChatInputCommandInteraction): Promise<void> {
+  await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
+  const serverConfig = await getServerConfigDatabaseEntry(interaction);
+  const isEmpty = isServerConfigEmpty(serverConfig);
+  if (isEmpty) {
+    await InteractionHelper.followUp(interaction, '`Info:` This Server does not have any configuration set');
+    return;
+  }
+
+  const configEmbed = getEmbedWithServerConfigData(interaction, serverConfig);
+  await InteractionHelper.followUp(interaction, { embeds: [configEmbed] });
 }

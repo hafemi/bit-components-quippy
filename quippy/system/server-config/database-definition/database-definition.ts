@@ -8,6 +8,12 @@ import {
   DataTypes
 } from "sequelize";
 
+/**
+ * In case of adding more Ids, please make sure to do these steps so "/serverconfig list" is up to date:
+ * add iteration in getStringRecordWithServerConfig function
+ * add empty validation in isServerConfigEmpty function
+*/
+
 export class ServerConfig extends Model<InferAttributes<ServerConfig>, InferCreationAttributes<ServerConfig>> {
   declare uuid: string;
   declare guildId: string;

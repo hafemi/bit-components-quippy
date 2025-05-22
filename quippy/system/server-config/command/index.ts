@@ -1,4 +1,6 @@
 export {
   getServerConfigDatabaseEntry,
-  editLogChannelConfig
+  editLogChannelConfig,
+  getEmbedWithServerConfigData,
+  isServerConfigEmpty
 } from './command.js';

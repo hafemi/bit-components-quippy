@@ -11,8 +11,6 @@ import { getChannel } from "@cd/core.djs.channel";
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
 import { fetchMessages } from '@cd/core.djs.message';
 
-import * as InteractionHelper from '@cd/core.djs.interaction-helper';
-
 export function capitalizeFirstLetter(val: string): string {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }

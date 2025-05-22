@@ -110,7 +110,7 @@ export type EditButtonType = 'enable' | 'disable';
 export type ConfigEditPayload = {
   interaction: ChatInputCommandInteraction
   value: string
-  ServerConfig: ServerConfig
+  serverConfig: ServerConfig
 };
 
 export interface DatabaseChannelIds {
