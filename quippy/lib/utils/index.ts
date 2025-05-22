@@ -3,5 +3,6 @@ export {
   fetchMessageById,
   hasUserPermission,
   fetchMessagesFromChannel,
-  isChannel
+  isChannel,
+  formatNumberWithApostrophes
  } from './utils.js';
