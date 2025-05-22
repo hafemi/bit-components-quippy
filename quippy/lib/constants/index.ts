@@ -1,5 +1,6 @@
 export {
   defaultEmbedColor,
   githubRepoLink,
-  ticketSystemEmbedColor
+  ticketSystemEmbedColor,
+  discordHelpServerLink
  } from './constants.js';
