@@ -7,6 +7,8 @@ import {
   EmbedBuilder
 } from "discord.js";
 
+import { LoggingType } from "@hafemi/quippy.lib.types";
+
 export async function sendToLogChannel({
   interaction,
   messageData
@@ -25,7 +27,7 @@ function constructServerLogEmbed({
   type,
 }: {
     interaction: ChatInputCommandInteraction | ButtonInteraction;
-    type: string;
+    type: LoggingType;
   }): EmbedBuilder {
   return new EmbedBuilder()
     .setTitle(`🗃️ Server Log - ${type}`)
@@ -39,11 +41,15 @@ function constructServerLogEmbed({
     });
 }
 
-export function getTicketCreatedLogData(interaction: ButtonInteraction): BaseMessageOptions {
+// used when no additional description or files are needed for the log
+export function getPlainEmbedLogData(
+  interaction: ButtonInteraction,
+  type: LoggingType
+): BaseMessageOptions { 
   const embed = constructServerLogEmbed({
     interaction,
-    type: "Ticket Created"
-  })
-  
-  return { embeds: [embed] }
+    type
+  });
+
+  return { embeds: [embed] };
 }

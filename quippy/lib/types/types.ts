@@ -105,7 +105,7 @@ export type EditButtonType = 'enable' | 'disable';
 // ░╚═══██╗██╔══╝░░██╔══██╗░╚████╔╝░██╔══╝░░██╔══██╗██║░░██╗██║░░██║██║╚████║██╔══╝░░██║██║░░╚██╗
 // ██████╔╝███████╗██║░░██║░░╚██╔╝░░███████╗██║░░██║╚█████╔╝╚█████╔╝██║░╚███║██║░░░░░██║╚██████╔╝
 // ╚═════╝░╚══════╝╚═╝░░╚═╝░░░╚═╝░░░╚══════╝╚═╝░░╚═╝░╚════╝░░╚════╝░╚═╝░░╚══╝╚═╝░░░░░╚═╝░╚═════╝░
-// Server Configuration
+// Server Configuration & Logging
 
 export type ConfigEditPayload = {
   interaction: ChatInputCommandInteraction
@@ -119,4 +119,8 @@ export interface DatabaseChannelIds {
 
 export type ConfigChannelType = {
   logChannel: string;
+};
+
+export enum LoggingType {
+  TicketCreated = 'Ticket Created'
 }

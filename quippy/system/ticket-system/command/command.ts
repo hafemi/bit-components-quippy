@@ -30,6 +30,7 @@ import {
 import { getRole } from '@cd/core.djs.role';
 import {
   EditButtonType,
+  LoggingType,
   TicketSystemButtonCreateTicketPayload,
   TicketSystemIDs,
   TicketSystemLimitations
@@ -38,8 +39,8 @@ import {
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
 import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
-import { capitalizeFirstLetter, fetchMessageById, getChannelFromServerConfig } from "@hafemi/quippy.lib.utils";
-import { getTicketCreatedLogData, sendToLogChannel } from "@hafemi/quippy.system.server-logger";
+import { capitalizeFirstLetter, fetchMessageById } from "@hafemi/quippy.lib.utils";
+import { getPlainEmbedLogData, sendToLogChannel } from "@hafemi/quippy.system.server-logger";
 
 export function registerTicketSystemComponents(): void {
   addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreateTicket(interaction));
@@ -249,7 +250,7 @@ async function createTicket(interaction: ButtonInteraction, type: TicketType): P
     type: type.typeName
   });
   
-  const messageData = getTicketCreatedLogData(interaction);
+  const messageData = getPlainEmbedLogData(interaction, LoggingType.TicketCreated);
   await sendToLogChannel({ interaction, messageData });
 
   await InteractionHelper.followUp(interaction, `\`Success:\` Ticket created: <#${threadID}>`);

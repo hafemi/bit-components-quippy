@@ -10,5 +10,6 @@ export {
   EditButtonType,
   ConfigEditPayload,
   DatabaseChannelIds,
-  ConfigChannelType
+  ConfigChannelType,
+  LoggingType
 } from './types.js';
