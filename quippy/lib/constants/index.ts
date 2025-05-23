@@ -3,5 +3,6 @@ export {
   githubRepoLink,
   ticketSystemEmbedColor,
   discordHelpServerLink,
-  githubCommandsLink
+  githubCommandsLink,
+  logEmbedColor
  } from './constants.js';

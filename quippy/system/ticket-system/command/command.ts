@@ -38,7 +38,8 @@ import {
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
 import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
-import { capitalizeFirstLetter, fetchMessageById } from "@hafemi/quippy.lib.utils";
+import { capitalizeFirstLetter, fetchMessageById, getChannelFromServerConfig } from "@hafemi/quippy.lib.utils";
+import { getTicketCreatedLogData, sendToLogChannel } from "@hafemi/quippy.system.server-logger";
 
 export function registerTicketSystemComponents(): void {
   addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreateTicket(interaction));
@@ -247,6 +248,9 @@ async function createTicket(interaction: ButtonInteraction, type: TicketType): P
     threadID,
     type: type.typeName
   });
+  
+  const messageData = getTicketCreatedLogData(interaction);
+  await sendToLogChannel({ interaction, messageData });
 
   await InteractionHelper.followUp(interaction, `\`Success:\` Ticket created: <#${threadID}>`);
 }
@@ -314,6 +318,7 @@ export async function handleButtonEditing({
   if (!maybeMessage) return `\`Error:\` Message not found`;
 
   const buttons = maybeMessage.components.flatMap(row =>
+    // @ts-ignore
     row.components.filter(component => component.type == ComponentType.Button)
   );
   if (buttons.length == 0) return `\`Error:\` No buttons found in the message`;

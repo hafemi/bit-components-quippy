@@ -6,7 +6,7 @@ import {
   InferCreationAttributes,
   Model,
   DataTypes
-} from "sequelize";
+} from "@sequelize/core";
 
 /**
  * In case of adding more Ids, please make sure to do these steps so "/serverconfig list" is up to date:

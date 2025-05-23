@@ -24,7 +24,7 @@ import {
   TicketSystemButtonCreateTicketPayload,
   TicketSystemLimitations,
 } from "@hafemi/quippy.lib.types";
-import { fetchMessagesFromChannel, getChannelFromServerConfig, hasUserPermission } from "@hafemi/quippy.lib.utils";
+import { fetchMessagesFromChannel, hasUserPermission } from "@hafemi/quippy.lib.utils";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import { Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";

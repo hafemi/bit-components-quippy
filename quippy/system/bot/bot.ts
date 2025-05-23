@@ -13,7 +13,7 @@ import {
 import {
   formatNumberWithApostrophes
 } from "@hafemi/quippy.lib.utils";
-import { QueryTypes } from "sequelize";
+import { QueryTypes } from "@sequelize/core";
 
 export function getClientLatencyWithinEmbed(interaction: ChatInputCommandInteraction): EmbedBuilder {
   const clientLatency = getClientLatency(interaction);

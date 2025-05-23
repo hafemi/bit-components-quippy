@@ -5,7 +5,7 @@ import {
   InferCreationAttributes,
   Model,
   DataTypes
-} from "sequelize";
+} from "@sequelize/core";
 
 export class TEMPLATE extends Model<InferAttributes<TEMPLATE>, InferCreationAttributes<TEMPLATE>> {
   declare uuid: string;

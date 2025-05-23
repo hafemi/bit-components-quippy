@@ -1,9 +1,6 @@
 import {
   AttachmentBuilder,
-  BaseMessageOptions,
   ChatInputCommandInteraction,
-  EmbedBuilder,
-  GuildBasedChannel,
   GuildTextBasedChannel,
   Message,
   PermissionResolvable
@@ -14,9 +11,8 @@ import { getChannel } from "@cd/core.djs.channel";
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
 import { fetchMessages } from '@cd/core.djs.message';
 
-import * as InteractionHelper from "@cd/core.djs.interaction-helper";
-import { ServerConfig } from '@hafemi/quippy.system.server-config.database-definition';
 import { ConfigChannelType } from '@hafemi/quippy.lib.types';
+import { ServerConfig } from '@hafemi/quippy.system.server-config.database-definition';
 
 export function capitalizeFirstLetter(val: string): string {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
@@ -81,7 +77,7 @@ export async function getChannelFromServerConfig({
   interaction,
   type
 }: {
-  interaction: ChatInputCommandInteraction;
+  interaction: any;
   type: keyof ConfigChannelType;
 }): Promise<GuildTextBasedChannel | undefined> {
   const serverConfig = await ServerConfig.findOne({ where: { guildId: interaction.guildId } });
