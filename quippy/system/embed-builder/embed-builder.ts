@@ -10,14 +10,14 @@ import {
 } from "discord.js";
 
 import {
-  EmbedBuilderLimitations
+  EmbedBuilderLimitations,
+  EmbedColor
 } from '@hafemi/quippy.lib.types';
 
 import {
   createAttachmentFromString,
   getTextFromAttachment
 } from "@cd/core.djs.attachment";
-import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import { fetchMessageById } from "@hafemi/quippy.lib.utils";
@@ -34,7 +34,7 @@ export function getLimitationsEmbed(): EmbedBuilder {
   }
 
   return new EmbedBuilder()
-    .setColor(defaultEmbedColor)
+    .setColor(EmbedColor.Default)
     .setTitle('EmbedBuilder Limitations')
     .setDescription(`
       » Numbers represent amount of characters or different fields allowed.

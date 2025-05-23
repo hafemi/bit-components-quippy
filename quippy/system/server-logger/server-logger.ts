@@ -1,4 +1,3 @@
-import { logEmbedColor } from "@hafemi/quippy.lib.constants";
 import { getChannelFromServerConfig } from "@hafemi/quippy.lib.utils";
 import {
   BaseMessageOptions,
@@ -7,7 +6,10 @@ import {
   EmbedBuilder
 } from "discord.js";
 
-import { LoggingType } from "@hafemi/quippy.lib.types";
+import {
+  LoggingType,
+  EmbedColor
+ } from "@hafemi/quippy.lib.types";
 
 export async function sendToLogChannel({
   interaction,
@@ -32,7 +34,7 @@ function constructServerLogEmbed({
   return new EmbedBuilder()
     .setTitle(`🗃️ Server Log - ${type}`)
     .setDescription(`Instigator: <@${interaction.user.id}> \nChannel: <#${interaction.channelId}>`)
-    .setColor(logEmbedColor)
+    .setColor(EmbedColor.Log)
     .setThumbnail(interaction.guild.iconURL())
     .setTimestamp()
     .setFooter({

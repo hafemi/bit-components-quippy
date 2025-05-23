@@ -11,5 +11,7 @@ export {
   ConfigEditPayload,
   DatabaseChannelIds,
   ConfigChannelType,
-  LoggingType
+  LoggingType,
+  EmbedColor,
+  LinkType
 } from './types.js';

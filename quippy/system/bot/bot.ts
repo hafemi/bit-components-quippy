@@ -5,21 +5,19 @@ import {
 
 import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import {
-  defaultEmbedColor,
-  discordHelpServerLink,
-  githubCommandsLink,
-  githubRepoLink
-} from '@hafemi/quippy.lib.constants';
-import {
   formatNumberWithApostrophes
 } from "@hafemi/quippy.lib.utils";
 import { QueryTypes } from "@sequelize/core";
+import {
+  EmbedColor,
+  LinkType
+} from "@hafemi/quippy.lib.types";
 
 export function getClientLatencyWithinEmbed(interaction: ChatInputCommandInteraction): EmbedBuilder {
   const clientLatency = getClientLatency(interaction);
 
   return new EmbedBuilder()
-    .setColor(defaultEmbedColor)
+    .setColor(EmbedColor.Default)
     .setTitle('Latency')
     .addFields(
       { name: 'Bot', value: `${clientLatency.bot}ms` },
@@ -41,13 +39,13 @@ export async function getBotInfoEmbed(interaction: ChatInputCommandInteraction):
   const botUptime = getBotUptime(interaction)
 
   const infoEmbed = new EmbedBuilder()
-    .setColor(defaultEmbedColor)
+    .setColor(EmbedColor.Default)
     .setTitle('🤖 Bot Information')
     .setDescription(`
       Multi-functional bot with a variety of features
-      • [Commands List](${githubCommandsLink})
-      • [Discord Help Server](${discordHelpServerLink})
-      • [GitHub Repository](${githubRepoLink})
+      • [Commands List](${LinkType.GitHubCommands})
+      • [Discord Help Server](${LinkType.DiscordHelpServer})
+      • [GitHub Repository](${LinkType.GitHubRepository})
     `)
     .addFields(
       { name: 'Uptime', value: `${botUptime}`, inline: true },
@@ -68,7 +66,7 @@ export async function getBotStatisticsEmbed(interaction: ChatInputCommandInterac
   const botInfo = await getBotStatistics(interaction);
 
   const statisticsEmbed = new EmbedBuilder()
-    .setColor(defaultEmbedColor)
+    .setColor(EmbedColor.Default)
     .setTitle('📊 Bot Statistics')
     .setDescription(null);
 

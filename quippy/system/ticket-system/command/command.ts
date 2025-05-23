@@ -33,12 +33,12 @@ import {
   LoggingType,
   TicketSystemButtonCreateTicketPayload,
   TicketSystemIDs,
-  TicketSystemLimitations
+  TicketSystemLimitations,
+  EmbedColor
 } from "@hafemi/quippy.lib.types";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
-import { ticketSystemEmbedColor } from "@hafemi/quippy.lib.constants";
 import { capitalizeFirstLetter, fetchMessageById } from "@hafemi/quippy.lib.utils";
 import { getPlainEmbedLogData, sendToLogChannel } from "@hafemi/quippy.system.server-logger";
 
@@ -100,7 +100,7 @@ export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder
 
   return new EmbedBuilder()
     .setTitle('Ticket Types')
-    .setColor(ticketSystemEmbedColor)
+    .setColor(EmbedColor.TicketSystem)
     .setDescription('List of all ticket types of this server')
     .addFields(
       { name: 'Name', value: nameFieldValue.join('\n'), inline: true },
@@ -172,7 +172,7 @@ export async function handleButtonCreateTicket(options: TicketSystemButtonCreate
   const embed = new EmbedBuilder()
     .setTitle(options.title)
     .setDescription(options.description)
-    .setColor(ticketSystemEmbedColor);
+    .setColor(EmbedColor.TicketSystem);
 
   await options.interaction.channel.send({
     embeds: [embed],
@@ -300,7 +300,7 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
 function getThreadStarterEmbed(type: TicketType, senderUser: GuildMember): EmbedBuilder {
   return new EmbedBuilder()
     .setTitle(`${capitalizeFirstLetter(type.typeName)} Ticket`)
-    .setColor(ticketSystemEmbedColor)
+    .setColor(EmbedColor.TicketSystem)
     .setDescription(`
       Welcome to the Ticket Support <@${senderUser.id}>!
     `);

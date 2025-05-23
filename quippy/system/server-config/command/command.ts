@@ -1,10 +1,12 @@
-import { ConfigEditPayload } from "@hafemi/quippy.lib.types";
+import {
+  ConfigEditPayload,
+  EmbedColor
+ } from "@hafemi/quippy.lib.types";
 import { capitalizeFirstLetter, isChannel } from "@hafemi/quippy.lib.utils";
 import { ServerConfig } from "@hafemi/quippy.system.server-config.database-definition";
 import { ChatInputCommandInteraction, EmbedBuilder } from "discord.js";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
-import { defaultEmbedColor } from "@hafemi/quippy.lib.constants";
 
 export async function getServerConfigDatabaseEntry(interaction: ChatInputCommandInteraction): Promise<ServerConfig> {
   const serverConfig = await ServerConfig.getEntry({ guildId: interaction.guildId });
@@ -47,7 +49,7 @@ export function isServerConfigEmpty(config: ServerConfig): boolean {
 
 export function getEmbedWithServerConfigData(interaction: ChatInputCommandInteraction, config: ServerConfig): EmbedBuilder {
   const configEmbed = new EmbedBuilder()
-    .setColor(defaultEmbedColor)
+    .setColor(EmbedColor.Default)
     .setTitle('Server Configuration')
     .setThumbnail(interaction.guild.iconURL())
   
