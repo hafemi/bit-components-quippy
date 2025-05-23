@@ -13,5 +13,6 @@ export {
   ConfigChannelType,
   LoggingType,
   EmbedColor,
-  LinkType
+  LinkType,
+  ThreadUserAction
 } from './types.js';

@@ -16,18 +16,20 @@ import {
   handleTicketTypeCreation,
   handleTicketTypeEdit,
   handleTicketTypeRemoval,
-  handleUserAction
+  modifyUserInThread
 } from "@hafemi/quippy.system.ticket-system.command";
 
 import {
   EmbedBuilderLimitations,
   TicketSystemButtonCreateTicketPayload,
   TicketSystemLimitations,
+  LoggingType,
 } from "@hafemi/quippy.lib.types";
 import { fetchMessagesFromChannel, hasUserPermission } from "@hafemi/quippy.lib.utils";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 import { Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";
+import { getThreadUserEditEmbedLogData, sendToLogChannel } from "@hafemi/quippy.system.server-logger";
 
 const buttonColorStringOptions: APIApplicationCommandOptionChoice<string>[] = [
   { name: 'Blue', value: 'PRIMARY' },
@@ -314,7 +316,7 @@ async function executeUserAdd(interaction: ChatInputCommandInteraction): Promise
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
   const user = interaction.options.getUser('user');
-  const maybeResponse = await handleUserAction({ interaction, user, action: 'add' });
+  const maybeResponse = await modifyUserInThread({ interaction, user, action: 'add' });
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
@@ -325,7 +327,7 @@ async function executeUserRemove(interaction: ChatInputCommandInteraction): Prom
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
   const user = interaction.options.getUser('user');
-  const maybeResponse = await handleUserAction({ interaction, user, action: 'remove' });
+  const maybeResponse = await modifyUserInThread({ interaction, user, action: 'remove'});
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
@@ -354,7 +356,7 @@ async function executeClose(interaction: ChatInputCommandInteraction): Promise<v
     return;
   }
   
-  const reason = interaction.options.getString('reason');
+  const reason = interaction.options.getString('reason') || 'No reason provided';
 
   await closeTicket({ interaction, reason });
 }

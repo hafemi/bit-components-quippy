@@ -30,17 +30,23 @@ import {
 import { getRole } from '@cd/core.djs.role';
 import {
   EditButtonType,
+  EmbedColor,
   LoggingType,
+  ThreadUserAction,
   TicketSystemButtonCreateTicketPayload,
   TicketSystemIDs,
-  TicketSystemLimitations,
-  EmbedColor
+  TicketSystemLimitations
 } from "@hafemi/quippy.lib.types";
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
 import { capitalizeFirstLetter, fetchMessageById } from "@hafemi/quippy.lib.utils";
-import { getPlainEmbedLogData, sendToLogChannel } from "@hafemi/quippy.system.server-logger";
+import {
+  getPlainEmbedLogData,
+  getThreadUserEditEmbedLogData,
+  getTicketClosedLogData,
+  sendToLogChannel
+} from "@hafemi/quippy.system.server-logger";
 
 export function registerTicketSystemComponents(): void {
   addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreateTicket(interaction));
@@ -341,31 +347,35 @@ export async function handleButtonEditing({
   await maybeMessage.edit({ components: [newActionRow] });
 }
 
-export async function handleUserAction({
+export async function modifyUserInThread({
   interaction,
   user,
   action
 }: {
-  interaction: ChatInputCommandInteraction;
-  user: User;
-  action: 'add' | 'remove';
-}): Promise<string | undefined> {
+    interaction: ChatInputCommandInteraction;
+    user: User;
+    action: ThreadUserAction;
+  }): Promise<string | undefined> {
   const maybeResponse = await validateThreadUserEdit({ interaction, user });
   if (typeof maybeResponse === 'string') return maybeResponse;
-
+  
   const thread = maybeResponse;
   const guildMember = await getMember(interaction.client, interaction.guildId, user.id);
   const isInThread = (await thread.members.fetch()).has(guildMember.id);
-
-  if (action === 'add') {
+  let loggingType: LoggingType 
+  
+  if (action == 'add') {
     if (isInThread) return `\`Error:\` User is already in the ticket`;
     await thread.members.add(guildMember);
-  } else if (action === 'remove') {
+    loggingType = LoggingType.UserAddedToTicket;
+  } else {
     if (!isInThread) return `\`Error:\` User is not in the ticket`;
     await thread.members.remove(guildMember);
+    loggingType = LoggingType.UserRemovedFromTicket;
   }
-
-  return undefined;
+  
+  const messageData = getThreadUserEditEmbedLogData(interaction, loggingType, user);
+  await sendToLogChannel({ interaction, messageData });
 }
 
 async function validateThreadUserEdit({
@@ -408,6 +418,8 @@ export async function closeTicket({
 }): Promise<void> {
   const guildID = interaction.guildId;
   const threadID = interaction.channelId;
+  const messageData = await getTicketClosedLogData(interaction, reason);
+  await sendToLogChannel({ interaction, messageData });
   await Ticket.destroy({ where: { guildID, threadID } });
   await interaction.channel.delete(reason);
 }

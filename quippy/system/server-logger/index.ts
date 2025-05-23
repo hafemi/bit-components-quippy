@@ -1,4 +1,6 @@
 export {
   getPlainEmbedLogData,
-  sendToLogChannel
+  sendToLogChannel,
+  getThreadUserEditEmbedLogData,
+  getTicketClosedLogData
 } from './server-logger.js';

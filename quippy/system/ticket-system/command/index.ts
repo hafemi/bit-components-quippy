@@ -6,6 +6,6 @@ export {
   handleTicketTypeEdit,
   handleButtonCreateTicket,
   handleButtonEditing,
-  handleUserAction,
+  modifyUserInThread,
   closeTicket
 } from './command.js';

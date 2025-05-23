@@ -117,6 +117,7 @@ export type TicketTypeModalInformation = {
 };
 
 export type EditButtonType = 'enable' | 'disable';
+export type ThreadUserAction = 'add' | 'remove';
 
 
 // ░██████╗███████╗██████╗░██╗░░░██╗███████╗██████╗░░█████╗░░█████╗░███╗░░██╗███████╗██╗░██████╗░
@@ -142,5 +143,8 @@ export type ConfigChannelType = {
 };
 
 export enum LoggingType {
-  TicketCreated = 'Ticket Created'
+  TicketCreated = 'Ticket Created',
+  TicketClosed = 'Ticket Closed',
+  UserAddedToTicket = 'User Added To Ticket',
+  UserRemovedFromTicket = 'User Removed From Ticket'
 }
