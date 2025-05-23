@@ -116,3 +116,7 @@ export type ConfigEditPayload = {
 export interface DatabaseChannelIds {
   logChannel: string;
 }
+
+export type ConfigChannelType = {
+  logChannel: string;
+}

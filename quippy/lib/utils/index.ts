@@ -4,5 +4,6 @@ export {
   hasUserPermission,
   fetchMessagesFromChannel,
   isChannel,
-  formatNumberWithApostrophes
+  formatNumberWithApostrophes,
+  getChannelFromServerConfig
  } from './utils.js';

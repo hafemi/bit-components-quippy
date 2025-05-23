@@ -9,5 +9,6 @@ export {
   TicketTypeModalInformation,
   EditButtonType,
   ConfigEditPayload,
-  DatabaseChannelIds
+  DatabaseChannelIds,
+  ConfigChannelType
 } from './types.js';

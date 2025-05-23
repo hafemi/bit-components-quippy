@@ -84,7 +84,7 @@ async function validateTicketTypeCreation({
   const typeLimit = TicketSystemLimitations.DifferentTypes;
   const typeAmount = await TicketType.count({ where: { guildID } });
   if (typeAmount == typeLimit) return `\`Error:\` Server exceeds the limit of ${typeLimit} ticket types`;
-  
+
   if (roleID == guildID) return `\`Error:\` You can't use the \`@everyone\` role`;
 }
 
@@ -116,13 +116,13 @@ export async function handleTicketTypeRemoval({
 }): Promise<string | undefined> {
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: name });
   if (!maybeTicketType) return `\`Error:\` Type \`${name}\` does not exist`;
-  
+
   const randomEntry = await Ticket.findOne({
     where: {
       guildID,
       type: name,
     }
-  })
+  });
   if (randomEntry) return `\`Error:\` You can't remove a type with open tickets`;
 
   await maybeTicketType.destroy();
@@ -239,7 +239,7 @@ async function createTicket(interaction: ButtonInteraction, type: TicketType): P
 
   const senderUser = await getMemberFromAPIGuildMember(interaction.client, interaction.guildId!, interaction.member!);
   const threadID = await createThreadForID({ interaction, type, senderUser });
-  
+
   await Ticket.create({
     uuid: await Ticket.createNewValidUUID(),
     guildID: interaction.guildId,
@@ -306,32 +306,32 @@ export async function handleButtonEditing({
   messageId,
   type
 }: {
-  interaction: ChatInputCommandInteraction
-  messageId: string
-  type: EditButtonType
+  interaction: ChatInputCommandInteraction;
+  messageId: string;
+  type: EditButtonType;
 }): Promise<string | undefined> {
   const maybeMessage = await fetchMessageById({ channel: interaction.channel, messageId });
   if (!maybeMessage) return `\`Error:\` Message not found`;
-  
+
   const buttons = maybeMessage.components.flatMap(row =>
     row.components.filter(component => component.type == ComponentType.Button)
   );
   if (buttons.length == 0) return `\`Error:\` No buttons found in the message`;
   if (buttons.length > 5) return `\`Error:\` Too many buttons found in the message`;
-  
+
   let newActionRow = new ActionRowBuilder<ButtonBuilder>();
   buttons.forEach(button => {
     const newButton = new ButtonBuilder()
       .setCustomId(button.customId)
       .setLabel(button.label)
       .setStyle(button.style);
-    
+
     if (type == 'disable') newButton.setDisabled(true);
     if (type == 'enable') newButton.setDisabled(false);
-    
+
     newActionRow.addComponents(newButton);
-  })
-  
+  });
+
   await maybeMessage.edit({ components: [newActionRow] });
 }
 
@@ -368,18 +368,18 @@ async function validateThreadUserEdit({
 }: {
   interaction: ChatInputCommandInteraction;
   user: User;
-  }): Promise<string | ThreadChannel> {
+}): Promise<string | ThreadChannel> {
   const isEntry = await Ticket.isEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
   if (!isEntry)
-    return `\`Error:\` This channel is not a ticket`
-  
+    return `\`Error:\` This channel is not a ticket`;
+
   if (interaction.user == user)
-    return `\`Error:\` You can't add/remove yourself from the thread`
-  
+    return `\`Error:\` You can't add/remove yourself from the thread`;
+
   if (!interaction.channel.isThread())
     return `\`Error:\` This command can only be used in a thread`;
-  
-  return interaction.channel
+
+  return interaction.channel;
 }
 
 export async function isChannelIdValidTicket({
@@ -399,9 +399,9 @@ export async function closeTicket({
 }: {
   interaction: ChatInputCommandInteraction;
   reason: string;
-  }): Promise<void> {
-  const guildID = interaction.guildId
-  const threadID = interaction.channelId
+}): Promise<void> {
+  const guildID = interaction.guildId;
+  const threadID = interaction.channelId;
   await Ticket.destroy({ where: { guildID, threadID } });
-  await interaction.channel.delete(reason)
+  await interaction.channel.delete(reason);
 }
