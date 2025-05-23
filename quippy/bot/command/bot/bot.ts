@@ -16,17 +16,17 @@ import {
 
 export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder()
   .setName('bot')
-  .setDescription('Retrieve information about the bot')
+  .setDescription('View information about the bot')
   .setContexts([InteractionContextType.Guild])
   .addSubcommand(subcommand => subcommand
     .setName('latency')
-    .setDescription('View the bot\'s current latency'))
+    .setDescription('Check the bot\'s current latency'))
   .addSubcommand(subcommand => subcommand
     .setName('info')
-    .setDescription('View information about the bot'))
+    .setDescription('Get detailed information about the bot'))
   .addSubcommand(subcommand => subcommand
     .setName('statistics')
-    .setDescription('View statistics about the bot'))
+    .setDescription('View detailed statistics about the bot'));
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<void> {
   const subcommand = interaction.options.getSubcommand();

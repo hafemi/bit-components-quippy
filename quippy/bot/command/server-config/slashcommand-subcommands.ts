@@ -25,7 +25,7 @@ const configurationStringOptions: APIApplicationCommandOptionChoice<string>[] = 
 
 export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder()
   .setName('serverconfig')
-  .setDescription('Manage server configuration such as Ids')
+  .setDescription('Configure server settings')
   .setContexts([InteractionContextType.Guild])
   .addSubcommand(subcommand => subcommand
     .setName('edit')

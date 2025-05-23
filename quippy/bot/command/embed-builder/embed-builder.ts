@@ -28,7 +28,7 @@ const formatStringOptions: APIApplicationCommandOptionChoice<string>[] = [
 
 export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder()
   .setName('embed')
-  .setDescription('Create your own embed message')
+  .setDescription('Construct and manage your own embed')
   .setContexts([InteractionContextType.Guild])
   .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
   .addSubcommand(subcommand => subcommand
@@ -36,10 +36,10 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
     .setDescription('Create a new Embed'))
   .addSubcommand(subcommand => subcommand
     .setName('limitations')
-    .setDescription('View the limitations of the EmbedBuilder'))
+    .setDescription('Check the limitations of the EmbedBuilder'))
   .addSubcommand(subcommand => subcommand
     .setName('format')
-    .setDescription('Get the API format for an ID')
+    .setDescription('Turn an ID into a format that the embed can use')
     .addStringOption(option => option
       .setName('type')
       .setDescription('The type of ID to format')
@@ -53,7 +53,7 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
     .setName('export')
     .setDescription('Export the embed\'s from a message')
     .addStringOption(option => option
-      .setName('id')
+      .setName('messageid')
       .setDescription('The Message ID to export the embed\'s from')
       .setRequired(true)))
   .addSubcommand(subcommand => subcommand
@@ -109,8 +109,8 @@ async function executeFormat(interaction: ChatInputCommandInteraction): Promise<
 async function executeExport(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-  const messageID = interaction.options.getString('id');
-  const maybeResponse = await handleEmbedExport(interaction, messageID);
+  const messageId = interaction.options.getString('messageid');
+  const maybeResponse = await handleEmbedExport(interaction, messageId);
 
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);

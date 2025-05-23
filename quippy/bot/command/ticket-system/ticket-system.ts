@@ -46,7 +46,7 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
   // Ticket Type
   .addSubcommandGroup(subcommandGroup => subcommandGroup
     .setName('type')
-    .setDescription('Modify ticket types of this server')
+    .setDescription('Configurate ticket types of this server')
     .addSubcommand(subcommand => subcommand
       .setName('add')
       .setDescription('Add a ticket type')
@@ -56,8 +56,8 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
         .setMaxLength(TicketSystemLimitations.Name)
         .setRequired(true))
       .addRoleOption(option => option
-        .setName('role')
-        .setDescription('Role to assign to ticket type')
+        .setName('roletotag')
+        .setDescription('Role that\'s tagged when creating a ticket')
         .setRequired(true))
       .addStringOption(option => option
         .setName('prefix')
@@ -83,7 +83,7 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
         .setRequired(true))
       .addRoleOption(option => option
         .setName('newrole')
-        .setDescription('New Role to assign to ticket type'))
+        .setDescription('New Role to tag when creating a ticket'))
       .addStringOption(option => option
         .setName('newprefix')
         .setDescription('New Prefix used when creating tickets')
@@ -224,7 +224,7 @@ async function executeTypeAdd(interaction: ChatInputCommandInteraction): Promise
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
   const name = interaction.options.getString('name').toLowerCase();
-  const role = interaction.options.getRole('role');
+  const role = interaction.options.getRole('roletotag');
   const prefix = interaction.options.getString('prefix');
 
   const maybeResponse = await handleTicketTypeCreation({ name, role, prefix, guildID: interaction.guildId });
