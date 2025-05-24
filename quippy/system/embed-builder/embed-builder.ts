@@ -58,8 +58,8 @@ export async function handleEmbedExport(interaction: ChatInputCommandInteraction
   const message = await fetchMessageById({ channel: interaction.channel, messageId });
 
   switch (true) {
-    case !message: return `\`Error:\` Message with ID \`${messageId}\` not found`;
-    case !message.embeds.length: return `\`Error:\` Message with ID \`${messageId}\` has no embeds`;
+    case !message: return `\`❌ Error:\` Message with ID \`${messageId}\` was not found`;
+    case !message.embeds.length: return `\`❌ Error:\` Message with ID \`${messageId}\` has no embeds`;
   }
 
   await sendEmbedDataAsAttachment(interaction, message.embeds);

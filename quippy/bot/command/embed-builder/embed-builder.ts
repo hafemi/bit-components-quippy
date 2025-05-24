@@ -73,7 +73,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (subcommand == 'export') return await executeExport(interaction);
   if (subcommand == 'import') return await executeImport(interaction);
 
-  await InteractionHelper.followUp(interaction, `\`Error:\` Unknown subcommand '${subcommand}'`);
+  await InteractionHelper.followUp(interaction, `\`❌ Error:\` '${subcommand}' does not exist as a subcommand for the \`/embed\` command`);
 }
 
 async function executeCreate(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -85,7 +85,7 @@ async function executeCreate(interaction: ChatInputCommandInteraction): Promise<
     components: [...messagePayload.actionRows]
   });
 
-  await InteractionHelper.followUp(interaction, '`Success:` Embed message created');
+  await InteractionHelper.followUp(interaction, '`✅ Success:` The embed message has been created and sent');
 }
 
 async function executeLimitations(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -103,7 +103,7 @@ async function executeFormat(interaction: ChatInputCommandInteraction): Promise<
   const formattedId = getAPIFormatForID(type, id);
   const capitalizedType = capitalizeFirstLetter(type);
 
-  await InteractionHelper.followUp(interaction, `\`Success:\` Formatted ${capitalizedType} ID: \`${formattedId}\``);
+  await InteractionHelper.followUp(interaction, `\`✅ Success:\` The ID \`${id}\` has been formatted to ${capitalizedType} \`${formattedId}\``);
 }
 
 async function executeExport(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -125,6 +125,6 @@ async function executeImport(interaction: ChatInputCommandInteraction): Promise<
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, '`Success:` Embed\'s imported');
+    await InteractionHelper.followUp(interaction, '`✅ Success:` The embed\'s have been imported');
 
 }

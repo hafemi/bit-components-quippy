@@ -28,7 +28,7 @@ export async function editLogChannelConfig({
 }: ConfigEditPayload): Promise<void> {
   const isValidChannelID = await isChannel(interaction, value);
   if (!isValidChannelID) {
-    await InteractionHelper.followUp(interaction, '`Error:` The provided channel ID is invalid');
+    await InteractionHelper.followUp(interaction, `\`❌ Error:\` The ID \`${value}\` is not a valid channel`);
     return;
   }
   
@@ -37,7 +37,7 @@ export async function editLogChannelConfig({
     logChannel: value
   }
   await serverConfig.save();
-  await InteractionHelper.followUp(interaction, '`Success:` Log channel ID updated');
+  await InteractionHelper.followUp(interaction, `\`✅ Success:\` The log channel has been set to <#${value}>`);
 }
 
 export function isServerConfigEmpty(config: ServerConfig): boolean { 
