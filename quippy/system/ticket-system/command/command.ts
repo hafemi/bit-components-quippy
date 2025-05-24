@@ -40,6 +40,7 @@ import {
 
 import * as InteractionHelper from "@cd/core.djs.interaction-helper";
 
+import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import { capitalizeFirstLetter, fetchMessageById } from "@hafemi/quippy.lib.utils";
 import {
   getPlainEmbedLogData,
@@ -47,6 +48,8 @@ import {
   getTicketClosedLogData,
   sendToLogChannel
 } from "@hafemi/quippy.system.server-logger";
+import { QueryTypes } from "@sequelize/core";
+
 
 export function registerTicketSystemComponents(): void {
   addInteraction(TicketSystemIDs.CreationButton, async (interaction: ButtonInteraction) => await executeButtonCreateTicket(interaction));
@@ -295,12 +298,26 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
   threadName: string;
   threadReason: string;
 }> {
-  const ticketAmount = await Ticket.count({ where: { guildID: type.guildID, type: type.typeName } });
-  const ticketNumber = (ticketAmount + 1).toString().padStart(4, '0');
-  const threadName = `${type.prefix}-${ticketNumber}`;
+  const ticketNumber = await getNextTicketNumberForGuild(type.guildID)
+  const paddedTicketNumber = ticketNumber.toString().padStart(4, '0');
+  const threadName = `${type.prefix}-${paddedTicketNumber}`;
   const threadReason = `${type.typeName} Ticket created by <@${senderUser.id}>`;
 
   return { threadName, threadReason };
+}
+
+async function getNextTicketNumberForGuild(guildID: string): Promise<number> {
+  const result = await sequelize.query(
+    `SELECT COUNT(uuid) AS ticketCount FROM ticket WHERE guildID = :guildID`,
+    {
+      type: QueryTypes.SELECT,
+      replacements: { guildID }
+    }
+  );
+
+  const ticketCount = (result[0] as { ticketCount: number; }).ticketCount;
+
+  return ticketCount + 1;
 }
 
 function getThreadStarterEmbed(type: TicketType, senderUser: GuildMember): EmbedBuilder {
