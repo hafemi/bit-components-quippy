@@ -13,7 +13,6 @@ export async function getServerConfigDatabaseEntry(interaction: ChatInputCommand
   if (serverConfig)
     return serverConfig;
   
-  console.log('getConfig returning new config')
   return await ServerConfig.create({
     uuid: await ServerConfig.createNewValidUUID(),
     guildId: interaction.guildId,
