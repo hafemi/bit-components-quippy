@@ -1,10 +1,13 @@
 > This Bot does not have an invite link, yet.
 
-# Commands
+# Commands & Help
 
 
 ## Ticket System
 Uses Threads & Type configurations to allow multiple different tickets.
+### How to use it
+- add a ticket type with `/ticket type add ...`
+- create the button for it `/ticket button create ...` and your good to go :)
 ### Type
 - `/ticket type list` List all ticket types of this server
 - `/ticket type add <name> <roletotag> <prefix>` Add a ticket type
