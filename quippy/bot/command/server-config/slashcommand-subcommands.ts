@@ -27,6 +27,7 @@ export const data: SlashCommandSubcommandsOnlyBuilder = new SlashCommandBuilder(
   .setName('serverconfig')
   .setDescription('Configure server settings')
   .setContexts([InteractionContextType.Guild])
+  .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
   .addSubcommand(subcommand => subcommand
     .setName('edit')
     .setDescription('Edit a server configuration')
@@ -65,7 +66,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 async function validateUserPermission(interaction: ChatInputCommandInteraction): Promise<string | undefined> {
   const hasPermission = await hasUserPermission(interaction, PermissionFlagsBits.Administrator);
   if (!hasPermission)
-    return '`Error: `You need Administrator permissions to use this subcommand';
+    return '`❌ Error:`You need Administrator permissions to use this subcommand';
 
   return undefined;
 }

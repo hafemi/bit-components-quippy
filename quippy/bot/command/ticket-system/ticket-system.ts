@@ -214,7 +214,7 @@ async function validateUserPermission(interaction: ChatInputCommandInteraction, 
   ) {
     const hasPermission = await hasUserPermission(interaction, PermissionFlagsBits.Administrator);
     if (!hasPermission)
-      return '`Error: `You need Administrator permissions to use this subcommand'
+      return '`❌ Error:`You need Administrator permissions to use this subcommand'
   }
   
   return undefined
