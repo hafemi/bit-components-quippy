@@ -21,7 +21,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 
   if (subcommand == 'example') return await executeExample(interaction);
 
-  await InteractionHelper.followUp(interaction, `\`❌ Error:\` '${subcommand}' does not exist as a subcommand for the \`/Name\` command`);
+  await InteractionHelper.followUp(interaction, `> ❌ \`Error:\` '${subcommand}' does not exist as a subcommand for the \`/Name\` command`);
 }
 
 async function executeExample(interaction: ChatInputCommandInteraction): Promise<void> {

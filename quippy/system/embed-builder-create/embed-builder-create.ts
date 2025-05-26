@@ -128,7 +128,7 @@ function wrapInteractionWithPermission(
   return async (interaction: ButtonInteraction) => {
     const hasPermissions = await hasUserPermission(interaction, PermissionFlagsBits.ManageMessages);
     if (!hasPermissions) {
-      await InteractionHelper.followUp(interaction, '`❌ Error:` You don\'t have the \`ManageMessages\` Permission');
+      await InteractionHelper.followUp(interaction, '> ❌ `Error:` You don\'t have the \`ManageMessages\` Permission');
       return;
     }
     await interactionHandler(interaction);
@@ -698,7 +698,7 @@ async function executeModalAddField(
 
 async function executeModalCancel(interaction: ModalSubmitInteraction): Promise<void> {
   await interaction.message.delete();
-  await InteractionHelper.followUp(interaction, '`✅ Success:` Cancelled Embed Builder');
+  await InteractionHelper.followUp(interaction, '> ✅ `Success:` Cancelled Embed Builder');
 }
 
 async function executeModalSubmit(
@@ -734,7 +734,7 @@ async function executeModalSubmit(
     await interaction.message.edit({ embeds: [newEmbed], components: [] });
   }
 
-  await InteractionHelper.followUp(interaction, '`✅ Success:` Embed sent in the channel');
+  await InteractionHelper.followUp(interaction, '> ✅ `Success:` Embed sent in the channel');
 }
 
 async function executeModalContent(
@@ -743,12 +743,12 @@ async function executeModalContent(
 ): Promise<void> {
 
   if (content.length == 0) {
-    await InteractionHelper.followUp(interaction, '`⚠️ Info:` No changes made to the embed content');
+    await InteractionHelper.followUp(interaction, '> ⚠️ `Info:` No changes made to the embed content');
     return;
   }
 
   await interaction.message.edit({ content: content });
-  await InteractionHelper.followUp(interaction, '`✅ Success:` Updated content of the embed');
+  await InteractionHelper.followUp(interaction, '> ✅ `Success:` Updated content of the embed');
 }
 
 async function updateEmbedAndSendReply({
@@ -763,12 +763,12 @@ async function updateEmbedAndSendReply({
   hasNoValues: boolean;
 }): Promise<void> {
   if (hasOneError) {
-    await InteractionHelper.followUp(interaction, `\`❌ Error:\` ${hasOneError}`);
+    await InteractionHelper.followUp(interaction, `> ❌ \`Error:\` ${hasOneError}`);
   } else if (hasNoValues) {
-    await InteractionHelper.followUp(interaction, '`⚠️ Info:` No changes made to the embed');
+    await InteractionHelper.followUp(interaction, '> ⚠️ `Info:` No changes made to the embed');
   } else {
     await interaction.message.edit({ embeds: [newEmbed] });
-    await InteractionHelper.followUp(interaction, '`✅ Success:` The embed has been updated');
+    await InteractionHelper.followUp(interaction, '> ✅ `Success:` The embed has been updated');
   }
 }
 

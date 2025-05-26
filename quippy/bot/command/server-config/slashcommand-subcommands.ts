@@ -60,7 +60,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (subcommand == 'edit') return await executeEdit(interaction);
   if (subcommand == 'list') return await executeList(interaction);
 
-  await InteractionHelper.followUp(interaction, `\`❌ Error:\` '${subcommand}' does not exist as a subcommand for the \`/serverconfig\` command`);
+  await InteractionHelper.followUp(interaction, `> ❌ \`Error:\` '${subcommand}' does not exist as a subcommand for the \`/serverconfig\` command`);
 }
 
 async function validateUserPermission(interaction: ChatInputCommandInteraction): Promise<string | undefined> {
@@ -98,7 +98,7 @@ async function executeList(interaction: ChatInputCommandInteraction): Promise<vo
   const serverConfig = await getServerConfigDatabaseEntry(interaction);
   const isEmpty = isServerConfigEmpty(serverConfig);
   if (isEmpty) {
-    await InteractionHelper.followUp(interaction, '`⚠️ Info:` This Server does not have any configurations set');
+    await InteractionHelper.followUp(interaction, '> ⚠️ `Info:` This Server does not have any configurations set');
     return;
   }
 

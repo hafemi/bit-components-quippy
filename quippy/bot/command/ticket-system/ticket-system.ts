@@ -204,7 +204,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (subcommand == 'transcript') return await executeTranscript(interaction);
   if (subcommand == 'close') return await executeClose(interaction);
 
-  await InteractionHelper.followUp(interaction, `\`❌ Error:\` '${subcommand}' does not exist as a subcommand for the \`/ticket\` command`);
+  await InteractionHelper.followUp(interaction, `> ❌ \`Error:\` '${subcommand}' does not exist as a subcommand for the \`/ticket\` command`);
 }
 
 async function validateUserPermission(interaction: ChatInputCommandInteraction, subcommandGroup: string): Promise<string | undefined> { 
@@ -231,7 +231,7 @@ async function executeTypeAdd(interaction: ChatInputCommandInteraction): Promise
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, `\`✅ Success:\` The Ticket type \`${name}\` has been created`);
+    await InteractionHelper.followUp(interaction, `> ✅ \`Success:\` The Ticket type \`${name}\` has been created`);
 }
 
 async function executeTypeList(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -241,7 +241,7 @@ async function executeTypeList(interaction: ChatInputCommandInteraction): Promis
   if (maybeEmbed)
     await InteractionHelper.followUp(interaction, { embeds: [maybeEmbed] });
   else
-    await InteractionHelper.followUp(interaction, '`⚠️ Info:` This Server has no ticket types');
+    await InteractionHelper.followUp(interaction, '> ⚠️ `Info:` This Server has no ticket types');
 }
 
 async function executeTypeRemove(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -252,7 +252,7 @@ async function executeTypeRemove(interaction: ChatInputCommandInteraction): Prom
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, `\`✅ Success:\` The Ticket type \`${name}\` has been removed`);
+    await InteractionHelper.followUp(interaction, `> ✅ \`Success:\` The Ticket type \`${name}\` has been removed`);
 }
 
 async function executeTypeEdit(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -267,7 +267,7 @@ async function executeTypeEdit(interaction: ChatInputCommandInteraction): Promis
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, `\`✅ Success:\` The Ticket type \`${type}\` has been edited`);
+    await InteractionHelper.followUp(interaction, `> ✅ \`Success:\` The Ticket type \`${type}\` has been edited`);
 }
 
 async function executeButtonCreate(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -287,7 +287,7 @@ async function executeButtonCreate(interaction: ChatInputCommandInteraction): Pr
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, '`✅ Success:` Button to create tickets has been sent');
+    await InteractionHelper.followUp(interaction, '> ✅ `Success:` Button to create tickets has been sent');
 }
 
 async function executeButtonDisable(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -298,7 +298,7 @@ async function executeButtonDisable(interaction: ChatInputCommandInteraction): P
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, '`✅ Success:` Buttons on the message have been disabled');
+    await InteractionHelper.followUp(interaction, '> ✅ `Success:` Buttons on the message have been disabled');
 }
 
 async function executeButtonEnable(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -309,7 +309,7 @@ async function executeButtonEnable(interaction: ChatInputCommandInteraction): Pr
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, '`✅ Success:` Buttons on the message have been enabled');
+    await InteractionHelper.followUp(interaction, '> ✅ `Success:` Buttons on the message have been enabled');
 }
 
 async function executeUserAdd(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -320,7 +320,7 @@ async function executeUserAdd(interaction: ChatInputCommandInteraction): Promise
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, `\`✅ Success:\` Added <@${user.id}> to the ticket`);
+    await InteractionHelper.followUp(interaction, `> ✅ \`Success:\` Added <@${user.id}> to the ticket`);
 }
 
 async function executeUserRemove(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -331,7 +331,7 @@ async function executeUserRemove(interaction: ChatInputCommandInteraction): Prom
   if (maybeResponse)
     await InteractionHelper.followUp(interaction, maybeResponse);
   else
-    await InteractionHelper.followUp(interaction, ` \`✅ Success:\` Removed <@${user.id}> from the ticket`);
+    await InteractionHelper.followUp(interaction, `> ✅ \`Success:\` Removed <@${user.id}> from the ticket`);
 }
 
 async function executeTranscript(interaction: ChatInputCommandInteraction): Promise<void> {
@@ -339,7 +339,7 @@ async function executeTranscript(interaction: ChatInputCommandInteraction): Prom
 
   const isChannelATicket = await Ticket.isEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
   if (!isChannelATicket) {
-    await InteractionHelper.followUp(interaction, '`❌ Error:` You can\'t get a transcript of a non-ticket channel');
+    await InteractionHelper.followUp(interaction, '> ❌ `Error:` You can\'t get a transcript of a non-ticket channel');
     return;
   }
   
@@ -352,7 +352,7 @@ async function executeClose(interaction: ChatInputCommandInteraction): Promise<v
 
   const ticketEntry = await Ticket.getEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
   if (!ticketEntry) {
-    await InteractionHelper.followUp(interaction, '`❌ Error:` You can\'t close a normal channel');
+    await InteractionHelper.followUp(interaction, '> ❌ `Error:` You can\'t close a normal channel');
     return;
   }
   

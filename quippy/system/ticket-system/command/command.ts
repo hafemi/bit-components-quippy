@@ -262,7 +262,7 @@ async function createTicket(interaction: ButtonInteraction, type: TicketType): P
   const messageData = getPlainEmbedLogData(interaction, LoggingType.TicketCreated);
   await sendToLogChannel({ interaction, messageData });
 
-  await InteractionHelper.followUp(interaction, `\`✅ Success:\` Ticket created: <#${threadID}>`);
+  await InteractionHelper.followUp(interaction, `> ✅ \`Success:\` Ticket created: <#${threadID}>`);
 }
 
 async function createThreadForID({

@@ -35,7 +35,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
   if (subcommand == 'info') return await executeInfo(interaction);
   if (subcommand == 'statistics') return await executeStatistics(interaction);
 
-  await InteractionHelper.followUp(interaction, `\`❌ Error:\` '${subcommand}' does not exist as a subcommand for the \`/bot\` command`);
+  await InteractionHelper.followUp(interaction, `> ❌ \`Error:\` '${subcommand}' does not exist as a subcommand for the \`/bot\` command`);
 }
 
 async function executeLatency(interaction: ChatInputCommandInteraction): Promise<void> {
