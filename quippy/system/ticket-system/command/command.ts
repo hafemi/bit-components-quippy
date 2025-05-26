@@ -373,21 +373,21 @@ export async function modifyUserInThread({
     user: User;
     action: ThreadUserAction;
   }): Promise<string | undefined> {
-  const maybeResponse = await validateThreadUserEdit({ interaction, user });
+  const targetMember = await getMember(interaction.client, interaction.guildId, user.id);
+  const maybeResponse = await validateThreadUserEdit({ interaction, targetMember });
   if (typeof maybeResponse === 'string') return maybeResponse;
   
   const thread = maybeResponse;
-  const guildMember = await getMember(interaction.client, interaction.guildId, user.id);
-  const isInThread = (await thread.members.fetch()).has(guildMember.id);
+  const isInThread = (await thread.members.fetch()).has(targetMember.id);
   let loggingType: LoggingType 
   
   if (action == 'add') {
     if (isInThread) return `\`❌ Error:\` <@${User} is already in the ticket`;
-    await thread.members.add(guildMember);
+    await thread.members.add(targetMember);
     loggingType = LoggingType.UserAddedToTicket;
   } else {
     if (!isInThread) return `\`❌ Error:\` User is not in the ticket`;
-    await thread.members.remove(guildMember);
+    await thread.members.remove(targetMember);
     loggingType = LoggingType.UserRemovedFromTicket;
   }
   
@@ -397,17 +397,23 @@ export async function modifyUserInThread({
 
 async function validateThreadUserEdit({
   interaction,
-  user
+  targetMember
 }: {
   interaction: ChatInputCommandInteraction;
-  user: User;
+  targetMember: GuildMember;
 }): Promise<string | ThreadChannel> {
   const isEntry = await Ticket.isEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
   if (!isEntry)
     return `\`❌ Error:\` You can only add/remove users from a ticket thread`;
 
-  if (interaction.user == user)
+  const executorMember = await getMember(interaction.client, interaction.guildId, interaction.user.id);
+  if (targetMember == executorMember)
     return `\`❌ Error:\` You can't add/remove yourself from the thread`;
+  
+  const targetHighestRolePosition = targetMember.roles.highest.position;
+  const executorHighestRolePosition = executorMember.roles.highest.position;
+  if (targetHighestRolePosition > executorHighestRolePosition)
+    return `\`❌ Error:\` You can't add/remove users with a higher role than yours`;
 
   if (!interaction.channel.isThread())
     return `\`❌ Error:\` This command can only be used in a thread`;
