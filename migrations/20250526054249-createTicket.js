@@ -3,7 +3,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('server_config', {
+    await queryInterface.createTable('ticket', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -31,15 +31,26 @@ module.exports = {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      channelIds: {
-        type: Sequelize.DataTypes.JSON,
+      authorID: {
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
-        defaultValue: {},
+      },
+      threadID: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      type: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      modalInformation: {
+        type: Sequelize.DataTypes.JSON,
+        allowNull: true,
       },
     });
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('server_config');
+    await queryInterface.dropTable('ticket');
   },
 };
