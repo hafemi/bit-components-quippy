@@ -420,6 +420,10 @@ async function validateThreadUserEdit({
 
   if (!interaction.channel.isThread())
     return `\`❌ Error:\` This command can only be used in a thread`;
+  
+  const hasViewPermission = interaction.channel.permissionsFor(targetMember.id)?.has('ViewChannel');
+  if (!hasViewPermission)
+    return `\`❌ Error:\` User does not have permission to view the channel`;
 
   return interaction.channel;
 }
