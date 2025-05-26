@@ -14,6 +14,7 @@ import {
   LoggingType,
   EmbedColor
  } from "@hafemi/quippy.lib.types";
+import { Ticket } from "@hafemi/quippy.system.ticket-system.database-definition";
 
 export async function sendToLogChannel({
   interaction,
@@ -74,10 +75,15 @@ export function getThreadUserEditEmbedLogData(
   return { embeds: [embed] };
 }
 
-export async function getTicketClosedLogData(
-  interaction: ChatInputCommandInteraction,
-  reason: string
-): Promise<BaseMessageOptions> {
+export async function getTicketClosedLogData({
+  interaction,
+  reason,
+  ticketEntry
+}: {
+    interaction: ChatInputCommandInteraction | ButtonInteraction;
+    reason: string;
+    ticketEntry: Ticket;
+}): Promise<BaseMessageOptions> {
   const attachment = await fetchMessagesFromChannel(interaction.channel, 2000);
   const embed = constructServerLogEmbed({
     interaction,
@@ -89,6 +95,10 @@ export async function getTicketClosedLogData(
     Executed by: <@${interaction.user.id}>
     Reason: ${reason} 
   `);
+  
+  embed.addFields([
+    { name: 'Ticket Author', value: `<@${ticketEntry.authorID}>`, inline: true }
+  ])
   
   return {
     embeds: [embed],

@@ -350,13 +350,13 @@ async function executeTranscript(interaction: ChatInputCommandInteraction): Prom
 async function executeClose(interaction: ChatInputCommandInteraction): Promise<void> {
   await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-  const isChannelATicket = await Ticket.isEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
-  if (!isChannelATicket) {
+  const ticketEntry = await Ticket.getEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
+  if (!ticketEntry) {
     await InteractionHelper.followUp(interaction, '`❌ Error:` You can\'t close a normal channel');
     return;
   }
   
   const reason = interaction.options.getString('reason') || 'No reason provided';
 
-  await closeTicket({ interaction, reason });
+  await closeTicket({ interaction, reason, ticketEntry });
 }

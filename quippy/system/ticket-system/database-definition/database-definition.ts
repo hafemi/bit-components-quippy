@@ -66,10 +66,7 @@ export class Ticket extends Model<InferAttributes<Ticket>, InferCreationAttribut
     return await createNewValidUUID(this.isValidUUID);
   }
 
-  static async getEntry(options: {
-    guildID: string;
-    typeName: string;
-  }): Promise<Ticket | false> {
+  static async getEntry(options: any): Promise<Ticket | false> {
     const entry = await Ticket.findOne({ where: options });
 
     if (!entry)

@@ -441,14 +441,16 @@ export async function isChannelIdValidTicket({
 
 export async function closeTicket({
   interaction,
-  reason
+  reason,
+  ticketEntry
 }: {
   interaction: ChatInputCommandInteraction;
   reason: string;
+  ticketEntry: Ticket;
 }): Promise<void> {
   const guildID = interaction.guildId;
   const threadID = interaction.channelId;
-  const messageData = await getTicketClosedLogData(interaction, reason);
+  const messageData = await getTicketClosedLogData({ interaction, reason, ticketEntry});
   await sendToLogChannel({ interaction, messageData });
   await Ticket.destroy({ where: { guildID, threadID } });
   await interaction.channel.delete(reason);
