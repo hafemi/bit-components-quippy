@@ -414,6 +414,9 @@ async function validateThreadUserEdit({
   const executorHighestRolePosition = executorMember.roles.highest.position;
   if (targetHighestRolePosition > executorHighestRolePosition)
     return `\`❌ Error:\` You can't add/remove users with a higher role than yours`;
+  
+  if (targetMember.id == interaction.client.user.id)
+    return `\`❌ Error:\` You can't add/remove the bot from the thread`;
 
   if (!interaction.channel.isThread())
     return `\`❌ Error:\` This command can only be used in a thread`;
