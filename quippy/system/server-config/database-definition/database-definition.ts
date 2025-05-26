@@ -1,6 +1,9 @@
 import { sequelize } from "@cd/core.database.sequelize.default-connection";
 import { createNewValidUUID } from "@cd/core.database.util.uuid-handler";
-import { DatabaseChannelIds } from "@hafemi/quippy.lib.types";
+import {
+  IServerConfig,
+  DatabaseChannelIds
+ } from "@hafemi/quippy.lib.types";
 import {
   InferAttributes,
   InferCreationAttributes,
@@ -14,7 +17,7 @@ import {
  * add empty validation in isServerConfigEmpty function
 */
 
-export class ServerConfig extends Model<InferAttributes<ServerConfig>, InferCreationAttributes<ServerConfig>> {
+export class ServerConfig extends Model<InferAttributes<ServerConfig>, InferCreationAttributes<ServerConfig>> implements IServerConfig{
   declare uuid: string;
   declare guildId: string;
   declare channelIds: Partial<DatabaseChannelIds>;

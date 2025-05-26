@@ -79,8 +79,8 @@ async function executeEdit(interaction: ChatInputCommandInteraction): Promise<vo
   const serverConfig = await getServerConfigDatabaseEntry(interaction);
   const payload: ConfigEditPayload = {
     interaction,
-    value: value,
-    serverConfig: serverConfig
+    value,
+    serverConfig
   };
 
   switch (configuration) {

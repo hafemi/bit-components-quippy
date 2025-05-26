@@ -9,10 +9,11 @@ export {
   TicketTypeModalInformation,
   EditButtonType,
   ConfigEditPayload,
-  DatabaseChannelIds,
+  IServerConfig,
   ConfigChannelType,
   LoggingType,
   EmbedColor,
   LinkType,
-  ThreadUserAction
+  ThreadUserAction,
+  DatabaseChannelIds
 } from './types.js';

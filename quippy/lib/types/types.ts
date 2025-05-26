@@ -3,7 +3,6 @@ import {
   EmbedBuilder
 } from "discord.js";
 
-import { ServerConfig } from "@hafemi/quippy.system.server-config.database-definition"
 
 // ░██████╗░███████╗███╗░░██╗███████╗██████╗░░█████╗░██╗░░░░░
 // ██╔════╝░██╔════╝████╗░██║██╔════╝██╔══██╗██╔══██╗██║░░░░░
@@ -131,8 +130,16 @@ export type ThreadUserAction = 'add' | 'remove';
 export type ConfigEditPayload = {
   interaction: ChatInputCommandInteraction
   value: string
-  serverConfig: ServerConfig
+  serverConfig: IServerConfig
 };
+
+export interface IServerConfig {
+  uuid: string;
+  guildId: string;
+  channelIds: Partial<DatabaseChannelIds>;
+  
+  save: () => Promise<IServerConfig>;
+}
 
 export interface DatabaseChannelIds {
   logChannel: string;
