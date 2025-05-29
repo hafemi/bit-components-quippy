@@ -743,7 +743,7 @@ async function executeModalContent(
 ): Promise<void> {
 
   if (content.length == 0) {
-    await InteractionHelper.followUp(interaction, '> ⚠️ `Info:` No changes made to the embed content');
+    await InteractionHelper.followUp(interaction, '> ❌ `Error:` No changes made to the embed content');
     return;
   }
 
@@ -765,7 +765,7 @@ async function updateEmbedAndSendReply({
   if (hasOneError) {
     await InteractionHelper.followUp(interaction, `> ❌ \`Error:\` ${hasOneError}`);
   } else if (hasNoValues) {
-    await InteractionHelper.followUp(interaction, '> ⚠️ `Info:` No changes made to the embed');
+    await InteractionHelper.followUp(interaction, '> ❌ `Error:` No changes made to the embed');
   } else {
     await interaction.message.edit({ embeds: [newEmbed] });
     await InteractionHelper.followUp(interaction, '> ✅ `Success:` The embed has been updated');

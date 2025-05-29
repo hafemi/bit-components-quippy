@@ -58,8 +58,8 @@ export async function handleEmbedExport(interaction: ChatInputCommandInteraction
   const message = await fetchMessageById({ channel: interaction.channel, messageId });
 
   switch (true) {
-    case !message: return `\`❌ Error:\` Message with ID \`${messageId}\` was not found`;
-    case !message.embeds.length: return `\`❌ Error:\` Message with ID \`${messageId}\` has no embeds`;
+    case !message: return `> ❌ \`Error:\` Message with ID \`${messageId}\` was not found`;
+    case !message.embeds.length: return `> ❌ \`Error:\` Message with ID \`${messageId}\` has no embeds`;
   }
 
   await sendEmbedDataAsAttachment(interaction, message.embeds);
@@ -80,9 +80,9 @@ export async function sendEmbedFromAttachmentData(interaction: ChatInputCommandI
   } catch (err) {
     const msg = err.message;
     switch (true) {
-      case msg.includes('not valid JSON'): return '`Error:` Invalid JSON format in attachment';
-      case msg.includes('non-text type attachment'): return '`Error:` Attachment is not a text file';
-      case msg.includes('description[BASE_TYPE_REQUIRED]'): return '`Error:` Embed description is required';
+      case msg.includes('not valid JSON'): return '> ❌ `Error:` Invalid JSON format in attachment';
+      case msg.includes('non-text type attachment'): return '> ❌ `Error:` Attachment is not a text file';
+      case msg.includes('description[BASE_TYPE_REQUIRED]'): return '> ❌ `Error:` Embed description is required';
       default: throw new Error(`Something went wrong while sending the attachment ${err}`);
     }
   }

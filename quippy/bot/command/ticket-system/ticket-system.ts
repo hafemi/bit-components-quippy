@@ -214,7 +214,7 @@ async function validateUserPermission(interaction: ChatInputCommandInteraction, 
   ) {
     const hasPermission = await hasUserPermission(interaction, PermissionFlagsBits.Administrator);
     if (!hasPermission)
-      return '`❌ Error:`You need Administrator permissions to use this subcommand'
+      return '> ❌ `Error:`You need Administrator permissions to use this subcommand'
   }
   
   return undefined
@@ -241,7 +241,7 @@ async function executeTypeList(interaction: ChatInputCommandInteraction): Promis
   if (maybeEmbed)
     await InteractionHelper.followUp(interaction, { embeds: [maybeEmbed] });
   else
-    await InteractionHelper.followUp(interaction, '> ⚠️ `Info:` This Server has no ticket types');
+    await InteractionHelper.followUp(interaction, '> ❌ `Error:` This Server has no ticket types');
 }
 
 async function executeTypeRemove(interaction: ChatInputCommandInteraction): Promise<void> {

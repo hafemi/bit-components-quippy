@@ -90,13 +90,13 @@ async function validateTicketTypeCreation({
   roleID: string;
 }): Promise<string | undefined> {
   const doesTypeExist = await TicketType.isEntry({ guildID, typeName: name });
-  if (doesTypeExist) return `\`❌ Error:\` Type \`${name}\` already exists`;
+  if (doesTypeExist) return `> ❌ \`Error:\` Type \`${name}\` already exists`;
 
   const typeLimit = TicketSystemLimitations.DifferentTypes;
   const typeAmount = await TicketType.count({ where: { guildID } });
-  if (typeAmount == typeLimit) return `\`❌ Error:\` Server exceeds the limit of ${typeLimit} ticket types`;
+  if (typeAmount == typeLimit) return `> ❌ \`Error:\` Server exceeds the limit of ${typeLimit} ticket types`;
 
-  if (roleID == guildID) return `\`❌ Error:\` You can't use the \`@everyone\` role`;
+  if (roleID == guildID) return `> ❌ \`Error:\` You can't use the \`@everyone\` role`;
 }
 
 export async function getTicketTypesEmbed(guildID: string): Promise<EmbedBuilder | undefined> {
@@ -126,7 +126,7 @@ export async function handleTicketTypeRemoval({
   guildID: string;
 }): Promise<string | undefined> {
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: name });
-  if (!maybeTicketType) return `\`❌ Error:\` Type \`${name}\` does not exist`;
+  if (!maybeTicketType) return `> ❌ \`Error:\` Type \`${name}\` does not exist`;
 
   const randomEntry = await Ticket.findOne({
     where: {
@@ -134,7 +134,7 @@ export async function handleTicketTypeRemoval({
       type: name,
     }
   });
-  if (randomEntry) return `\`❌ Error:\` You can't remove a type with open tickets`;
+  if (randomEntry) return `> ❌ \`Error:\` You can't remove a type with open tickets`;
 
   await maybeTicketType.destroy();
   await Ticket.destroy({ where: { guildID, type: name } });
@@ -152,10 +152,10 @@ export async function handleTicketTypeEdit({
   newPrefix?: string;
   guildID: string;
 }): Promise<string | undefined> {
-  if (!newRole && !newPrefix) return `\`Info:\` No new role or prefix provided`;
+  if (!newRole && !newPrefix) return `> ❌ \`Error:\` No new role or prefix provided`;
 
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: type });
-  if (!maybeTicketType) return `\`❌ Error:\` Type \`${type}\` does not exist`;
+  if (!maybeTicketType) return `> ❌ \`Error:\` Type \`${type}\` does not exist`;
 
   await maybeTicketType.update({
     roleID: newRole?.id ?? maybeTicketType.roleID,
@@ -197,7 +197,7 @@ async function validateButtonCreateTicketArgs({
 }: TicketSystemButtonCreateTicketPayload
 ): Promise<string | undefined> {
   const maybeTicketType = await TicketType.getEntry({ guildID, typeName: type });
-  if (!maybeTicketType) return `\`❌ Error:\` Type \`${type}\` does not exist`;
+  if (!maybeTicketType) return `> ❌ \`Error:\` Type \`${type}\` does not exist`;
 
   return undefined;
 }
@@ -233,12 +233,12 @@ async function validateTicketOpening(interaction: ButtonInteraction): Promise<Ti
   const maybeTicketType = await TicketType.getEntry({ guildID: interaction.guildId, typeName });
 
   if (!maybeTicketType)
-    return `\`❌ Error:\` Type \`${typeName}\` does not exist anymore to open a ticket`;
+    return `> ❌ \`Error:\` Type \`${typeName}\` does not exist anymore to open a ticket`;
 
   try {
-    const role = await getRole(interaction.client, interaction.guildId, maybeTicketType.roleID);
+    await getRole(interaction.client, interaction.guildId, maybeTicketType.roleID);
   } catch {
-    return `\`❌ Error:\` Role for type \`${typeName}\` does not exist anymore`;
+    return `\`> ❌ Error:\` Role for type \`${typeName}\` does not exist anymore`;
   }
 
   return maybeTicketType;
@@ -339,14 +339,14 @@ export async function handleButtonEditing({
   type: EditButtonType;
 }): Promise<string | undefined> {
   const maybeMessage = await fetchMessageById({ channel: interaction.channel, messageId });
-  if (!maybeMessage) return `\`❌ Error:\` Message with ID \`${messageId}\` not found`;
+  if (!maybeMessage) return `> ❌ \`Error:\` Message with ID \`${messageId}\` not found`;
 
   const buttons = maybeMessage.components.flatMap(row =>
     // @ts-ignore
     row.components.filter(component => component.type == ComponentType.Button)
   );
-  if (buttons.length == 0) return `\`❌ Error:\` The message does not contain any buttons`;
-  if (buttons.length > 5) return `\`❌ Error:\` The message exceeds the limit of 5 buttons`;
+  if (buttons.length == 0) return `> ❌ \`Error:\` The message does not contain any buttons`;
+  if (buttons.length > 5) return `> ❌ \`Error:\` The message exceeds the limit of 5 buttons`;
 
   let newActionRow = new ActionRowBuilder<ButtonBuilder>();
   buttons.forEach(button => {
@@ -382,11 +382,11 @@ export async function modifyUserInThread({
   let loggingType: LoggingType 
   
   if (action == 'add') {
-    if (isInThread) return `\`❌ Error:\` <@${User} is already in the ticket`;
+    if (isInThread) return `> ❌ \`Error:\` <@${User} is already in the ticket`;
     await thread.members.add(targetMember);
     loggingType = LoggingType.UserAddedToTicket;
   } else {
-    if (!isInThread) return `\`❌ Error:\` User is not in the ticket`;
+    if (!isInThread) return `> ❌ \`Error:\` User is not in the ticket`;
     await thread.members.remove(targetMember);
     loggingType = LoggingType.UserRemovedFromTicket;
   }
@@ -404,26 +404,26 @@ async function validateThreadUserEdit({
 }): Promise<string | ThreadChannel> {
   const isEntry = await Ticket.isEntry({ guildID: interaction.guildId, threadID: interaction.channelId });
   if (!isEntry)
-    return `\`❌ Error:\` You can only add/remove users from a ticket thread`;
+    return `> ❌ \`Error:\` You can only add/remove users from a ticket thread`;
 
   const executorMember = await getMember(interaction.client, interaction.guildId, interaction.user.id);
   if (targetMember == executorMember)
-    return `\`❌ Error:\` You can't add/remove yourself from the thread`;
+    return `> ❌ \`Error:\` You can't add/remove yourself from the thread`;
   
   const targetHighestRolePosition = targetMember.roles.highest.position;
   const executorHighestRolePosition = executorMember.roles.highest.position;
   if (targetHighestRolePosition > executorHighestRolePosition)
-    return `\`❌ Error:\` You can't add/remove users with a higher role than yours`;
+    return `> ❌ \`Error:\` You can't add/remove users with a higher role than yours`;
   
   if (targetMember.id == interaction.client.user.id)
-    return `\`❌ Error:\` You can't add/remove the bot from the thread`;
+    return `> ❌ \`Error:\` You can't add/remove the bot from the thread`;
 
   if (!interaction.channel.isThread())
-    return `\`❌ Error:\` This command can only be used in a thread`;
+    return `> ❌ \`Error:\` This command can only be used in a thread`;
   
   const hasViewPermission = interaction.channel.permissionsFor(targetMember.id)?.has('ViewChannel');
   if (!hasViewPermission)
-    return `\`❌ Error:\` User does not have permission to view the channel`;
+    return `> ❌ \`Error:\` User does not have permission to view the channel`;
 
   return interaction.channel;
 }
