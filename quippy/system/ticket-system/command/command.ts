@@ -315,9 +315,9 @@ async function getNextTicketNumberForGuild(guildID: string): Promise<number> {
     }
   );
 
-  const ticketCount = (result[0] as { ticketCount: number; }).ticketCount;
+  const ticketCount = (result[0] as { ticketCount: string; }).ticketCount;
 
-  return ticketCount + 1;
+  return parseInt(ticketCount) + 1;
 }
 
 function getThreadStarterEmbed(type: TicketType, senderUser: GuildMember): EmbedBuilder {
