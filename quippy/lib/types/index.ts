@@ -15,5 +15,7 @@ export {
   EmbedColor,
   LinkType,
   ThreadUserAction,
-  DatabaseChannelIds
+  DatabaseChannelIds,
+  ITicket,
+  ITicketType
 } from './types.js';

@@ -8,10 +8,12 @@ import {
 } from "@sequelize/core";
 
 import {
-  TicketTypeModalInformation
+  TicketTypeModalInformation,
+  ITicket,
+  ITicketType
 } from "@hafemi/quippy.lib.types";
 
-export class TicketType extends Model<InferAttributes<TicketType>, InferCreationAttributes<TicketType>> {
+export class TicketType extends Model<InferAttributes<TicketType>, InferCreationAttributes<TicketType>> implements ITicketType {
   declare uuid: string;
   declare guildID: string;
   declare typeName: string;
@@ -48,7 +50,7 @@ export class TicketType extends Model<InferAttributes<TicketType>, InferCreation
   }
 }
 
-export class Ticket extends Model<InferAttributes<Ticket>, InferCreationAttributes<Ticket>> {
+export class Ticket extends Model<InferAttributes<Ticket>, InferCreationAttributes<Ticket>> implements ITicket {
   declare uuid: string;
   declare guildID: string;
   declare authorID: string;

@@ -118,6 +118,24 @@ export type TicketTypeModalInformation = {
 export type EditButtonType = 'enable' | 'disable';
 export type ThreadUserAction = 'add' | 'remove';
 
+export interface ITicketType { 
+  uuid: string;
+  guildID: string;
+  typeName: string;
+  roleID: string;
+  prefix: string;
+  modalInformation?: TicketTypeModalInformation;
+}
+
+export interface ITicket {
+  uuid: string;
+  guildID: string;
+  authorID: string;
+  threadID: string;
+  type: string;
+  modalInformation?: TicketTypeModalInformation;
+}
+
 
 // ░██████╗███████╗██████╗░██╗░░░██╗███████╗██████╗░░█████╗░░█████╗░███╗░░██╗███████╗██╗░██████╗░
 // ██╔════╝██╔════╝██╔══██╗██║░░░██║██╔════╝██╔══██╗██╔══██╗██╔══██╗████╗░██║██╔════╝██║██╔════╝░
