@@ -298,7 +298,7 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
   threadName: string;
   threadReason: string;
 }> {
-  const ticketNumber = await getNextTicketNumberForGuild(type.guildID)
+  const ticketNumber = await getNextTicketNumberForGuild(type.guildID, type.typeName)
   console.log('New Ticket Number', ticketNumber)
   const paddedTicketNumber = ticketNumber.toString().padStart(4, '0');
   console.log('Padded Ticket Number', paddedTicketNumber)
@@ -308,24 +308,10 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
   return { threadName, threadReason };
 }
 
-async function getNextTicketNumberForGuild(guildID: string): Promise<number> {
-  // update count
-  await sequelize.query(`ANALYZE TABLE ticket`, {
-    type: QueryTypes.SELECT
-  });
+async function getNextTicketNumberForGuild(guildID: string, type: string): Promise<number> {
+  const ticketCount = await Ticket.count({ where: { guildID, type } })
 
-  const result = await sequelize.query(
-    `SELECT COUNT(uuid) AS ticketCount FROM ticket WHERE guildID = :guildID`,
-    {
-      type: QueryTypes.SELECT,
-      replacements: { guildID }
-    }
-  );
-
-  const ticketCount = (result[0] as { ticketCount: string; }).ticketCount;
-  console.log('Tickets counted in guild', ticketCount)
-
-  return parseInt(ticketCount) + 1;
+  return ticketCount + 1;
 }
 
 function getThreadStarterEmbed(type: TicketType, senderUser: GuildMember): EmbedBuilder {
@@ -456,10 +442,7 @@ export async function closeTicket({
   reason: string;
   ticketEntry: Ticket;
 }): Promise<void> {
-  const guildID = interaction.guildId;
-  const threadID = interaction.channelId;
   const messageData = await getTicketClosedLogData({ interaction, reason, ticketEntry});
   await sendToLogChannel({ interaction, messageData });
-  await Ticket.destroy({ where: { guildID, threadID } });
   await interaction.channel.delete(reason);
 }

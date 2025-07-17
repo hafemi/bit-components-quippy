@@ -115,6 +115,7 @@ export type TicketTypeModalInformation = {
   title: string;
 };
 
+export type TicketStatus = 'open' | 'closed';
 export type EditButtonType = 'enable' | 'disable';
 export type ThreadUserAction = 'add' | 'remove';
 

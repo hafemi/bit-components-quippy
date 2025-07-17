@@ -12,6 +12,7 @@ import {
   ITicket,
   ITicketType
 } from "@hafemi/quippy.lib.types";
+import { TicketStatus } from "@hafemi/quippy.lib.types/_src/types";
 
 export class TicketType extends Model<InferAttributes<TicketType>, InferCreationAttributes<TicketType>> implements ITicketType {
   declare uuid: string;
@@ -56,6 +57,7 @@ export class Ticket extends Model<InferAttributes<Ticket>, InferCreationAttribut
   declare authorID: string;
   declare threadID: string;
   declare type: string;
+  declare status: TicketStatus;
   declare modalInformation?: TicketTypeModalInformation;
 
   static async isValidUUID(uuid: string): Promise<boolean> {
@@ -137,6 +139,11 @@ Ticket.init({
   type: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  status: {
+    type: DataTypes.ENUM('open', 'closed'),
+    allowNull: false,
+    defaultValue: 'open',
   },
   modalInformation: {
     type: DataTypes.JSON,
