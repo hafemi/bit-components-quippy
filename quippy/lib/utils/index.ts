@@ -5,5 +5,6 @@ export {
   fetchMessagesFromChannel,
   isChannel,
   formatNumberWithApostrophes,
-  getChannelFromServerConfig
+  getChannelFromServerConfig,
+  getNextAutoIncrement
  } from './utils.js';

@@ -10,6 +10,8 @@ import { createAttachmentFromString } from '@cd/core.djs.attachment';
 import { getChannel } from "@cd/core.djs.channel";
 import { getMemberFromAPIGuildMember } from '@cd/core.djs.member';
 import { fetchMessages } from '@cd/core.djs.message';
+import { sequelize } from "@cd/core.database.sequelize.default-connection";
+import { QueryTypes } from "@sequelize/core";
 
 import { ConfigChannelType } from '@hafemi/quippy.lib.types';
 import { ServerConfig } from '@hafemi/quippy.system.server-config.database-definition';
@@ -89,4 +91,31 @@ export async function getChannelFromServerConfig({
   const channel = await getChannel(interaction.client, interaction.guildId, channelId);
   if (!channel.isTextBased()) return undefined;
   return channel
+}
+
+export async function getNextAutoIncrement(modelName: string): Promise<number> {
+  try {
+    // Update the table statistics (optional)
+    await sequelize.query(`ANALYZE TABLE ${modelName}`, {
+      type: QueryTypes.SELECT
+    });
+
+    // Retrieve table metadata
+    const result = await sequelize.query(`SHOW TABLE STATUS LIKE :modelName`, {
+      type: QueryTypes.SELECT,
+      replacements: { modelName }
+    });
+
+    // Extract and return the Auto_increment value
+    const autoIncrement = (result[0] as { Auto_increment?: number; }).Auto_increment;
+
+    if (!autoIncrement) {
+      throw new Error(`Auto_increment field not found for table: ${modelName}`);
+    }
+
+    return autoIncrement;
+  } catch (error) {
+    console.error(`Failed to retrieve Auto_increment for table ${modelName}:`, error);
+    throw error;
+  }
 }

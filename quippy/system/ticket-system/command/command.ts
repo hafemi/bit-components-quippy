@@ -299,7 +299,9 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
   threadReason: string;
 }> {
   const ticketNumber = await getNextTicketNumberForGuild(type.guildID)
+  console.log('New Ticket Number', ticketNumber)
   const paddedTicketNumber = ticketNumber.toString().padStart(4, '0');
+  console.log('Padded Ticket Number', paddedTicketNumber)
   const threadName = `${type.prefix}-${paddedTicketNumber}`;
   const threadReason = `${type.typeName} Ticket created by <@${senderUser.id}>`;
 
@@ -307,6 +309,11 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
 }
 
 async function getNextTicketNumberForGuild(guildID: string): Promise<number> {
+  // update count
+  await sequelize.query(`ANALYZE TABLE ticket`, {
+    type: QueryTypes.SELECT
+  });
+
   const result = await sequelize.query(
     `SELECT COUNT(uuid) AS ticketCount FROM ticket WHERE guildID = :guildID`,
     {
@@ -316,6 +323,7 @@ async function getNextTicketNumberForGuild(guildID: string): Promise<number> {
   );
 
   const ticketCount = (result[0] as { ticketCount: string; }).ticketCount;
+  console.log('Tickets counted in guild', ticketCount)
 
   return parseInt(ticketCount) + 1;
 }
