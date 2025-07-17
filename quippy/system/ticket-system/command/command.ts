@@ -224,7 +224,7 @@ async function executeButtonCreateTicket(interaction: ButtonInteraction): Promis
   if (!response.modalInformation) {
     await createTicket(interaction, response);
   } else {
-    console.log('handle modal');
+    // perhaps added in an update
   }
 }
 
@@ -299,9 +299,7 @@ async function getThreadCreationDetails(type: TicketType, senderUser: GuildMembe
   threadReason: string;
 }> {
   const ticketNumber = await getNextTicketNumberForGuild(type.guildID, type.typeName)
-  console.log('New Ticket Number', ticketNumber)
   const paddedTicketNumber = ticketNumber.toString().padStart(4, '0');
-  console.log('Padded Ticket Number', paddedTicketNumber)
   const threadName = `${type.prefix}-${paddedTicketNumber}`;
   const threadReason = `${type.typeName} Ticket created by <@${senderUser.id}>`;
 
